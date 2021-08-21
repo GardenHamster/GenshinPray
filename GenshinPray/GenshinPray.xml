@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GenshinPray</name>
+    </assembly>
+    <members>
+        <member name="M:GenshinPray.Controllers.PrayController.Test">
+            <summary>
+            hellow ord
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GenshinPray.Models.YSSupplyItem">
+            <summary>
+            补给项目
+            </summary>
+        </member>
+        <member name="P:GenshinPray.Models.YSSupplyItem.Probability">
+            <summary>
+            概率(百分比)
+            </summary>
+        </member>
+        <member name="P:GenshinPray.Models.YSSupplyItem.SupplyName">
+            <summary>
+            补给项目名
+            </summary>
+        </member>
+        <member name="P:GenshinPray.Models.YSSupplyItem.RareType">
+            <summary>
+            稀有类型
+            </summary>
+        </member>
+        <member name="P:GenshinPray.Models.YSSupplyItem.GoodsType">
+            <summary>
+            类型,武器/角色
+            </summary>
+        </member>
+        <member name="P:GenshinPray.Models.YSSupplyRecord.SupplyItem">
+            <summary>
+            获得补给项目
+            </summary>
+        </member>
+    </members>
+</doc>
