@@ -9,19 +9,17 @@ namespace GenshinPray.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class PrayController : ControllerBase
+    public class PrayInfoController
     {
         /// <summary>
-        /// hello word
+        /// 获取当前所有祈愿池的up内容
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<ApiResult<string>> Test()
+        public ActionResult<ApiResult<string>> GetPrayGoods()
         {
             return ApiResult<string>.Success("hello word");
         }
 
-
     }
-
 }

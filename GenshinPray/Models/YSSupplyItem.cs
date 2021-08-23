@@ -19,7 +19,7 @@ namespace GenshinPray.Models
         /// <summary>
         /// 补给项目名
         /// </summary>
-        public string SupplyName { get; set; }
+        public string GoodsName { get; set; }
 
         /// <summary>
         /// 稀有类型
@@ -27,17 +27,17 @@ namespace GenshinPray.Models
         public YSRareType RareType { get; set; }
 
         /// <summary>
-        /// 类型,武器/角色
+        /// 物品类型
         /// </summary>
         public YSGoodsType GoodsType { get; set; }
 
         public YSSupplyItem() { }
 
-        public YSSupplyItem(decimal probability, YSGoodsType goodsType, YSRareType rareType, string supplyName)
+        public YSSupplyItem(decimal probability, YSGoodsType goodsType, YSRareType rareType, string goodsName)
         {
             this.RareType = rareType;
             this.Probability = probability;
-            this.SupplyName = supplyName;
+            this.GoodsName = goodsName;
             this.GoodsType = goodsType;
         }
 

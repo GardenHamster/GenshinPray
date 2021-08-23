@@ -7,6 +7,6 @@ namespace GenshinPray.Type
 {
     public enum YSRareType
     {
-        其他 = 0, 五星 = 1, 四星 = 2, 三星 = 1, 二星 = 4
+        其他 = 0, 二星 = 2, 三星 = 3, 四星 = 4, 五星 = 5
     }
 }
