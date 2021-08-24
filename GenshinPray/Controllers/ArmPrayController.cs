@@ -11,27 +11,28 @@ namespace GenshinPray.Controllers
     [Route("api/[controller]/[action]")]
     public class ArmPrayController : BasePrayController
     {
-
         /// <summary>
         /// 单抽武器祈愿池
         /// </summary>
+        /// <param name="authCode">授权码</param>
         /// <param name="memberId">玩家ID(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<ApiResult<string>> ArmPrayOne(long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, long memberId)
         {
-            return ApiResult<string>.Error("缺少相关素材");
+            return ApiResult<PrayResult>.Error("缺少相关素材");
         }
 
         /// <summary>
         /// 十连武器祈愿池
         /// </summary>
+        /// <param name="authCode">授权码</param>
         /// <param name="memberId">玩家ID(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<ApiResult<string>> ArmPrayTen(long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, long memberId)
         {
-            return ApiResult<string>.Error("缺少相关素材");
+            return ApiResult<PrayResult>.Error("缺少相关素材");
         }
 
     }
