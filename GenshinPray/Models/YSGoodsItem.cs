@@ -9,7 +9,7 @@ namespace GenshinPray.Models
     /// <summary>
     /// 补给项目
     /// </summary>
-    public class YSSupplyItem
+    public class YSGoodsItem
     {
         /// <summary>
         /// 概率(百分比)
@@ -31,9 +31,9 @@ namespace GenshinPray.Models
         /// </summary>
         public YSGoodsType GoodsType { get; set; }
 
-        public YSSupplyItem() { }
+        public YSGoodsItem() { }
 
-        public YSSupplyItem(decimal probability, YSGoodsType goodsType, YSRareType rareType, string goodsName)
+        public YSGoodsItem(decimal probability, YSGoodsType goodsType, YSRareType rareType, string goodsName)
         {
             this.RareType = rareType;
             this.Probability = probability;

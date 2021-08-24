@@ -1,4 +1,5 @@
 using GenshinPray.Business;
+using GenshinPray.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,12 +14,14 @@ namespace GenshinPray
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            new GoodsService().loadYSUpItem();
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -56,5 +59,6 @@ namespace GenshinPray
                 endpoints.MapControllers();
             });
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using SqlSugar;
+﻿using GenshinPray.Type;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace GenshinPray.Models.PO
     {
         public string GoodsName { get; set; }
 
-        public int GoodsType { get; set; }
+        public YSGoodsType GoodsType { get; set; }
 
-        public int RareType { get; set; }
+        public YSRareType RareType { get; set; }
 
         public DateTime CreateDate { get; set; }
 

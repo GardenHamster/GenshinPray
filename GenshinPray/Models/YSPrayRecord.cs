@@ -5,18 +5,16 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class YSSupplyRecord
+    public class YSPrayRecord
     {
         /// <summary>
         /// 获得补给项目
         /// </summary>
-        public YSSupplyItem SupplyItem { get; set; }
+        public YSGoodsItem GoodsItem { get; set; }
 
-        public YSSupplyRecord() { }
-
-        public YSSupplyRecord(YSSupplyItem supplyItem)
+        public YSPrayRecord(YSGoodsItem goodsItem)
         {
-            this.SupplyItem = supplyItem;
+            this.GoodsItem = goodsItem;
         }
 
     }

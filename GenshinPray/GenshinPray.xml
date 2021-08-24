@@ -10,32 +10,32 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:GenshinPray.Models.YSSupplyItem">
+        <member name="T:GenshinPray.Models.YSGoodsItem">
             <summary>
             补给项目
             </summary>
         </member>
-        <member name="P:GenshinPray.Models.YSSupplyItem.Probability">
+        <member name="P:GenshinPray.Models.YSGoodsItem.Probability">
             <summary>
             概率(百分比)
             </summary>
         </member>
-        <member name="P:GenshinPray.Models.YSSupplyItem.SupplyName">
+        <member name="P:GenshinPray.Models.YSGoodsItem.GoodsName">
             <summary>
             补给项目名
             </summary>
         </member>
-        <member name="P:GenshinPray.Models.YSSupplyItem.RareType">
+        <member name="P:GenshinPray.Models.YSGoodsItem.RareType">
             <summary>
             稀有类型
             </summary>
         </member>
-        <member name="P:GenshinPray.Models.YSSupplyItem.GoodsType">
+        <member name="P:GenshinPray.Models.YSGoodsItem.GoodsType">
             <summary>
             类型,武器/角色
             </summary>
         </member>
-        <member name="P:GenshinPray.Models.YSSupplyRecord.SupplyItem">
+        <member name="P:GenshinPray.Models.YSPrayRecord.GoodsItem">
             <summary>
             获得补给项目
             </summary>
