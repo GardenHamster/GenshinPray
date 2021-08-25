@@ -1,4 +1,5 @@
 using GenshinPray.Business;
+using GenshinPray.Common;
 using GenshinPray.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,16 +17,15 @@ namespace GenshinPray
     {
         public IConfiguration Configuration { get; }
 
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            new GoodsService().loadYSUpItem();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            loadSiteConfig();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -58,6 +58,15 @@ namespace GenshinPray
             {
                 endpoints.MapControllers();
             });
+
+            //缓存当前up物品信息
+            new GoodsService().loadYSUpItem();
+        }
+
+        //将配置文件中的信息加载到内存
+        private void loadSiteConfig()
+        {
+            SiteConfig.ConnectionString = Configuration.GetSection("ConnectionString").Value;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using GenshinPray.Models.PO;
+﻿using GenshinPray.Common;
+using GenshinPray.Models.PO;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,14 @@ namespace GenshinPray.Dao
 {
     public class DbContext<T> where T : BasePO, new()
     {
-        private static readonly string ConnectionString = $"Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;";
-
         protected SqlSugarClient Db;//用来处理事务多表查询和复杂的操作 //注意：不能写成静态的
 
         public DbContext()
         {
             Db = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString = ConnectionString,
                 DbType = DbType.MySql,
+                ConnectionString = SiteConfig.ConnectionString,
                 InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息
                 IsAutoCloseConnection = true//开启自动释放模式和EF原理一样我就不多解释了
             });

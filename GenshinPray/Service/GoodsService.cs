@@ -25,12 +25,12 @@ namespace GenshinPray.Service
             List<YSGoodsItem> roleItemList = changeToYSGoodsItem(rolePondList);
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
             List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
-            List<YSGoodsItem> roleStar5NonUpList = getStar5NonUpList(Setting.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4NonUpList = getStar4NonUpList(Setting.RoleStar4PermList, roleStar4UpList);
-            Setting.RoleStar5UpList = roleStar5UpList;
-            Setting.RoleStar4UpList = roleStar4UpList;
-            Setting.RoleStar5NonUpList = roleStar5NonUpList;
-            Setting.RoleStar4NonUpList = roleStar4NonUpList;
+            List<YSGoodsItem> roleStar5NonUpList = getStar5NonUpList(SiteConfig.RoleStar5PermList, roleStar5UpList);
+            List<YSGoodsItem> roleStar4NonUpList = getStar4NonUpList(SiteConfig.RoleStar4PermList, roleStar4UpList);
+            SiteConfig.RoleStar5UpList = roleStar5UpList;
+            SiteConfig.RoleStar4UpList = roleStar4UpList;
+            SiteConfig.RoleStar5NonUpList = roleStar5NonUpList;
+            SiteConfig.RoleStar4NonUpList = roleStar4NonUpList;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace GenshinPray.Service
             foreach (GoodsPO item in poList)
             {
                 YSGoodsItem goodsItem = new YSGoodsItem();
-                goodsItem.Probability = Setting.DefaultProbability;
+                goodsItem.Probability = SiteConfig.DefaultPR;
                 goodsItem.GoodsName = item.GoodsName;
                 goodsItem.RareType = item.RareType;
                 goodsItem.GoodsType = item.GoodsType;

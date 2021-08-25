@@ -22,16 +22,16 @@ namespace GenshinPray.Service
             if (prayRecord.GoodsItem.GoodsName == "5星物品")
             {
                 bool isGetUp = floor180Surplus < 90 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? getRandomGoodsInList(Setting.RoleStar5UpList) : getRandomGoodsInList(Setting.RoleStar5NonUpList);
+                return isGetUp ? getRandomGoodsInList(SiteConfig.RoleStar5UpList) : getRandomGoodsInList(SiteConfig.RoleStar5NonUpList);
             }
             if (prayRecord.GoodsItem.GoodsName == "4星物品")
             {
                 bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? getRandomGoodsInList(Setting.RoleStar4UpList) : getRandomGoodsInList(Setting.RoleStar4NonUpList);
+                return isGetUp ? getRandomGoodsInList(SiteConfig.RoleStar4UpList) : getRandomGoodsInList(SiteConfig.RoleStar4NonUpList);
             }
             if (prayRecord.GoodsItem.GoodsName == "3星物品")
             {
-                return getRandomGoodsInList(Setting.ArmStar3PermList);
+                return getRandomGoodsInList(SiteConfig.ArmStar3PermList);
             }
             return prayRecord;
         }
@@ -43,8 +43,8 @@ namespace GenshinPray.Service
         /// <returns></returns>
         protected override bool isUpItem(YSGoodsItem goodsItem)
         {
-            if (Setting.RoleStar5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
-            if (Setting.RoleStar4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
+            if (SiteConfig.RoleStar5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
+            if (SiteConfig.RoleStar4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
             return false;
         }
 
