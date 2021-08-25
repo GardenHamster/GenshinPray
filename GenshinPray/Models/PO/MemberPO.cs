@@ -11,7 +11,7 @@ namespace GenshinPray.Models.PO
     {
         public int AuthId { get; set; }
 
-        public long MemberId { get; set; }
+        public string MemberCode { get; set; }
 
         public int Role180Surplus { get; set; }
 

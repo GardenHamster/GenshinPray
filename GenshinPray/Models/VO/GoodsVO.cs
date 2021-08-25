@@ -9,7 +9,9 @@ namespace GenshinPray.Models.VO
     {
         public string GoodsName { get; set; }
 
-        public int RandomRegion { get; set; }
+        public int GoodsType { get; set; }
+
+        public int RareType { get; set; }
 
     }
 }

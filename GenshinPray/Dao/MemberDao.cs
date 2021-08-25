@@ -8,9 +8,9 @@ namespace GenshinPray.Dao
 {
     public class MemberDao : DbContext<MemberPO>
     {
-        public MemberPO getMember(long authId, long memberId)
+        public MemberPO getMember(long authId, string memberCode)
         {
-            return Db.Queryable<MemberPO>().Where(o => o.AuthId == authId && o.MemberId == memberId).Single();
+            return Db.Queryable<MemberPO>().Where(o => o.AuthId == authId && o.MemberCode == memberCode).Single();
         }
 
     }

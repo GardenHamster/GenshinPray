@@ -16,12 +16,12 @@ namespace GenshinPray.Service
             this.memberDao =new MemberDao();
         }
 
-        public MemberPO getOrInsert(int authId, long memberId)
+        public MemberPO getOrInsert(int authId, string memberCode)
         {
-            MemberPO memberInfo = memberDao.getMember(authId, memberId);
+            MemberPO memberInfo = memberDao.getMember(authId, memberCode);
             if (memberInfo != null) return memberInfo;
             memberInfo = new MemberPO();
-            memberInfo.MemberId = memberId;
+            memberInfo.MemberCode = memberCode;
             memberInfo.AuthId = authId;
             memberInfo.Role180Surplus = 180;
             memberInfo.Role90Surplus = 90;

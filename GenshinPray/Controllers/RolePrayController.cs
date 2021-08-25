@@ -30,17 +30,17 @@ namespace GenshinPray.Controllers
         /// 单抽角色祈愿池
         /// </summary>
         /// <param name="authCode">授权码</param>
-        /// <param name="memberId">玩家ID(可以传入QQ号)</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, string memberCode)
         {
             try
             {
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
                 if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
 
-                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberId);
+                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
                 int role180Surplus = memberInfo.Role180Surplus;
                 int role90Surplus = memberInfo.Role90Surplus;
                 int role20Surplus = memberInfo.Role20Surplus;
@@ -69,16 +69,16 @@ namespace GenshinPray.Controllers
         /// 十连角色祈愿池
         /// </summary>
         /// <param name="authCode">授权码</param>
-        /// <param name="memberId">玩家ID(可以传入QQ号)</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, string memberCode)
         {
             try
             {
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
                 if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
-                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberId);
+                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
 
                 int role180Surplus = memberInfo.Role180Surplus;
                 int role90Surplus = memberInfo.Role90Surplus;

@@ -236,10 +236,13 @@ namespace GenshinPray.Service
         /// <returns></returns>
         public List<GoodsVO> changeToGoodsVO(YSPrayRecord[] prayRecords)
         {
-            return prayRecords.Select(m => new GoodsVO() { GoodsName = m.GoodsItem.GoodsName, RandomRegion = m.RandomRegion }).ToList();
+            return prayRecords.Select(m => new GoodsVO()
+            {
+                GoodsName = m.GoodsItem.GoodsName,
+                GoodsType = (int)m.GoodsItem.GoodsType,
+                RareType = (int)m.GoodsItem.RareType
+            }).ToList();
         }
-
-
 
     }
 }

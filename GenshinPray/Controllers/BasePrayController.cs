@@ -13,10 +13,10 @@ namespace GenshinPray.Controllers
     public abstract class BasePrayController : ControllerBase
     {
         [HttpGet]
-        public abstract ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, long memberId);
+        public abstract ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, string memberCode);
 
         [HttpGet]
-        public abstract ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, long memberId);
+        public abstract ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, string memberCode);
 
     }
 }
