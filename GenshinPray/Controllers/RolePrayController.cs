@@ -38,7 +38,8 @@ namespace GenshinPray.Controllers
             try
             {
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
-                if (authorizePO == null) return ApiResult<PrayResult>.Unauthorized;
+                if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
+
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberId);
                 int role180Surplus = memberInfo.Role180Surplus;
                 int role90Surplus = memberInfo.Role90Surplus;
@@ -76,7 +77,7 @@ namespace GenshinPray.Controllers
             try
             {
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
-                if (authorizePO == null) return ApiResult<PrayResult>.Unauthorized;
+                if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberId);
 
                 int role180Surplus = memberInfo.Role180Surplus;

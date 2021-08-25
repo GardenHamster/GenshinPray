@@ -16,6 +16,8 @@ namespace GenshinPray.Models.PO
 
         public YSRareType RareType { get; set; }
 
+        public bool IsPerm { get; set; }
+
         public DateTime CreateDate { get; set; }
 
     }
