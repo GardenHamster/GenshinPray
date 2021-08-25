@@ -53,6 +53,8 @@ namespace GenshinPray.Controllers
                 memberInfo.Role90Surplus = role90Surplus;
                 memberInfo.Role20Surplus = role20Surplus;
                 memberInfo.Role10Surplus = role10Surplus;
+                memberInfo.RolePrayTimes++;
+                memberInfo.TotalPrayTimes++;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
                 FileInfo paryFileInfo = DrawHelper.drawOnePrayImg(prayRecords.First());
                 PrayResult prayResult = rolePrayService.createPrayResult(prayRecords, paryFileInfo, Star5Cost);
@@ -93,6 +95,8 @@ namespace GenshinPray.Controllers
                 memberInfo.Role90Surplus = role90Surplus;
                 memberInfo.Role20Surplus = role20Surplus;
                 memberInfo.Role10Surplus = role10Surplus;
+                memberInfo.RolePrayTimes += 10;
+                memberInfo.TotalPrayTimes += 10;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
 
                 FileInfo paryFileInfo = DrawHelper.drawTenPrayImg(sortPrayRecords);

@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Models.PO;
+using GenshinPray.Type;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
             sqlBuilder.Append(" where pg.pondType=@pondType");
             return Db.Ado.SqlQuery<GoodsPO>(sqlBuilder.ToString(), new { pondType = pondType});
+        }
+
+        public List<GoodsPO> getPermGoods(YSGoodsType goodsType, YSRareType rareType)
+        {
+            return Db.Queryable<GoodsPO>().Where(o => o.GoodsType == goodsType && o.RareType == rareType && o.IsPerm == true).ToList();
         }
 
 

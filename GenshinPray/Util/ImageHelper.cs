@@ -25,7 +25,7 @@ namespace GenshinPray.Util
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
             myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
             if (string.IsNullOrEmpty(fileName)) fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string fullSavePath = savePath + fileName + ".jpg";
+            string fullSavePath = Path.Combine(savePath, fileName + ".jpg");
             bmp.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
             return new FileInfo(fullSavePath);
         }
@@ -43,7 +43,7 @@ namespace GenshinPray.Util
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
             myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
             if (string.IsNullOrEmpty(fileName)) fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string fullSavePath = savePath + fileName + ".png";
+            string fullSavePath = Path.Combine(savePath, fileName + ".png");
             bmp.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
             return new FileInfo(fullSavePath);
         }

@@ -222,10 +222,10 @@ namespace GenshinPray.Service
             PrayResult prayResult = new PrayResult();
             prayResult.PrayCount = prayRecords.Count();
             prayResult.Star5Cost = Star5Cost;
-            prayResult.ImgUrl = "";
+            prayResult.ImgUrl = paryFileInfo.FullName;
             prayResult.Goods = changeToGoodsVO(prayRecords);
             prayResult.Star5Goods = changeToGoodsVO(prayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
-            prayResult.Star5Goods = changeToGoodsVO(prayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
+            prayResult.Star4Goods = changeToGoodsVO(prayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
             return prayResult;
         }
 

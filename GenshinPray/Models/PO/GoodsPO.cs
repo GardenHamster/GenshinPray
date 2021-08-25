@@ -14,6 +14,8 @@ namespace GenshinPray.Models.PO
 
         public YSGoodsType GoodsType { get; set; }
 
+        public YSGoodsSubType GoodsSubType { get; set; }
+
         public YSRareType RareType { get; set; }
 
         public bool IsPerm { get; set; }

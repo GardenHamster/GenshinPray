@@ -12,17 +12,12 @@ namespace GenshinPray.Common
     {
 
         /// <summary>
-        /// 原神祈愿素材目录
-        /// </summary>
-        private static string ImageDirPath = "~/PrayMaterial/";
-
-        /// <summary>
         /// 获取模拟抽卡图片保存的绝对路径
         /// </summary>
         /// <returns></returns>
         public static string getPrayImgSavePath()
         {
-            string path = ImageDirPath + "pray\\";
+            string path = Path.Combine(SiteConfig.PrayImgSavePath, DateTime.Now.ToString("yyyyMMdd"));
             if (Directory.Exists(path) == false) Directory.CreateDirectory(path);
             return path;
         }
@@ -33,7 +28,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSPrayBGPath()
         {
-            return ImageDirPath + "背景\\背景.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "背景\\背景.png");
         }
 
         /// <summary>
@@ -42,7 +37,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSFrameImgPath()
         {
-            return ImageDirPath + "框\\框.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\框.png");
         }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSProspectImgPath()
         {
-            return ImageDirPath + "框\\星星.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\星星.png");
         }
 
         /// <summary>
@@ -61,7 +56,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSSmallRoleImgPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"角色小图\\{goodsItem.GoodsName}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"角色小图\\{goodsItem.GoodsName}.png");
         }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSEquipImgPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"武器\\{goodsItem.GoodsName}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"武器\\{goodsItem.GoodsName}.png");
         }
 
         /// <summary>
@@ -81,10 +76,10 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSLightPath(YSGoodsItem goodsItem)
         {
-            if (goodsItem.RareType == YSRareType.五星) return ImageDirPath + "框\\金光.png";
-            if (goodsItem.RareType == YSRareType.四星) return ImageDirPath + "框\\紫光.png";
-            if (goodsItem.RareType == YSRareType.三星) return ImageDirPath + "框\\蓝光.png";
-            return ImageDirPath + "框\\蓝光.png";
+            if (goodsItem.RareType == YSRareType.五星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\金光.png");
+            if (goodsItem.RareType == YSRareType.四星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\紫光.png");
+            if (goodsItem.RareType == YSRareType.三星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\蓝光.png");
+            throw new Exception($"找不到与{Enum.GetName(typeof(YSGoodsItem), goodsItem.RareType)}对应的光效图");
         }
 
         /// <summary>
@@ -93,7 +88,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSStarPath()
         {
-            return ImageDirPath + "图标\\星星.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标\\星星.png");
         }
 
         /// <summary>
@@ -103,7 +98,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSBigElementIconPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"元素图标大\\{Enum.GetName(typeof(YSGoodsType), goodsItem.GoodsType)}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"元素图标大\\{Enum.GetName(typeof(YSGoodsSubType), goodsItem.GoodsSubType)}.png");
         }
 
         /// <summary>
@@ -113,7 +108,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSSmallElementIconPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"元素图标小\\{Enum.GetName(typeof(YSGoodsType), goodsItem.GoodsType)}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"元素图标小\\{Enum.GetName(typeof(YSGoodsSubType), goodsItem.GoodsSubType)}.png");
         }
 
         /// <summary>
@@ -123,7 +118,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSWhiteEquipIconPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"武器图标白\\{Enum.GetName(typeof(YSGoodsType), goodsItem.GoodsType)}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"武器图标白\\{Enum.GetName(typeof(YSGoodsSubType), goodsItem.GoodsSubType)}.png");
         }
 
         /// <summary>
@@ -133,7 +128,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSBlackEquipIconPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"武器图标黑\\{Enum.GetName(typeof(YSGoodsType), goodsItem.GoodsType)}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"武器图标黑\\{Enum.GetName(typeof(YSGoodsSubType), goodsItem.GoodsSubType)}.png");
         }
 
         /// <summary>
@@ -142,7 +137,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSCloseIconPath()
         {
-            return ImageDirPath + "图标\\关闭.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标\\关闭.png");
         }
 
         /// <summary>
@@ -152,7 +147,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSBigRoleImgPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"角色大图\\{goodsItem.GoodsName}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"角色大图\\{goodsItem.GoodsName}.png");
         }
 
         /// <summary>
@@ -162,7 +157,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSEquipBgPath(YSGoodsItem goodsItem)
         {
-            return ImageDirPath + $"武器背景\\{Enum.GetName(typeof(YSGoodsType), goodsItem.GoodsType)}.png";
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, $"武器背景\\{Enum.GetName(typeof(YSGoodsSubType), goodsItem.GoodsSubType)}.png");
         }
 
         /// <summary>
@@ -172,9 +167,9 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSTokenPath(YSGoodsItem goodsItem)
         {
-            if (goodsItem.RareType == YSRareType.三星) return ImageDirPath + "框\\无主的星尘15.png";
-            if (goodsItem.RareType == YSRareType.四星) return ImageDirPath + "框\\无主的星辉02.png";
-            if (goodsItem.RareType == YSRareType.五星) return ImageDirPath + "框\\无主的星辉10.png";
+            if (goodsItem.RareType == YSRareType.三星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\无主的星尘15.png");
+            if (goodsItem.RareType == YSRareType.四星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\无主的星辉02.png");
+            if (goodsItem.RareType == YSRareType.五星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框\\无主的星辉10.png");
             throw new Exception($"找不到与{Enum.GetName(typeof(YSRareType), goodsItem.RareType)}对应的代币");
         }
 
@@ -186,10 +181,10 @@ namespace GenshinPray.Common
         {
             return new List<string>()
             {
-                ImageDirPath + "泡泡\\蓝色10.png",
-                ImageDirPath + "泡泡\\紫色10.png",
-                ImageDirPath + "泡泡\\蓝色05.png",
-                ImageDirPath + "泡泡\\紫色05.png"
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\蓝色10.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\紫色10.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\蓝色05.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\紫色05.png")
             };
         }
 
@@ -201,10 +196,10 @@ namespace GenshinPray.Common
         {
             return new List<string>()
             {
-                ImageDirPath + "泡泡\\蓝色50.png",
-                ImageDirPath + "泡泡\\紫色50.png",
-                ImageDirPath + "泡泡\\蓝色25.png",
-                ImageDirPath + "泡泡\\紫色25.png"
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\蓝色50.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\紫色50.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\蓝色25.png"),
+                Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡\\紫色25.png")
             };
         }
 

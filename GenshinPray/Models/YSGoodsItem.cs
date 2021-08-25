@@ -28,9 +28,14 @@ namespace GenshinPray.Models
         public YSRareType RareType { get; set; }
 
         /// <summary>
-        /// 物品类型
+        /// 物品类型(角色/武器)
         /// </summary>
         public YSGoodsType GoodsType { get; set; }
+
+        /// <summary>
+        /// 物品子类型(详细类型)
+        /// </summary>
+        public YSGoodsSubType GoodsSubType { get; set; }
 
 
         public YSGoodsItem()

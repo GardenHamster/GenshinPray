@@ -59,14 +59,15 @@ namespace GenshinPray
                 endpoints.MapControllers();
             });
 
-            //缓存当前up物品信息
-            new GoodsService().loadYSUpItem();
+            new GoodsService().loadYSPrayItem(); //加载蛋池数据到内存
         }
 
         //将配置文件中的信息加载到内存
         private void loadSiteConfig()
         {
             SiteConfig.ConnectionString = Configuration.GetSection("ConnectionString").Value;
+            SiteConfig.PrayImgSavePath = Configuration.GetSection("PrayImgSavePath").Value;
+            SiteConfig.PrayMaterialSavePath = Configuration.GetSection("PrayMaterialSavePath").Value;
         }
 
     }

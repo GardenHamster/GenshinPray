@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50728
 File Encoding         : 65001
 
-Date: 2021-08-26 00:16:25
+Date: 2021-08-26 01:54:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `authorize` (
 -- ----------------------------
 -- Records of authorize
 -- ----------------------------
-INSERT INTO `authorize` VALUES ('1', '123', '300', '2021-08-22 15:40:35', '2021-08-22 15:40:32', '0');
+INSERT INTO `authorize` VALUES ('1', '123', '300', '2021-08-22 15:40:35', '2022-08-22 15:40:32', '0');
 
 -- ----------------------------
 -- Table structure for goods
@@ -43,6 +43,7 @@ CREATE TABLE `goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goodsName` varchar(255) NOT NULL COMMENT '物品名称',
   `goodsType` int(11) NOT NULL COMMENT '物品类型',
+  `goodsSubType` int(11) NOT NULL,
   `rareType` int(11) NOT NULL COMMENT '稀有类型',
   `isPerm` tinyint(1) NOT NULL COMMENT '是否常驻',
   `createDate` datetime NOT NULL COMMENT '添加日期',
@@ -52,90 +53,90 @@ CREATE TABLE `goods` (
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES ('1', '弹弓', '12', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('2', '神射手之誓', '12', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('3', '鸦羽弓', '12', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('4', '翡玉法球', '11', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('5', '讨龙英杰谭', '11', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('6', '魔导绪论', '11', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('7', '黑缨枪', '10', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('8', '以理服人', '9', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('9', '沐浴龙血的剑', '9', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('10', '铁影阔剑', '9', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('11', '飞天御剑', '8', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('12', '黎明神剑', '8', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('13', '冷刃', '8', '3', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('14', '弓藏', '12', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('15', '祭礼弓', '12', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('16', '绝弦', '12', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('17', '西风猎弓', '12', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('18', '昭心', '11', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('19', '祭礼残章', '11', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('20', '流浪乐章', '11', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('21', '西风秘典', '11', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('22', '西风长枪', '10', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('23', '匣里灭辰', '10', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('24', '雨裁', '9', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('25', '祭礼大剑', '9', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('26', '钟剑', '9', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('27', '西风大剑', '9', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('28', '匣里龙吟', '8', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('29', '祭礼剑', '8', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('30', '笛剑', '8', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('31', '西风剑', '8', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('32', '砂糖', '3', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('33', '菲谢尔', '4', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('34', '芭芭拉', '2', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('35', '烟绯', '1', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('36', '罗莎莉亚', '6', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('37', '辛焱', '1', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('38', '迪奥娜', '6', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('39', '重云', '6', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('40', '诺艾尔', '7', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('41', '班尼特', '1', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('42', '凝光', '7', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('43', '行秋', '2', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('44', '北斗', '4', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('45', '香菱', '1', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('46', '雷泽', '4', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('47', '早柚', '3', '4', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('48', '刻晴', '4', '5', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('49', '莫娜', '2', '5', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('50', '七七', '6', '5', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('51', '迪卢克', '1', '5', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('52', '琴', '3', '5', '1', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('53', '宵宫', '1', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('54', '神里绫华', '6', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('55', '枫原万叶', '3', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('56', '达达利亚', '2', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('57', '温迪', '3', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('58', '胡桃', '1', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('59', '可莉', '1', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('60', '优菈', '6', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('61', '魈', '3', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('62', '钟离', '7', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('63', '阿贝多', '7', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('64', '甘雨', '6', '5', '0', '2021-08-25 23:00:59');
-INSERT INTO `goods` VALUES ('70', '飞雷之弦振', '12', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('71', '雾切之回光', '8', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('72', '天空之刃', '8', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('73', '狼的末路', '9', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('74', '阿莫斯之弓', '12', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('75', '天空之卷', '11', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('76', '天空之傲', '9', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('77', '风鹰剑', '8', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('78', '和璞鸢', '10', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('79', '四风原典', '11', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('80', '天空之翼', '12', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('81', '天空之脊', '10', '5', '1', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('82', '尘世之锁', '11', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('83', '无工之剑', '9', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('84', '贯虹之槊', '10', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('85', '斫峰之刃', '8', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('86', '磐岩结绿', '8', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('87', '护摩之杖', '10', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('88', '终末嗟叹之诗', '12', '5', '0', '2021-08-25 23:36:38');
-INSERT INTO `goods` VALUES ('89', '松籁响起之时', '9', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('1', '弹弓', '2', '12', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('2', '神射手之誓', '2', '12', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('3', '鸦羽弓', '2', '12', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('4', '翡玉法球', '2', '11', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('5', '讨龙英杰谭', '2', '11', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('6', '魔导绪论', '2', '11', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('7', '黑缨枪', '2', '10', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('8', '以理服人', '2', '9', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('9', '沐浴龙血的剑', '2', '9', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('10', '铁影阔剑', '2', '9', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('11', '飞天御剑', '2', '8', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('12', '黎明神剑', '2', '8', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('13', '冷刃', '2', '8', '3', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('14', '弓藏', '2', '12', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('15', '祭礼弓', '2', '12', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('16', '绝弦', '2', '12', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('17', '西风猎弓', '2', '12', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('18', '昭心', '2', '11', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('19', '祭礼残章', '2', '11', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('20', '流浪乐章', '2', '11', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('21', '西风秘典', '2', '11', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('22', '西风长枪', '2', '10', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('23', '匣里灭辰', '2', '10', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('24', '雨裁', '2', '9', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('25', '祭礼大剑', '2', '9', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('26', '钟剑', '2', '9', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('27', '西风大剑', '2', '9', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('28', '匣里龙吟', '2', '8', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('29', '祭礼剑', '2', '8', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('30', '笛剑', '2', '8', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('31', '西风剑', '2', '8', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('32', '砂糖', '1', '3', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('33', '菲谢尔', '1', '4', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('34', '芭芭拉', '1', '2', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('35', '烟绯', '1', '1', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('36', '罗莎莉亚', '1', '6', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('37', '辛焱', '1', '1', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('38', '迪奥娜', '1', '6', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('39', '重云', '1', '6', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('40', '诺艾尔', '1', '7', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('41', '班尼特', '1', '1', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('42', '凝光', '1', '7', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('43', '行秋', '1', '2', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('44', '北斗', '1', '4', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('45', '香菱', '1', '1', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('46', '雷泽', '1', '4', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('47', '早柚', '1', '3', '4', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('48', '刻晴', '1', '4', '5', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('49', '莫娜', '1', '2', '5', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('50', '七七', '1', '6', '5', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('51', '迪卢克', '1', '1', '5', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('52', '琴', '1', '3', '5', '1', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('53', '宵宫', '1', '1', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('54', '神里绫华', '1', '6', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('55', '枫原万叶', '1', '3', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('56', '达达利亚', '1', '2', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('57', '温迪', '1', '3', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('58', '胡桃', '1', '1', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('59', '可莉', '1', '1', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('60', '优菈', '1', '6', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('61', '魈', '1', '3', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('62', '钟离', '1', '7', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('63', '阿贝多', '1', '7', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('64', '甘雨', '1', '6', '5', '0', '2021-08-25 23:00:59');
+INSERT INTO `goods` VALUES ('70', '飞雷之弦振', '2', '12', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('71', '雾切之回光', '2', '8', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('72', '天空之刃', '2', '8', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('73', '狼的末路', '2', '9', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('74', '阿莫斯之弓', '2', '12', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('75', '天空之卷', '2', '11', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('76', '天空之傲', '2', '9', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('77', '风鹰剑', '2', '8', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('78', '和璞鸢', '2', '10', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('79', '四风原典', '2', '11', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('80', '天空之翼', '2', '12', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('81', '天空之脊', '2', '10', '5', '1', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('82', '尘世之锁', '2', '11', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('83', '无工之剑', '2', '9', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('84', '贯虹之槊', '2', '10', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('85', '斫峰之刃', '2', '8', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('86', '磐岩结绿', '2', '8', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('87', '护摩之杖', '2', '10', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('88', '终末嗟叹之诗', '2', '12', '5', '0', '2021-08-25 23:36:38');
+INSERT INTO `goods` VALUES ('89', '松籁响起之时', '2', '9', '5', '0', '2021-08-25 23:36:38');
 
 -- ----------------------------
 -- Table structure for member

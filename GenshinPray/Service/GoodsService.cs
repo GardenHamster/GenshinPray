@@ -19,8 +19,16 @@ namespace GenshinPray.Service
             this.goodsDao = new GoodsDao();
         }
 
-        public void loadYSUpItem()
+        /// <summary>
+        /// 加载蛋池数据到内存
+        /// </summary>
+        public void loadYSPrayItem()
         {
+            SiteConfig.ArmStar3PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.三星));//三星常驻武器
+            SiteConfig.ArmStar4PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.四星));//四星常驻武器
+            SiteConfig.RoleStar4PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
+            SiteConfig.RoleStar5PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
+
             List<GoodsPO> rolePondList = goodsDao.getByPondType((int)YSPondType.角色);
             List<YSGoodsItem> roleItemList = changeToYSGoodsItem(rolePondList);
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
@@ -78,6 +86,7 @@ namespace GenshinPray.Service
                 goodsItem.GoodsName = item.GoodsName;
                 goodsItem.RareType = item.RareType;
                 goodsItem.GoodsType = item.GoodsType;
+                goodsItem.GoodsSubType = item.GoodsSubType;
                 goodsItemList.Add(goodsItem);
             }
             return goodsItemList;

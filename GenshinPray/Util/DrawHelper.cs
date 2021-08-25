@@ -70,14 +70,14 @@ namespace GenshinPray.Util
                 bitmap = new Bitmap(backImgUrl);
                 bgGraphics = Graphics.FromImage(bitmap);
                 YSGoodsItem goodsItem = YSPrayRecord.GoodsItem;
-                if (goodsItem.GoodsType.isRole())
+                if (goodsItem.GoodsType == YSGoodsType.角色)
                 {
                     drawRole(bgGraphics, goodsItem);//画角色大图
                     drawRoleIcon(bgGraphics, goodsItem);//画角色元素图标
                     drawRoleName(bgGraphics, goodsItem);//画角色名
                     drawRoleStar(bgGraphics, goodsItem);//画星星
                 }
-                if (goodsItem.GoodsType.isArm())
+                if (goodsItem.GoodsType == YSGoodsType.武器)
                 {
                     drawEquipBg(bgGraphics, goodsItem);//画装备背景
                     drawEquip(bgGraphics, goodsItem);//画装备大图
@@ -276,7 +276,7 @@ namespace GenshinPray.Util
 
         private static void drawEquip(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
         {
-            if (goodsItem.GoodsType.isRole())
+            if (goodsItem.GoodsType == YSGoodsType.角色)
             {
                 Image imgRole = new Bitmap(FilePath.getYSSmallRoleImgPath(goodsItem));
                 imgRole = new Bitmap(imgRole, imgRole.Width, imgRole.Height);
@@ -284,7 +284,7 @@ namespace GenshinPray.Util
                 //Image imgRole = new Bitmap(FilePath.getYSRoleImgPath(goodsItem));
                 //bgGraphics.DrawImage(imgRole, indexX+4, indexY, imgRole.Width, imgRole.Height);
             }
-            else
+            if (goodsItem.GoodsType == YSGoodsType.武器)
             {
                 Image imgEquip = new Bitmap(new Bitmap(FilePath.getYSEquipImgPath(goodsItem)), 305, 610);
                 bgGraphics.DrawImage(imgEquip, indexX + 5, indexY, new Rectangle(80, 0, 140, 550), GraphicsUnit.Pixel);
@@ -295,13 +295,13 @@ namespace GenshinPray.Util
 
         private static void drawIcon(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
         {
-            if (goodsItem.GoodsType.isRole())
+            if (goodsItem.GoodsType == YSGoodsType.角色)
             {
                 Image imgIcon = new Bitmap(FilePath.getYSSmallElementIconPath(goodsItem));
                 bgGraphics.DrawImage(imgIcon, indexX + 40, indexY + 440, 72, 72);
                 imgIcon.Dispose();
             }
-            else
+            if (goodsItem.GoodsType == YSGoodsType.武器)
             {
                 Image imgIcon = new Bitmap(FilePath.getYSWhiteEquipIconPath(goodsItem));
                 bgGraphics.DrawImage(imgIcon, indexX + 30, indexY + 420, 100, 100);

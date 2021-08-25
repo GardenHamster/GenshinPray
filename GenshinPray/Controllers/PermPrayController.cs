@@ -15,10 +15,10 @@ namespace GenshinPray.Controllers
         /// 单抽常祈愿池
         /// </summary>
         /// <param name="authCode">授权码</param>
-        /// <param name="memberId">玩家ID(可以传入QQ号)</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, string memberCode)
         {
             return ApiResult<PrayResult>.Error("缺少相关素材");
         }
@@ -27,10 +27,10 @@ namespace GenshinPray.Controllers
         /// 十连常驻祈愿池
         /// </summary>
         /// <param name="authCode">授权码</param>
-        /// <param name="memberId">玩家ID(可以传入QQ号)</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, long memberId)
+        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, string memberCode)
         {
             return ApiResult<PrayResult>.Error("缺少相关素材");
         }
