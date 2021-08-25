@@ -4,12 +4,6 @@
         <name>GenshinPray</name>
     </assembly>
     <members>
-        <member name="M:GenshinPray.Controllers.PrayController.Test">
-            <summary>
-            hellow ord
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:GenshinPray.Models.YSGoodsItem">
             <summary>
             补给项目
