@@ -1,7 +1,7 @@
-# 原神模拟抽卡
+# 原神模拟抽卡api
 
 ## 简介
- - 一个打算给qq机器人接入的小api，可以在群内模拟原神抽卡，根据米哈游公布的概率模拟生成十连或单抽结果图，并返回图片链接
+ - 一个打算给qq机器人接入的小api，可以在群内模拟原神抽卡，根据米哈游公布的概率模拟生成十连或单抽结果图，返回图片链接和保底次数等信息
  - 相关功能还在摸鱼开发中，完善以后会发布release
   
 ## 特点
@@ -12,13 +12,29 @@
 - 统计群内成员的出货率，统计群员的欧气排行
 - 允许自定义卡池，可在调用api时传入up信息
 
+## 进度
+- [x] 角色祈愿
+- [ ] 武器祈愿
+- [ ] 常驻祈愿
+- [ ] 武器定轨功能
+- [x] 自定义卡池
+- [ ] 卡池修改接口
+- [ ] 自定义图片大小，返回base64
+- [ ] 图片上传到云盘，返回网络地址
+- [ ] 统计群成员祈愿信息
+- [ ] 统计群成员欧气排行
+- [ ] 接口授权，根据授权码限制每日调用次数
+- [ ] 定时清理历史图片
+- [ ] 重复获取角色时，展示相应的转化素材和转化效果
+- [ ] 首次运行自动建库建表(SqlSugar Code First)
+- [ ] docker支持
+
 ## 其他
-- 目前还缺少常驻池中天空之翼、天空之卷，狼的末路...等武器素材，如果有相关素材的大佬请务必发issuse联系我...
+- 目前缺少的素材有：天空之翼、和璞鸢、狼的末路，风鹰剑。如果有解包素材的大佬请务必发issuse联系我...
 - 目前合成出来的图片中光效会比实际游戏画面中的暗一些，这是由于我使用背景橡皮擦擦除背景后导致的，还请各位PS大佬赐教...
-- 主要的抽奖逻辑写在[BasePrayService.cs](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/BasePrayService.cs)，如果有逻辑上的问题还请大佬指正...
+- 主要的抽奖逻辑写在[Service/BasePrayService.cs](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/BasePrayService.cs)，如果有逻辑上的问题还请大佬指正...
 - 有更好的想法或者建议欢迎在issues中提出来...
 
 ## 效果图
 ![20210822022412](https://user-images.githubusercontent.com/89188316/130333062-ef0a7f35-72c1-44d9-89be-e09e91c61e07.jpg)
 ![20210822022422](https://user-images.githubusercontent.com/89188316/130333063-747a3086-0646-40e2-b21a-83d7b9d659d5.jpg)
-
