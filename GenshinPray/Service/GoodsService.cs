@@ -1,6 +1,8 @@
 ﻿using GenshinPray.Common;
 using GenshinPray.Dao;
+using GenshinPray.Exceptions;
 using GenshinPray.Models;
+using GenshinPray.Models.Dto;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
 using System;
@@ -41,6 +43,36 @@ namespace GenshinPray.Service
             SiteConfig.RoleStar4NonUpList = roleStar4NonUpList;
         }
 
+        public YSUpItem GetUpItem(CustomUpDto customUp)
+        {
+            List<YSGoodsItem> Star5UpList = new List<YSGoodsItem>();
+            foreach (var goodsName in customUp.Star5UpItems)
+            {
+                if (string.IsNullOrWhiteSpace(goodsName)) throw new GoodsNotFoundException($"UP项目不能指定为null或空字符串");
+                GoodsPO goodsPO = goodsDao.getPermGoods(goodsName);
+                if (goodsPO == null) throw new GoodsNotFoundException($"找不到与{goodsName}对应的物品");
+                if (goodsPO.RareType != YSRareType.五星) throw new ParamException($"{goodsName}不是{Enum.GetName(typeof(YSRareType), YSRareType.五星)}物品");
+                Star5UpList.Add(changeToYSGoodsItem(goodsPO));
+            }
+
+            List<YSGoodsItem> Star4UpList = new List<YSGoodsItem>();
+            foreach (var goodsName in customUp.Star4UpItems)
+            {
+                if (string.IsNullOrWhiteSpace(goodsName)) throw new GoodsNotFoundException($"UP项目不能指定为null或空字符串");
+                GoodsPO goodsPO = goodsDao.getPermGoods(goodsName);
+                if (goodsPO == null) throw new GoodsNotFoundException($"找不到与{goodsName}对应的物品");
+                if (goodsPO.RareType != YSRareType.四星) throw new ParamException($"{goodsName}不是{Enum.GetName(typeof(YSRareType), YSRareType.四星)}物品");
+                Star4UpList.Add(changeToYSGoodsItem(goodsPO));
+            }
+
+            YSUpItem ySUpItem = new YSUpItem();
+            ySUpItem.Star5UpList = Star5UpList;
+            ySUpItem.Star5NonUpList = getStar5NonUpList(SiteConfig.RoleStar5PermList, Star5UpList);
+            ySUpItem.Star4UpList = Star4UpList;
+            ySUpItem.Star4NonUpList = getStar4NonUpList(SiteConfig.RoleStar4PermList, Star4UpList);
+            return ySUpItem;
+        }
+
         /// <summary>
         /// 获取5星非up列表
         /// </summary>
@@ -74,19 +106,30 @@ namespace GenshinPray.Service
         /// <summary>
         /// 将GoodsPO转化为YSGoodsItem
         /// </summary>
+        /// <param name="goodsPO"></param>
+        /// <returns></returns>
+        private YSGoodsItem changeToYSGoodsItem(GoodsPO goodsPO)
+        {
+            YSGoodsItem goodsItem = new YSGoodsItem();
+            goodsItem.Probability = SiteConfig.DefaultPR;
+            goodsItem.GoodsName = goodsPO.GoodsName;
+            goodsItem.RareType = goodsPO.RareType;
+            goodsItem.GoodsType = goodsPO.GoodsType;
+            goodsItem.GoodsSubType = goodsPO.GoodsSubType;
+            return goodsItem;
+        }
+
+        /// <summary>
+        /// 将GoodsPO转化为YSGoodsItem
+        /// </summary>
         /// <param name="poList"></param>
         /// <returns></returns>
         private List<YSGoodsItem> changeToYSGoodsItem(List<GoodsPO> poList)
         {
             List<YSGoodsItem> goodsItemList = new List<YSGoodsItem>();
-            foreach (GoodsPO item in poList)
+            foreach (GoodsPO goodsPO in poList)
             {
-                YSGoodsItem goodsItem = new YSGoodsItem();
-                goodsItem.Probability = SiteConfig.DefaultPR;
-                goodsItem.GoodsName = item.GoodsName;
-                goodsItem.RareType = item.RareType;
-                goodsItem.GoodsType = item.GoodsType;
-                goodsItem.GoodsSubType = item.GoodsSubType;
+                YSGoodsItem goodsItem = changeToYSGoodsItem(goodsPO);
                 goodsItemList.Add(goodsItem);
             }
             return goodsItemList;

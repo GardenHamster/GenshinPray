@@ -8,7 +8,7 @@ namespace GenshinPray.Service
 {
     public class PermPrayService : BasePrayService
     {
-        protected override YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, int floor180Surplus, int floor20Surplus)
+        protected override YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus)
         {
             throw new NotImplementedException();
         }

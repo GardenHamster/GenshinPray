@@ -21,5 +21,36 @@ namespace GenshinPray.Controllers
             return ApiResult<string>.Success("hello word");
         }
 
+        /// <summary>
+        /// 更新当前up池
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<ApiResult<string>> SetUpGoods()
+        {
+            return ApiResult<string>.Success("hello word");
+        }
+
+        /// <summary>
+        /// 获取群员祈愿详情
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<ApiResult<string>> GetMemberPrayDetail(string memberCode)
+        {
+            return ApiResult<string>.Success("hello word");
+        }
+
+        /// <summary>
+        /// 获取群内抽卡统计排行
+        /// </summary>
+        /// <param name="authCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<ApiResult<string>> GetRankingByAuth(string authCode)
+        {
+            return ApiResult<string>.Success("hello word");
+        }
+
     }
 }

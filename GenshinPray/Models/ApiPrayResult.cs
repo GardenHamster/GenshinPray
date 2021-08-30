@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class PrayResult
+    public class ApiPrayResult
     {
         /// <summary>
         /// 祈愿次数
         /// </summary>
         public int PrayCount { get; set; }
+
+        /// <summary>
+        /// 剩余多少抽五星大保底
+        /// </summary>
+        public int Surplus180 { get; set; }
+
+        /// <summary>
+        /// 剩余多少抽五星小保底
+        /// </summary>
+        public int Surplus90 { get; set; }
 
         /// <summary>
         /// 获得5星物品时累计消耗多少抽
@@ -22,7 +32,17 @@ namespace GenshinPray.Models
         /// <summary>
         /// 图片路径
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string ImgHttpUrl { get; set; }
+
+        /// <summary>
+        /// 图片相对路径
+        /// </summary>
+        public string ImgPath { get; set; }
+
+        /// <summary>
+        /// base64
+        /// </summary>
+        public string ImgBase64 { get; set; }
 
         /// <summary>
         /// 获得的物品列表

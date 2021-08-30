@@ -1,4 +1,3 @@
-using GenshinPray.Business;
 using GenshinPray.Common;
 using GenshinPray.Service;
 using Microsoft.AspNetCore.Builder;

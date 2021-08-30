@@ -1,4 +1,6 @@
 ﻿using GenshinPray.Models;
+using GenshinPray.Models.Dto;
+using GenshinPray.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ namespace GenshinPray.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class ArmPrayController : BasePrayController
+    public class ArmPrayController : BasePrayController<ArmPrayService>
     {
         /// <summary>
         /// 单抽武器祈愿池
@@ -18,9 +20,9 @@ namespace GenshinPray.Controllers
         /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, string memberCode)
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayOne(string authCode, string memberCode)
         {
-            return ApiResult<PrayResult>.Error("缺少相关素材");
+            return ApiResult<ApiPrayResult>.Error("缺少相关素材");
         }
 
         /// <summary>
@@ -30,10 +32,35 @@ namespace GenshinPray.Controllers
         /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, string memberCode)
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayTen(string authCode, string memberCode)
         {
-            return ApiResult<PrayResult>.Error("缺少相关素材");
+            return ApiResult<ApiPrayResult>.Error("缺少相关素材");
         }
+
+        /// <summary>
+        /// 单抽武器祈愿池(自定义)
+        /// </summary>
+        /// <param name="authCode">授权码</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
+        /// <returns></returns>
+        [HttpPost]
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayOne(PrayParmDto prayParm, string authCode, string memberCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 十连武器祈愿池(自定义)
+        /// </summary>
+        /// <param name="authCode">授权码</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
+        /// <returns></returns>
+        [HttpPost]
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayTen(PrayParmDto prayParm, string authCode, string memberCode)
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }

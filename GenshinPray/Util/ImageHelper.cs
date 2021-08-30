@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 namespace GenshinPray.Util
@@ -99,6 +100,21 @@ namespace GenshinPray.Util
             graphics.DrawImage(originBitmap, 0, 0, changeWidth, changeHeight);
             graphics.Dispose();
             return saveImageToJpg(bitmap, savePath);
+        }
+
+        /// <summary>
+        /// 图片转base64
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public static string ToBase64(Image image)
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                image.Save(memoryStream, image.RawFormat);
+                byte[] imageBytes = memoryStream.ToArray();
+                return Convert.ToBase64String(imageBytes);
+            }
         }
 
 

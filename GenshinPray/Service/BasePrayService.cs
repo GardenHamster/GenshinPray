@@ -1,9 +1,12 @@
-﻿using GenshinPray.Models;
+﻿using GenshinPray.Common;
+using GenshinPray.Models;
+using GenshinPray.Models.Dto;
 using GenshinPray.Models.VO;
 using GenshinPray.Type;
 using GenshinPray.Util;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,10 +47,11 @@ namespace GenshinPray.Service
         /// 根据名称随机实际补给项目
         /// </summary>
         /// <param name="prayRecord"></param>
+        /// <param name="ySUpItem"></param>
         /// <param name="floor180Surplus"></param>
         /// <param name="floor20Surplus"></param>
         /// <returns></returns>
-        protected abstract YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, int floor180Surplus, int floor20Surplus);
+        protected abstract YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus);
 
         /// <summary>
         /// 判断一个项目是否up项目
@@ -108,13 +112,14 @@ namespace GenshinPray.Service
         /// <summary>
         /// 模拟抽卡,获取祈愿记录
         /// </summary>
+        /// <param name="ySUpItem"></param>
         /// <param name="prayCount">抽卡次数</param>
         /// <param name="floor180Surplus">距离180大保底剩余多少抽</param>
         /// <param name="floor90Surplus">距离90小保底剩余多少抽</param>
         /// <param name="floor20Surplus">距离4星大保底剩余多少抽</param>
         /// <param name="floor10Surplus">距离4星小保底剩余多少抽</param>
         /// <returns></returns>
-        public YSPrayRecord[] getPrayRecord(int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
+        public YSPrayRecord[] getPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
@@ -126,23 +131,23 @@ namespace GenshinPray.Service
 
                 if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(AllList), floor180Surplus, floor20Surplus);
+                    records[i] = getPrayRecord(getRandomGoodsInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus >= 10)//十连小保底,4星up概率为50%
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), floor180Surplus, floor20Surplus);
+                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus < 10)//十连大保底,必出4星up物品
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), floor180Surplus, floor20Surplus);
+                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus >= 90)//90小保底,5星up概率为50%
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), floor180Surplus, floor20Surplus);
+                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus < 90)//90大保底,必出5星up物品
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), floor180Surplus, floor20Surplus);
+                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
 
                 bool isupItem = isUpItem(records[i].GoodsItem);//判断是否为本期up的物品
@@ -213,19 +218,30 @@ namespace GenshinPray.Service
         /// <summary>
         /// 创建结果集
         /// </summary>
-        /// <param name="prayRecords"></param>
-        /// <param name="paryFileInfo"></param>
-        /// <param name="Star5Cost"></param>
+        /// <param name="ySPrayResult"></param>
         /// <returns></returns>
-        public PrayResult createPrayResult(YSPrayRecord[] prayRecords, FileInfo paryFileInfo, int Star5Cost)
+        public ApiPrayResult createPrayResult(YSPrayResult ySPrayResult)
         {
-            PrayResult prayResult = new PrayResult();
-            prayResult.PrayCount = prayRecords.Count();
-            prayResult.Star5Cost = Star5Cost;
-            prayResult.ImgUrl = paryFileInfo.FullName;
-            prayResult.Goods = changeToGoodsVO(prayRecords);
-            prayResult.Star5Goods = changeToGoodsVO(prayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
-            prayResult.Star4Goods = changeToGoodsVO(prayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
+            ApiPrayResult prayResult = new ApiPrayResult();
+            prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
+            prayResult.Star5Cost = ySPrayResult.Star5Cost;
+            prayResult.Goods = changeToGoodsVO(ySPrayResult.PrayRecords);
+            prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
+            prayResult.Star5Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
+            prayResult.Star4Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
+            return prayResult;
+        }
+
+        /// <summary>
+        /// 创建结果集
+        /// </summary>
+        /// <param name="ySPrayResult"></param>
+        /// <param name="prayParm"></param>
+        /// <returns></returns>
+        public ApiPrayResult createPrayResult(YSPrayResult ySPrayResult, PrayParmDto prayParm)
+        {
+            ApiPrayResult prayResult = createPrayResult(ySPrayResult);
+            if (prayParm.ImgToBase64) prayResult.ImgBase64 = ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName));
             return prayResult;
         }
 
@@ -239,8 +255,9 @@ namespace GenshinPray.Service
             return prayRecords.Select(m => new GoodsVO()
             {
                 GoodsName = m.GoodsItem.GoodsName,
-                GoodsType = (int)m.GoodsItem.GoodsType,
-                RareType = (int)m.GoodsItem.RareType
+                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsItem.GoodsType),
+                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsItem.GoodsSubType),
+                RareType = Enum.GetName(typeof(YSRareType), m.GoodsItem.RareType),
             }).ToList();
         }
 

@@ -1,6 +1,6 @@
-﻿using GenshinPray.Business;
-using GenshinPray.Common;
+﻿using GenshinPray.Exceptions;
 using GenshinPray.Models;
+using GenshinPray.Models.Dto;
 using GenshinPray.Models.PO;
 using GenshinPray.Service;
 using GenshinPray.Util;
@@ -13,19 +13,8 @@ namespace GenshinPray.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class RolePrayController : BasePrayController
+    public class RolePrayController : BasePrayController<RolePrayService>
     {
-        private AuthorizeService authorizeService;
-        private RolePrayService rolePrayService;
-        private MemberService memberService;
-
-        public RolePrayController()
-        {
-            this.authorizeService = new AuthorizeService();
-            this.rolePrayService = new RolePrayService();
-            this.memberService = new MemberService();
-        }
-
         /// <summary>
         /// 单抽角色祈愿池
         /// </summary>
@@ -33,37 +22,26 @@ namespace GenshinPray.Controllers
         /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayOne(string authCode, string memberCode)
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayOne(string authCode, string memberCode)
         {
             try
             {
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
-                if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
-
+                int prayCount = 1;
+                AuthorizePO authorizePO = CheckAuth(authCode);
+                if (authorizePO == null) return ApiResult<ApiPrayResult>.Unauthorized;
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
-                int role180Surplus = memberInfo.Role180Surplus;
-                int role90Surplus = memberInfo.Role90Surplus;
-                int role20Surplus = memberInfo.Role20Surplus;
-                int role10Surplus = memberInfo.Role10Surplus;
-
-                YSPrayRecord[] prayRecords = rolePrayService.getPrayRecord(1, ref role180Surplus, ref role90Surplus, ref role20Surplus, ref role10Surplus);
-                int Star5Cost = rolePrayService.getStar5Cost(prayRecords, memberInfo.Role90Surplus);
-
-                memberInfo.Role180Surplus = role180Surplus;
-                memberInfo.Role90Surplus = role90Surplus;
-                memberInfo.Role20Surplus = role20Surplus;
-                memberInfo.Role10Surplus = role10Surplus;
-                memberInfo.RolePrayTimes++;
-                memberInfo.TotalPrayTimes++;
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, prayCount);
+                memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
-                FileInfo paryFileInfo = DrawHelper.drawOnePrayImg(prayRecords.First());
-                PrayResult prayResult = rolePrayService.createPrayResult(prayRecords, paryFileInfo, Star5Cost);
-                return ApiResult<PrayResult>.Success(prayResult);
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult);
+                prayResult.Surplus180 = memberInfo.Role180Surplus;
+                prayResult.Surplus90 = memberInfo.Role90Surplus;
+                return ApiResult<ApiPrayResult>.Success(prayResult);
             }
             catch (Exception ex)
             {
                 //LogHelper.LogError(ex);
-                return ApiResult<PrayResult>.ServerError;
+                return ApiResult<ApiPrayResult>.ServerError;
             }
         }
 
@@ -74,41 +52,118 @@ namespace GenshinPray.Controllers
         /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
         /// <returns></returns>
         [HttpGet]
-        public override ActionResult<ApiResult<PrayResult>> PrayTen(string authCode, string memberCode)
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayTen(string authCode, string memberCode)
         {
             try
             {
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
-                if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return ApiResult<PrayResult>.Unauthorized;
+                int prayCount = 10;
+                AuthorizePO authorizePO = CheckAuth(authCode);
+                if (authorizePO == null) return ApiResult<ApiPrayResult>.Unauthorized;
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
-
-                int role180Surplus = memberInfo.Role180Surplus;
-                int role90Surplus = memberInfo.Role90Surplus;
-                int role20Surplus = memberInfo.Role20Surplus;
-                int role10Surplus = memberInfo.Role10Surplus;
-
-                YSPrayRecord[] prayRecords = rolePrayService.getPrayRecord(10, ref role180Surplus, ref role90Surplus, ref role20Surplus, ref role10Surplus);
-                YSPrayRecord[] sortPrayRecords = rolePrayService.sortGoods(prayRecords);
-
-                int Star5Cost = rolePrayService.getStar5Cost(prayRecords, memberInfo.Role90Surplus);
-                memberInfo.Role180Surplus = role180Surplus;
-                memberInfo.Role90Surplus = role90Surplus;
-                memberInfo.Role20Surplus = role20Surplus;
-                memberInfo.Role10Surplus = role10Surplus;
-                memberInfo.RolePrayTimes += 10;
-                memberInfo.TotalPrayTimes += 10;
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, prayCount);
+                memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
-
-                FileInfo paryFileInfo = DrawHelper.drawTenPrayImg(sortPrayRecords);
-                PrayResult prayResult = rolePrayService.createPrayResult(prayRecords, paryFileInfo, Star5Cost);
-                return ApiResult<PrayResult>.Success(prayResult);
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult);
+                prayResult.Surplus180 = memberInfo.Role180Surplus;
+                prayResult.Surplus90 = memberInfo.Role90Surplus;
+                return ApiResult<ApiPrayResult>.Success(prayResult);
             }
             catch (Exception ex)
             {
                 //LogHelper.LogError(ex);
-                return ApiResult<PrayResult>.ServerError;
+                return ApiResult<ApiPrayResult>.ServerError;
             }
         }
+
+
+        /// <summary>
+        /// 十连角色祈愿池(自定义)
+        /// </summary>
+        /// <param name="prayParm">自定义参数</param>
+        /// <param name="authCode">授权码</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
+        /// <returns></returns>
+        [HttpPost]
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayOne(PrayParmDto prayParm, string authCode, string memberCode)
+        {
+            try
+            {
+                int prayCount = 1;
+                AuthorizePO authorizePO = CheckAuth(authCode);
+                if (authorizePO == null) return ApiResult<ApiPrayResult>.Unauthorized;
+                YSUpItem ysUpItem = CheckCustomUp(prayParm?.CustomUp);
+                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ysUpItem, prayCount);
+                memberInfo.RolePrayTimes += prayCount;
+                memberService.updateMemberInfo(memberInfo);//更新保底信息
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult, prayParm);
+                prayResult.Surplus180 = memberInfo.Role180Surplus;
+                prayResult.Surplus90 = memberInfo.Role90Surplus;
+                return ApiResult<ApiPrayResult>.Success(prayResult);
+            }
+            catch (ApiLimitException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch (GoodsNotFoundException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch(ParamException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                //LogHelper.LogError(ex);
+                return ApiResult<ApiPrayResult>.ServerError;
+            }
+        }
+
+        /// <summary>
+        /// 十连角色祈愿池(自定义)
+        /// </summary>
+        /// <param name="prayParm">自定义参数</param>
+        /// <param name="authCode">授权码</param>
+        /// <param name="memberCode">玩家编号(可以传入QQ号)</param>
+        /// <returns></returns>
+        [HttpPost]
+        public override ActionResult<ApiResult<ApiPrayResult>> PrayTen(PrayParmDto prayParm, string authCode, string memberCode)
+        {
+            try
+            {
+                int prayCount = 10;
+                AuthorizePO authorizePO = CheckAuth(authCode);
+                if (authorizePO == null) return ApiResult<ApiPrayResult>.Unauthorized;
+                YSUpItem ysUpItem = CheckCustomUp(prayParm?.CustomUp);
+                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ysUpItem, prayCount);
+                memberInfo.RolePrayTimes += prayCount;
+                memberService.updateMemberInfo(memberInfo);//更新保底信息
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult, prayParm);
+                prayResult.Surplus180 = memberInfo.Role180Surplus;
+                prayResult.Surplus90 = memberInfo.Role90Surplus;
+                return ApiResult<ApiPrayResult>.Success(prayResult);
+            }
+            catch (ApiLimitException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch (GoodsNotFoundException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch (ParamException ex)
+            {
+                return ApiResult<ApiPrayResult>.Error(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                //LogHelper.LogError(ex);
+                return ApiResult<ApiPrayResult>.ServerError;
+            }
+        }
+
 
 
     }
