@@ -1,16 +1,18 @@
 ﻿using GenshinPray.Common;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class ApiResult<T>
+    public class ApiResult
     {
         public int Code { get; set; }
         public string Message { get; set; }
-        public T Data { get; set; }
+        public object Data { get; set; }
 
         public ApiResult() { }
 
@@ -20,47 +22,47 @@ namespace GenshinPray.Models
             this.Message = message;
         }
 
-        public ApiResult(int code,string message,T data)
+        public ApiResult(int code, string message, object data)
         {
             this.Code = code;
             this.Message = message;
             this.Data = data;
         }
 
-        public static ApiResult<T> Success(T data)
+        public static ApiResult Success(object data)
         {
-            return new ApiResult<T>(ResultCode.Success, "ok", data);
+            return new ApiResult(ResultCode.Success, "ok", data);
         }
 
-        public static ApiResult<T> Error(int code, string message)
+        public static ApiResult Error(int code, string message)
         {
-            return new ApiResult<T>(code, message);
+            return new ApiResult(code, message);
         }
 
-        public static ApiResult<T> Error(string message)
+        public static ApiResult Error(string message)
         {
-            return new ApiResult<T>(ResultCode.Error, message);
+            return new ApiResult(ResultCode.Error, message);
         }
 
         /// <summary>
         /// 未授权
         /// </summary>
-        public static ApiResult<T> Unauthorized
+        public static ApiResult Unauthorized
         {
             get
             {
-                return new ApiResult<T>(ResultCode.Unauthorized, "授权码不存在或者已经过期");
+                return new ApiResult((int)HttpStatusCode.Unauthorized, "授权码不存在或者已经过期");
             }
         }
 
         /// <summary>
         /// 未授权
         /// </summary>
-        public static ApiResult<T> ServerError
+        public static ApiResult ServerError
         {
             get
             {
-                return new ApiResult<T>(ResultCode.ServerError, "接口异常");
+                return new ApiResult((int)HttpStatusCode.InternalServerError, "接口异常");
             }
         }
 

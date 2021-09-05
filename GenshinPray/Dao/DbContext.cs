@@ -1,29 +1,21 @@
-﻿using GenshinPray.Common;
-using GenshinPray.Models.PO;
+﻿using GenshinPray.Models.PO;
 using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GenshinPray.Dao
 {
     public class DbContext<T> where T : BasePO, new()
     {
-        protected SqlSugarClient Db;//用来处理事务多表查询和复杂的操作 //注意：不能写成静态的
+        protected readonly DBClient DBClient;
 
         public DbContext()
         {
-            Db = new SqlSugarClient(new ConnectionConfig()
-            {
-                DbType = DbType.MySql,
-                ConnectionString = SiteConfig.ConnectionString,
-                InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息
-                IsAutoCloseConnection = true//开启自动释放模式和EF原理一样我就不多解释了
-            });
+            DBClient = new DBClient();
         }
 
-        public SimpleClient<T> CurrentDb { get { return new SimpleClient<T>(Db); } }//用来处理T表的常用操作
+        protected SqlSugarClient Db
+        {
+            get { return DBClient.SqlSugarClient; }
+        }
 
         /// <summary>
         /// 根据id查询
@@ -36,46 +28,31 @@ namespace GenshinPray.Dao
         }
 
         /// <summary>
-        /// 获取所有
-        /// </summary>
-        /// <returns></returns>
-        public virtual List<T> GetList()
-        {
-            return CurrentDb.GetList();
-        }
-
-        /// <summary>
         /// 添加一条记录
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         public virtual T Insert(T t)
         {
-            int id = Db.Insertable(t).ExecuteReturnIdentity();
-            return GetById(id);
+            return Db.Insertable(t).ExecuteReturnEntity();
         }
 
         /// <summary>
-        /// 更新
+        /// 更新一条记录
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public virtual T Update(T t)
+        public virtual int Update(T t)
         {
-            Db.Updateable(t).ExecuteCommand();
-            return GetById(t.Id);
+            return Db.Updateable(t).ExecuteCommand();
         }
 
         /// <summary>
         /// 根据主键删除
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public virtual bool Delete(dynamic id)
+        public virtual int Delete(T t)
         {
-            return CurrentDb.Delete(id);
+            return Db.Deleteable(t).ExecuteCommand();
         }
-
 
 
     }

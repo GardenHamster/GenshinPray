@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Models.PO
 {
-    [SugarTable("goods")]
-    public class GoodsPO : BasePO
+    [SugarTable("member_goods")]
+    public class MemberGoodsPO : BasePO
     {
+        [SugarColumn(IsNullable = false, ColumnDescription = "授权码ID")]
+        public int AuthId { get; set; }
+
+        [SugarColumn(IsNullable = false, Length = 32, ColumnDescription = "成员编号")]
+        public string MemberCode { get; set; }
+
         [SugarColumn(IsNullable = false, Length = 50, ColumnDescription = "物品名称")]
         public string GoodsName { get; set; }
 
@@ -22,24 +28,7 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, ColumnDescription = "稀有类型")]
         public YSRareType RareType { get; set; }
 
-        [SugarColumn(IsNullable = false, ColumnDataType = "tinyint", ColumnDescription = "是否常驻")]
-        public bool IsPerm { get; set; }
-
         [SugarColumn(IsNullable = false, ColumnDescription = "添加日期")]
         public DateTime CreateDate { get; set; }
-
-        public GoodsPO() { }
-
-        public GoodsPO(string goodsName, YSGoodsType goodsType, YSGoodsSubType goodsSubType, YSRareType rareType, bool isPerm)
-        {
-            this.GoodsName = goodsName;
-            this.GoodsType = goodsType;
-            this.GoodsSubType = goodsSubType;
-            this.RareType = rareType;
-            this.IsPerm = isPerm;
-            this.CreateDate = DateTime.Now;
-        }
-
-
     }
 }

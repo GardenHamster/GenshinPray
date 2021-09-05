@@ -10,6 +10,21 @@ namespace GenshinPray.Common
     public static class SiteConfig
     {
         /// <summary>
+        /// JWT密钥
+        /// </summary>
+        public static string JWTSecurityKey = "3014c672-066b-f45d-9bd4-aadf9111d308";
+
+        /// <summary>
+        /// JWT Issuer
+        /// </summary>
+        public static string JWTIssuer = "GardenHamster";
+
+        /// <summary>
+        /// JWT Audience
+        /// </summary>
+        public static string JWTAudience = "Audience";
+
+        /// <summary>
         /// 默认概率
         /// </summary>
         public static readonly decimal DefaultPR = 1;

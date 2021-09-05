@@ -40,6 +40,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "JWT": {
+              "target": "Package",
+              "version": "[8.2.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[5.0.9, )"
+            },
             "SqlSugarCore": {
               "target": "Package",
               "version": "[5.0.3.8, )"

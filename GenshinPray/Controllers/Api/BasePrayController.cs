@@ -5,10 +5,8 @@ using GenshinPray.Models.PO;
 using GenshinPray.Service;
 using GenshinPray.Util;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
 
-namespace GenshinPray.Controllers
+namespace GenshinPray.Controllers.Api
 {
     public abstract class BasePrayController<T> : ControllerBase where T : BasePrayService, new()
     {
@@ -17,31 +15,16 @@ namespace GenshinPray.Controllers
         protected MemberService memberService;
         protected GoodsService goodsService;
 
+        public abstract ApiResult PrayOne(string memberCode);
+
+        public abstract ApiResult PrayTen(string memberCode);
+
         public BasePrayController()
         {
             this.basePrayService = new T();
             this.authorizeService = new AuthorizeService();
             this.memberService = new MemberService();
             this.goodsService = new GoodsService();
-        }
-
-        [HttpGet]
-        public abstract ActionResult<ApiResult<ApiPrayResult>> PrayOne(string authCode, string memberCode);
-
-        [HttpGet]
-        public abstract ActionResult<ApiResult<ApiPrayResult>> PrayTen(string authCode, string memberCode);
-
-        [HttpPost]
-        public abstract ActionResult<ApiResult<ApiPrayResult>> PrayOne(PrayParmDto prayParm, string authCode, string memberCode);
-
-        [HttpPost]
-        public abstract ActionResult<ApiResult<ApiPrayResult>> PrayTen(PrayParmDto prayParm, string authCode, string memberCode);
-
-        protected AuthorizePO CheckAuth(string authCode)
-        {
-            AuthorizePO authorizePO = authorizeService.GetAuthorize(authCode);
-            if (authorizePO == null || authorizePO.IsDisable || authorizePO.ExpireDate <= DateTime.Now) return null;
-            return authorizePO;
         }
 
         protected YSUpItem CheckCustomUp(CustomUpDto customUp)

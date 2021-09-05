@@ -38,7 +38,7 @@ namespace GenshinPray.Service
             return memberDao.Insert(memberInfo);
         }
 
-        public MemberPO updateMemberInfo(MemberPO memberInfo)
+        public int updateMemberInfo(MemberPO memberInfo)
         {
             return memberDao.Update(memberInfo);
         }
