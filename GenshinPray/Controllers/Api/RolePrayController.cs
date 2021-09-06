@@ -42,6 +42,7 @@ namespace GenshinPray.Controllers.Api
                 memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
                 prayRecordService.addPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                memberGoodsService.addMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult, toBase64);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;
@@ -88,6 +89,7 @@ namespace GenshinPray.Controllers.Api
                 memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
                 prayRecordService.addPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                memberGoodsService.addMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult, toBase64);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;

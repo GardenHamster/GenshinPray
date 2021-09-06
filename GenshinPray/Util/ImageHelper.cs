@@ -34,7 +34,7 @@ namespace GenshinPray.Util
             }
             else
             {
-                int imgHeight = (int)(Convert.ToDecimal(image.Width) / imgWidth * image.Height);
+                int imgHeight = (int)(Convert.ToDecimal(imgWidth) / image.Width * image.Height);
                 using Image imgResize = new Bitmap(image, imgWidth, imgHeight);
                 imgResize.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
             }

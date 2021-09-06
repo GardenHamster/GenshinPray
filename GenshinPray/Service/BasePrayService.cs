@@ -229,8 +229,9 @@ namespace GenshinPray.Service
             ApiPrayResult prayResult = new ApiPrayResult();
             prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
             prayResult.Star5Cost = ySPrayResult.Star5Cost;
-            prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : "";
+            prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
             prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
+            prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;
             prayResult.Star5Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
             prayResult.Star4Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
             prayResult.Star3Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());

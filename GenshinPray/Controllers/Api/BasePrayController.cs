@@ -15,6 +15,7 @@ namespace GenshinPray.Controllers.Api
         protected MemberService memberService;
         protected GoodsService goodsService;
         protected PrayRecordService prayRecordService;
+        protected MemberGoodsService memberGoodsService;
 
         public abstract ApiResult PrayOne(string memberCode, bool toBase64 = false, int imgWidth = 0);
 
@@ -27,6 +28,7 @@ namespace GenshinPray.Controllers.Api
             this.memberService = new MemberService();
             this.goodsService = new GoodsService();
             this.prayRecordService = new PrayRecordService();
+            this.memberGoodsService = new MemberGoodsService();
         }
 
         protected YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)

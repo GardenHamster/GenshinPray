@@ -42,7 +42,7 @@ namespace GenshinPray.Util
             }
             drawBubbles(bgGraphics);//画泡泡
             drawWaterMark(bgGraphics);//画水印
-            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath());
+            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
         }
 
         /// <summary>

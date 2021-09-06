@@ -35,6 +35,11 @@ namespace GenshinPray.Models
         public string ImgHttpUrl { get; set; }
 
         /// <summary>
+        /// 图片路径
+        /// </summary>
+        public long ImgSize { get; set; }
+
+        /// <summary>
         /// 图片相对路径
         /// </summary>
         public string ImgPath { get; set; }
