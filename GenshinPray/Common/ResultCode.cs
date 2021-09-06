@@ -7,18 +7,24 @@ namespace GenshinPray.Common
 {
     public class ResultCode
     {
-        public static readonly int Error = 0;
-        public static readonly int Success = 1;
+        /// <summary>
+        /// 成功
+        /// </summary>
+        public static readonly int Success = 0;
 
         /// <summary>
-        /// 未授权
+        /// 错误
         /// </summary>
-        public static readonly int Unauthorized = 401;
+        public static readonly int Error = 600;
 
         /// <summary>
-        /// 内部异常
+        /// 超过api每日调用上限
         /// </summary>
-        public static readonly int ServerError = 500;
+        public static readonly int ApiMaximum = 601;
+
+
+        
+
 
     }
 }

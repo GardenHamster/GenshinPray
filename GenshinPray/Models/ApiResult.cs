@@ -56,7 +56,7 @@ namespace GenshinPray.Models
         }
 
         /// <summary>
-        /// 未授权
+        /// 内部异常
         /// </summary>
         public static ApiResult ServerError
         {
@@ -65,6 +65,18 @@ namespace GenshinPray.Models
                 return new ApiResult((int)HttpStatusCode.InternalServerError, "接口异常");
             }
         }
+
+        /// <summary>
+        /// 超过每日api调用上限
+        /// </summary>
+        public static ApiResult ApiMaximum
+        {
+            get
+            {
+                return new ApiResult(ResultCode.ApiMaximum, "今日api调用上限");
+            }
+        }
+
 
 
     }

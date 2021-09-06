@@ -45,9 +45,14 @@ namespace GenshinPray.Models
         public string ImgBase64 { get; set; }
 
         /// <summary>
-        /// 获得的物品列表
+        /// 获得的3星物品列表
         /// </summary>
-        public List<GoodsVO> Goods { get; set; }
+        public List<GoodsVO> Star3Goods { get; set; }
+
+        /// <summary>
+        /// 获得的4星物品列表
+        /// </summary>
+        public List<GoodsVO> Star4Goods { get; set; }
 
         /// <summary>
         /// 获得的5星物品列表
@@ -55,9 +60,14 @@ namespace GenshinPray.Models
         public List<GoodsVO> Star5Goods { get; set; }
 
         /// <summary>
-        /// 获得的4星物品列表
+        /// 当前4星up物品
         /// </summary>
-        public List<GoodsVO> Star4Goods { get; set; }
+        public List<GoodsVO> Star4Up { get; set; }
+
+        /// <summary>
+        /// 当前54星up物品
+        /// </summary>
+        public List<GoodsVO> Star5Up { get; set; }
 
     }
 }

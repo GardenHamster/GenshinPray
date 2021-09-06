@@ -10,14 +10,13 @@ namespace GenshinPray.Dao
 {
     public class GoodsDao: DbContext<GoodsPO>
     {
-
-        public List<GoodsPO> getByPondType(int pondType)
+        public List<GoodsPO> getByPondType(int authId, int pondType)
         {
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.Append(" select g.* from pond_goods pg");
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
-            sqlBuilder.Append(" where pg.pondType=@pondType");
-            return Db.Ado.SqlQuery<GoodsPO>(sqlBuilder.ToString(), new { pondType = pondType});
+            sqlBuilder.Append(" where pg.PondType=@pondType and pg.AuthId=@authId");
+            return Db.Ado.SqlQuery<GoodsPO>(sqlBuilder.ToString(), new { authId = authId, pondType = pondType });
         }
 
         public List<GoodsPO> getPermGoods(YSGoodsType goodsType, YSRareType rareType)

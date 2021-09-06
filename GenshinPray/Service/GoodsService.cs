@@ -1,14 +1,10 @@
 ﻿using GenshinPray.Common;
 using GenshinPray.Dao;
-using GenshinPray.Exceptions;
 using GenshinPray.Models;
-using GenshinPray.Models.Dto;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GenshinPray.Service
 {
@@ -31,77 +27,43 @@ namespace GenshinPray.Service
             SiteConfig.RoleStar4PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
             SiteConfig.RoleStar5PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
 
-            List<GoodsPO> rolePondList = goodsDao.getByPondType((int)YSPondType.角色);
+            List<GoodsPO> rolePondList = goodsDao.getByPondType(0, (int)YSPondType.角色);
             List<YSGoodsItem> roleItemList = changeToYSGoodsItem(rolePondList);
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
             List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
-            List<YSGoodsItem> roleStar5NonUpList = getStar5NonUpList(SiteConfig.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4NonUpList = getStar4NonUpList(SiteConfig.RoleStar4PermList, roleStar4UpList);
-            SiteConfig.RoleStar5UpList = roleStar5UpList;
-            SiteConfig.RoleStar4UpList = roleStar4UpList;
-            SiteConfig.RoleStar5NonUpList = roleStar5NonUpList;
-            SiteConfig.RoleStar4NonUpList = roleStar4NonUpList;
-        }
+            List<YSGoodsItem> roleStar5NonUpList = getNonUpList(SiteConfig.RoleStar5PermList, roleStar5UpList);
+            List<YSGoodsItem> roleStar4NonUpList = getNonUpList(SiteConfig.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> Star5AllList = concatList(SiteConfig.RoleStar5PermList, roleStar5UpList);
+            List<YSGoodsItem> Star4AllList = concatList(SiteConfig.RoleStar4PermList, roleStar4UpList);
 
-        public YSUpItem GetUpItem(CustomUpDto customUp)
-        {
-            List<YSGoodsItem> Star5UpList = new List<YSGoodsItem>();
-            foreach (var goodsName in customUp.Star5UpItems)
-            {
-                if (string.IsNullOrWhiteSpace(goodsName)) throw new GoodsNotFoundException($"UP项目不能指定为null或空字符串");
-                GoodsPO goodsPO = goodsDao.getPermGoods(goodsName);
-                if (goodsPO == null) throw new GoodsNotFoundException($"找不到与{goodsName}对应的物品");
-                if (goodsPO.RareType != YSRareType.五星) throw new ParamException($"{goodsName}不是{Enum.GetName(typeof(YSRareType), YSRareType.五星)}物品");
-                Star5UpList.Add(changeToYSGoodsItem(goodsPO));
-            }
+            YSUpItem RoleUpItem = new YSUpItem();
+            RoleUpItem.Star5UpList = roleStar5UpList;
+            RoleUpItem.Star4UpList = roleStar4UpList;
+            RoleUpItem.Star5NonUpList = roleStar5NonUpList;
+            RoleUpItem.Star4NonUpList = roleStar4NonUpList;
+            RoleUpItem.Star5AllList = Star5AllList;
+            RoleUpItem.Star4AllList = Star4AllList;
+            RoleUpItem.Star3PermList = SiteConfig.ArmStar3PermList;
+            SiteConfig.DefaultUpItem[YSPondType.角色] = RoleUpItem;
 
-            List<YSGoodsItem> Star4UpList = new List<YSGoodsItem>();
-            foreach (var goodsName in customUp.Star4UpItems)
-            {
-                if (string.IsNullOrWhiteSpace(goodsName)) throw new GoodsNotFoundException($"UP项目不能指定为null或空字符串");
-                GoodsPO goodsPO = goodsDao.getPermGoods(goodsName);
-                if (goodsPO == null) throw new GoodsNotFoundException($"找不到与{goodsName}对应的物品");
-                if (goodsPO.RareType != YSRareType.四星) throw new ParamException($"{goodsName}不是{Enum.GetName(typeof(YSRareType), YSRareType.四星)}物品");
-                Star4UpList.Add(changeToYSGoodsItem(goodsPO));
-            }
 
-            YSUpItem ySUpItem = new YSUpItem();
-            ySUpItem.Star5UpList = Star5UpList;
-            ySUpItem.Star5NonUpList = getStar5NonUpList(SiteConfig.RoleStar5PermList, Star5UpList);
-            ySUpItem.Star4UpList = Star4UpList;
-            ySUpItem.Star4NonUpList = getStar4NonUpList(SiteConfig.RoleStar4PermList, Star4UpList);
-            return ySUpItem;
         }
 
         /// <summary>
-        /// 获取5星非up列表
+        /// 返回非up列表
         /// </summary>
         /// <returns></returns>
-        private List<YSGoodsItem> getStar5NonUpList(List<YSGoodsItem> star5List, List<YSGoodsItem> star5UpList)
+        private List<YSGoodsItem> getNonUpList(List<YSGoodsItem> AllList, List<YSGoodsItem> UpList)
         {
-            List<YSGoodsItem> star5NonUpList = new List<YSGoodsItem>();
-            foreach (YSGoodsItem goodsItem in star5List)
+            List<YSGoodsItem> NonUpList = new List<YSGoodsItem>();
+            foreach (YSGoodsItem goodsItem in AllList)
             {
-                if (star5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) continue;
-                star5NonUpList.Add(goodsItem);
+                if (UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) continue;
+                NonUpList.Add(goodsItem);
             }
-            return star5NonUpList;
+            return NonUpList;
         }
 
-        /// <summary>
-        /// 获取4星非up列表
-        /// </summary>
-        /// <returns></returns>
-        private List<YSGoodsItem> getStar4NonUpList(List<YSGoodsItem> star4List, List<YSGoodsItem> star4UpList)
-        {
-            List<YSGoodsItem> star4NonUpList = new List<YSGoodsItem>();
-            foreach (YSGoodsItem goodsItem in star4List)
-            {
-                if (star4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) continue;
-                star4NonUpList.Add(goodsItem);
-            }
-            return star4NonUpList;
-        }
 
         /// <summary>
         /// 将GoodsPO转化为YSGoodsItem
@@ -134,6 +96,38 @@ namespace GenshinPray.Service
             }
             return goodsItemList;
         }
+
+
+        /// <summary>
+        /// 读取自定义up信息,如果没有,使用默认up信息
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="pondType"></param>
+        /// <returns></returns>
+        public YSUpItem GetUpItem(int authId, YSPondType pondType)
+        {
+            YSUpItem defaultUpItem = SiteConfig.DefaultUpItem[pondType];
+            List<GoodsPO> upList = goodsDao.getByPondType(authId, (int)pondType);
+            if (upList == null || upList.Count == 0) return defaultUpItem;
+
+            List<YSGoodsItem> Star5UpList = upList.Where(o => o.RareType == YSRareType.五星).Select(m => changeToYSGoodsItem(m)).ToList();
+            List<YSGoodsItem> Star4UpList = upList.Where(o => o.RareType == YSRareType.四星).Select(m => changeToYSGoodsItem(m)).ToList();
+            List<YSGoodsItem> Star5NonUpList = getNonUpList(defaultUpItem.Star5AllList, Star5UpList);
+            List<YSGoodsItem> Star4NonUpList = getNonUpList(defaultUpItem.Star4AllList, Star4UpList);
+            List<YSGoodsItem> Star5AllList = concatList(defaultUpItem.Star5AllList, Star5UpList);
+            List<YSGoodsItem> Star4AllList = concatList(defaultUpItem.Star4AllList, Star4UpList);
+
+            YSUpItem ySUpItem = new YSUpItem();
+            ySUpItem.Star5UpList = Star5UpList;
+            ySUpItem.Star4UpList = Star4UpList;
+            ySUpItem.Star5NonUpList = Star5NonUpList;
+            ySUpItem.Star4NonUpList = Star4NonUpList;
+            ySUpItem.Star5AllList = Star5AllList;
+            ySUpItem.Star4AllList = Star4AllList;
+            ySUpItem.Star3PermList = defaultUpItem.Star3PermList;
+            return ySUpItem;
+        }
+
 
         /// <summary>
         /// 连接两个集合,返回无重复部分

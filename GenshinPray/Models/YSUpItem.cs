@@ -9,6 +9,16 @@ namespace GenshinPray.Models
     public class YSUpItem
     {
         /// <summary>
+        /// 5星列表
+        /// </summary>
+        public List<YSGoodsItem> Star5AllList { get; set; }
+
+        /// <summary>
+        /// 4星列表
+        /// </summary>
+        public List<YSGoodsItem> Star4AllList { get; set; }
+
+        /// <summary>
         /// 5星角色up
         /// </summary>
         public List<YSGoodsItem> Star5UpList { get; set; }
@@ -27,6 +37,12 @@ namespace GenshinPray.Models
         /// 4星角色非up
         /// </summary>
         public List<YSGoodsItem> Star4NonUpList { get; set; }
+
+        /// <summary>
+        /// 3星武器up
+        /// </summary>
+        public List<YSGoodsItem> Star3PermList { get; set; }
+        
 
     }
 }

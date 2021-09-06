@@ -45,26 +45,6 @@ namespace GenshinPray.Common
         public static string PrayMaterialSavePath = "";
 
         /// <summary>
-        /// 5星角色up
-        /// </summary>
-        public static List<YSGoodsItem> RoleStar5UpList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 4星角色up
-        /// </summary>
-        public static List<YSGoodsItem> RoleStar4UpList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 5星角色非up
-        /// </summary>
-        public static List<YSGoodsItem> RoleStar5NonUpList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 4星角色非up
-        /// </summary>
-        public static List<YSGoodsItem> RoleStar4NonUpList = new List<YSGoodsItem>();
-
-        /// <summary>
         /// 5星角色常驻列表
         /// </summary>
         public static List<YSGoodsItem> RoleStar5PermList = new List<YSGoodsItem>();
@@ -84,6 +64,10 @@ namespace GenshinPray.Common
         /// </summary>
         public static List<YSGoodsItem> ArmStar3PermList = new List<YSGoodsItem>();
 
+        /// <summary>
+        /// 默认UP
+        /// </summary>
+        public static Dictionary<YSPondType, YSUpItem> DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
 
     }
 }

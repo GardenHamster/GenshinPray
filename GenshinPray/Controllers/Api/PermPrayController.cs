@@ -18,7 +18,7 @@ namespace GenshinPray.Controllers.Api
         [AuthCode]
         public override ApiResult PrayOne(string memberCode)
         {
-            return ApiResult.Error("缺少相关素材");
+            return ApiResult.ServerError;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace GenshinPray.Controllers.Api
         [AuthCode]
         public override ApiResult PrayTen(string memberCode)
         {
-            return ApiResult.Error("缺少相关素材");
+            return ApiResult.ServerError;
         }
 
 

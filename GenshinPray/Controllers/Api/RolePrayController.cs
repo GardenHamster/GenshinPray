@@ -2,6 +2,7 @@
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Service;
+using GenshinPray.Type;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -25,11 +26,14 @@ namespace GenshinPray.Controllers.Api
                 int prayCount = 1;
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                int prayTimesToday = prayRecordService.getPrayTimesToday(authorizePO.Id);
+                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, prayCount);
+                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ySUpItem, prayCount);
                 memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
-                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult);
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;
                 prayResult.Surplus90 = memberInfo.Role90Surplus;
                 return ApiResult.Success(prayResult);
@@ -55,11 +59,14 @@ namespace GenshinPray.Controllers.Api
                 int prayCount = 10;
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                int prayTimesToday = prayRecordService.getPrayTimesToday(authorizePO.Id);
+                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, prayCount);
+                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ySUpItem, prayCount);
                 memberInfo.RolePrayTimes += prayCount;
                 memberService.updateMemberInfo(memberInfo);//更新保底信息
-                ApiPrayResult prayResult = basePrayService.createPrayResult(ySPrayResult);
+                ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;
                 prayResult.Surplus90 = memberInfo.Role90Surplus;
                 return ApiResult.Success(prayResult);

@@ -1,15 +1,11 @@
-﻿using GenshinPray.Common;
-using GenshinPray.Models;
-using GenshinPray.Models.Dto;
+﻿using GenshinPray.Models;
 using GenshinPray.Models.VO;
 using GenshinPray.Type;
 using GenshinPray.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GenshinPray.Service
 {
@@ -56,9 +52,10 @@ namespace GenshinPray.Service
         /// <summary>
         /// 判断一个项目是否up项目
         /// </summary>
+        /// <param name="ySUpItem"></param>
         /// <param name="goodsItem"></param>
         /// <returns></returns>
-        protected abstract bool isUpItem(YSGoodsItem goodsItem);
+        protected abstract bool isUpItem(YSUpItem ySUpItem,YSGoodsItem goodsItem);
 
         /// <summary>
         /// 从物品列表中随机出一个物品
@@ -150,7 +147,7 @@ namespace GenshinPray.Service
                     records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
 
-                bool isupItem = isUpItem(records[i].GoodsItem);//判断是否为本期up的物品
+                bool isupItem = isUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isupItem == false)
                 {
@@ -218,30 +215,20 @@ namespace GenshinPray.Service
         /// <summary>
         /// 创建结果集
         /// </summary>
+        /// <param name="ySUpItem"></param>
         /// <param name="ySPrayResult"></param>
         /// <returns></returns>
-        public ApiPrayResult createPrayResult(YSPrayResult ySPrayResult)
+        public ApiPrayResult createPrayResult(YSUpItem ySUpItem,YSPrayResult ySPrayResult)
         {
             ApiPrayResult prayResult = new ApiPrayResult();
             prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
             prayResult.Star5Cost = ySPrayResult.Star5Cost;
-            prayResult.Goods = changeToGoodsVO(ySPrayResult.PrayRecords);
             prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
             prayResult.Star5Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
             prayResult.Star4Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
-            return prayResult;
-        }
-
-        /// <summary>
-        /// 创建结果集
-        /// </summary>
-        /// <param name="ySPrayResult"></param>
-        /// <param name="prayParm"></param>
-        /// <returns></returns>
-        public ApiPrayResult createPrayResult(YSPrayResult ySPrayResult, PrayParmDto prayParm)
-        {
-            ApiPrayResult prayResult = createPrayResult(ySPrayResult);
-            if (prayParm.ImgToBase64) prayResult.ImgBase64 = ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName));
+            prayResult.Star3Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());
+            prayResult.Star5Up = changeToGoodsVO(ySUpItem.Star5UpList);
+            prayResult.Star4Up = changeToGoodsVO(ySUpItem.Star4UpList);
             return prayResult;
         }
 
@@ -258,6 +245,22 @@ namespace GenshinPray.Service
                 GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsItem.GoodsType),
                 GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsItem.GoodsSubType),
                 RareType = Enum.GetName(typeof(YSRareType), m.GoodsItem.RareType),
+            }).ToList();
+        }
+
+        /// <summary>
+        /// 将YSPrayRecord转换为GoodsVO
+        /// </summary>
+        /// <param name="goodsItems"></param>
+        /// <returns></returns>
+        public List<GoodsVO> changeToGoodsVO(List<YSGoodsItem> goodsItems)
+        {
+            return goodsItems.Select(m => new GoodsVO()
+            {
+                GoodsName = m.GoodsName,
+                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsType),
+                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
+                RareType = Enum.GetName(typeof(YSRareType), m.RareType),
             }).ToList();
         }
 

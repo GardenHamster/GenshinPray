@@ -14,11 +14,11 @@ namespace GenshinPray.Controllers.Backstage
     public class UserController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Login(string userName, string userPwd)
+        public ApiResult Login(string userName, string userPwd)
         {
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(userPwd))
             {
-                return BadRequest(new { message = "username or password is incorrect." });
+                return ApiResult.Error("账号或密码错误");
             }
             var claims = new[]
             {
@@ -36,10 +36,10 @@ namespace GenshinPray.Controllers.Backstage
                 signingCredentials: creds
             );
 
-            return Ok(ApiResult.Success(new
+            return ApiResult.Success(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token)
-            }));
+            });
         }
 
         [HttpPost]
