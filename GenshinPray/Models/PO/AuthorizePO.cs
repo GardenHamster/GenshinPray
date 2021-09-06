@@ -12,7 +12,7 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, Length = 16, ColumnDescription = "授权码")]
         public string Code { get; set; }
 
-        [SugarColumn(IsNullable = false, ColumnDescription = "每日可调用次数")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "每日可调用次数,0表示无限制")]
         public int DailyCall { get; set; }
 
         [SugarColumn(IsNullable = false, ColumnDescription = "添加时间")]

@@ -10,6 +10,7 @@ namespace GenshinPray.Service
 {
     public class RolePrayService : BasePrayService
     {
+
         /// <summary>
         /// 根据名称随机实际补给项目
         /// </summary>
@@ -35,19 +36,6 @@ namespace GenshinPray.Service
                 return getRandomGoodsInList(ySUpItem.Star3PermList);
             }
             return prayRecord;
-        }
-
-        /// <summary>
-        /// 判断一个项目是否up项目
-        /// </summary>
-        /// <param name="ySUpItem"></param>
-        /// <param name="goodsItem"></param>
-        /// <returns></returns>
-        protected override bool isUpItem(YSUpItem ySUpItem, YSGoodsItem goodsItem)
-        {
-            if (ySUpItem.Star5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
-            if (ySUpItem.Star4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
-            return false;
         }
 
     }

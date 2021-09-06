@@ -21,8 +21,15 @@ namespace GenshinPray.Service
             return prayRecordDao.getPrayTimesToday(authId);
         }
 
-
-
+        public PrayRecordPO addPrayRecord(int authId, string memberCode, int prayCount)
+        {
+            PrayRecordPO prayRecord = new PrayRecordPO();
+            prayRecord.AuthId = authId;
+            prayRecord.MemberCode = memberCode;
+            prayRecord.PrayCount = prayCount;
+            prayRecord.CreateDate = DateTime.Now;
+            return prayRecordDao.Insert(prayRecord);
+        }
 
 
     }

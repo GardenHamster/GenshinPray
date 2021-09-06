@@ -50,14 +50,6 @@ namespace GenshinPray.Service
         protected abstract YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus);
 
         /// <summary>
-        /// 判断一个项目是否up项目
-        /// </summary>
-        /// <param name="ySUpItem"></param>
-        /// <param name="goodsItem"></param>
-        /// <returns></returns>
-        protected abstract bool isUpItem(YSUpItem ySUpItem,YSGoodsItem goodsItem);
-
-        /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
         /// <param name="goodsItemList"></param>
@@ -178,6 +170,19 @@ namespace GenshinPray.Service
         }
 
         /// <summary>
+        /// 判断一个项目是否up项目
+        /// </summary>
+        /// <param name="ySUpItem"></param>
+        /// <param name="goodsItem"></param>
+        /// <returns></returns>
+        protected bool isUpItem(YSUpItem ySUpItem, YSGoodsItem goodsItem)
+        {
+            if (ySUpItem.Star5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
+            if (ySUpItem.Star4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
+            return false;
+        }
+
+        /// <summary>
         /// 显示顺序排序
         /// </summary>
         /// <param name="YSPrayRecords"></param>
@@ -217,12 +222,14 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="ySUpItem"></param>
         /// <param name="ySPrayResult"></param>
+        /// <param name="toBase64"></param>
         /// <returns></returns>
-        public ApiPrayResult createPrayResult(YSUpItem ySUpItem,YSPrayResult ySPrayResult)
+        public ApiPrayResult createPrayResult(YSUpItem ySUpItem, YSPrayResult ySPrayResult, bool toBase64)
         {
             ApiPrayResult prayResult = new ApiPrayResult();
             prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
             prayResult.Star5Cost = ySPrayResult.Star5Cost;
+            prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : "";
             prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
             prayResult.Star5Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
             prayResult.Star4Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());

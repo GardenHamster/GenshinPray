@@ -13,9 +13,5 @@ namespace GenshinPray.Service
             throw new NotImplementedException();
         }
 
-        protected override bool isUpItem(YSUpItem ySUpItem, YSGoodsItem goodsItem)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

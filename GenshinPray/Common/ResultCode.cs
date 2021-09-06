@@ -22,8 +22,11 @@ namespace GenshinPray.Common
         /// </summary>
         public static readonly int ApiMaximum = 601;
 
+        /// <summary>
+        /// 参数无效
+        /// </summary>
+        public static readonly int InvalidParameter = 602;
 
-        
 
 
     }

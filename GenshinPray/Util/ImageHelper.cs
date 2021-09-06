@@ -16,39 +16,30 @@ namespace GenshinPray.Util
         /// <summary>
         /// 将Image保存为Jpg
         /// </summary>
-        /// <param name="bmp"></param>
+        /// <param name="image"></param>
         /// <param name="savePath"></param>
+        /// <param name="imgWidth"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static FileInfo saveImageToJpg(Image bmp, string savePath, string fileName = "")
+        public static FileInfo saveImageToJpg(Image image, string savePath, int imgWidth = 0, string fileName = "")
         {
             ImageCodecInfo imageCodecInfo = GetEncoderInfo("image/jpeg");
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
             myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
             if (string.IsNullOrEmpty(fileName)) fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
             string fullSavePath = Path.Combine(savePath, fileName + ".jpg");
-            bmp.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
+            if (imgWidth == 0)
+            {
+                image.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
+            }
+            else
+            {
+                int imgHeight = (int)(Convert.ToDecimal(image.Width) / imgWidth * image.Height);
+                using Image imgResize = new Bitmap(image, imgWidth, imgHeight);
+                imgResize.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
+            }
             return new FileInfo(fullSavePath);
         }
-
-        /// <summary>
-        /// 将Image保存为Png
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <param name="savePath"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static FileInfo saveImageToPng(Image bmp, string savePath, string fileName = "")
-        {
-            ImageCodecInfo imageCodecInfo = GetEncoderInfo("image/png");
-            EncoderParameters myEncoderParameters = new EncoderParameters(1);
-            myEncoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
-            if (string.IsNullOrEmpty(fileName)) fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string fullSavePath = Path.Combine(savePath, fileName + ".png");
-            bmp.Save(fullSavePath, imageCodecInfo, myEncoderParameters);
-            return new FileInfo(fullSavePath);
-        }
-
 
         private static ImageCodecInfo GetEncoderInfo(String mimeType)
         {

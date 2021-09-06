@@ -1,8 +1,10 @@
-﻿using GenshinPray.Models;
+﻿using GenshinPray.Exceptions;
+using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Service;
 using GenshinPray.Util;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace GenshinPray.Controllers.Api
 {
@@ -14,9 +16,9 @@ namespace GenshinPray.Controllers.Api
         protected GoodsService goodsService;
         protected PrayRecordService prayRecordService;
 
-        public abstract ApiResult PrayOne(string memberCode);
+        public abstract ApiResult PrayOne(string memberCode, bool toBase64 = false, int imgWidth = 0);
 
-        public abstract ApiResult PrayTen(string memberCode);
+        public abstract ApiResult PrayTen(string memberCode, bool toBase64 = false, int imgWidth = 0);
 
         public BasePrayController()
         {
@@ -27,7 +29,7 @@ namespace GenshinPray.Controllers.Api
             this.prayRecordService = new PrayRecordService();
         }
 
-        protected YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount)
+        protected YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int role180Surplus = memberInfo.Role180Surplus;
@@ -45,12 +47,19 @@ namespace GenshinPray.Controllers.Api
             memberInfo.Role10Surplus = role10Surplus;
             memberInfo.TotalPrayTimes += prayCount;
 
-            ysPrayResult.ParyFileInfo = DrawHelper.drawTenPrayImg(sortPrayRecords);
+            ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = basePrayService.getStar5Cost(prayRecords, role90SurplusBefore);
             return ysPrayResult;
         }
+
+        protected bool checkImgWidth(int imgWidth)
+        {
+            if (imgWidth < 0 || imgWidth > 1920) throw new ParamException("图片宽度只能设定在0~1920之间");
+            return true;
+        }
+
 
     }
 }

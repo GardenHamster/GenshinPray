@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Common;
+using GenshinPray.Exceptions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,11 @@ namespace GenshinPray.Models
         public static ApiResult Success(object data)
         {
             return new ApiResult(ResultCode.Success, "ok", data);
+        }
+
+        public static ApiResult Error(BaseException ex)
+        {
+            return new ApiResult(ex.ErrorCode, ex.Message);
         }
 
         public static ApiResult Error(int code, string message)

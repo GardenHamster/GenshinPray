@@ -17,8 +17,9 @@ namespace GenshinPray.Util
         /// 根据祈愿记录生成结果图
         /// </summary>
         /// <param name="YSPrayRecords"></param>
+        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawTenPrayImg(YSPrayRecord[] YSPrayRecords)
+        public static FileInfo drawTenPrayImg(YSPrayRecord[] YSPrayRecords, int imgWidth)
         {
             int startIndexX = 230 + 151 * 9;
             int startIndexY = 228;
@@ -48,8 +49,9 @@ namespace GenshinPray.Util
         /// 根据祈愿记录生成结果图
         /// </summary>
         /// <param name="YSPrayRecord"></param>
+        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawOnePrayImg(YSPrayRecord YSPrayRecord)
+        public static FileInfo drawOnePrayImg(YSPrayRecord YSPrayRecord, int imgWidth)
         {
             string backImgUrl = FilePath.getYSPrayBGPath();
             using Bitmap bitmap = new Bitmap(backImgUrl);
@@ -73,7 +75,7 @@ namespace GenshinPray.Util
             }
             drawBubbles(bgGraphics);//画泡泡
             drawWaterMark(bgGraphics);//画水印
-            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath());
+            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
         }
 
         /*-------------------------------------------------------单抽---------------------------------------------------------------------*/
