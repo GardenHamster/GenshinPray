@@ -30,7 +30,7 @@ namespace GenshinPray.Service
         public override YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
-            int perm180Surplus = memberInfo.PermPrayTimes;
+            int perm180Surplus = memberInfo.Perm180Surplus;
             int perm90Surplus = memberInfo.Perm90Surplus;
             int perm90SurplusBefore = memberInfo.Perm90Surplus;
             int perm20Surplus = memberInfo.Perm20Surplus;

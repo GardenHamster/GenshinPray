@@ -33,8 +33,14 @@ namespace GenshinPray.Service
 
 
             YSUpItem PermItem = new YSUpItem();
-            PermItem.Star5AllList = ConcatList(SiteConfig.RoleStar5PermList, SiteConfig.ArmStar5PermList);
-            PermItem.Star4AllList = ConcatList(SiteConfig.RoleStar4PermList, SiteConfig.ArmStar4PermList);
+            List<YSGoodsItem> permStar5AllList = ConcatList(SiteConfig.RoleStar5PermList, SiteConfig.ArmStar5PermList);
+            List<YSGoodsItem> permStar4AllList = ConcatList(SiteConfig.RoleStar4PermList, SiteConfig.ArmStar4PermList);
+            PermItem.Star5UpList = permStar5AllList;
+            PermItem.Star4UpList = permStar4AllList;
+            PermItem.Star5NonUpList = new List<YSGoodsItem>();
+            PermItem.Star4NonUpList = new List<YSGoodsItem>();
+            PermItem.Star5AllList = permStar5AllList;
+            PermItem.Star4AllList = permStar4AllList;
             PermItem.Star3AllList = SiteConfig.ArmStar3PermList;
             SiteConfig.DefaultUpItem[YSPondType.常驻] = PermItem;
 
