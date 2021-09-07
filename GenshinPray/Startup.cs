@@ -30,31 +30,31 @@ namespace GenshinPray
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine($"¶ÁÈ¡ÅäÖÃÎÄ¼ş...");
+            Console.WriteLine($"è¯»å–é…ç½®æ–‡ä»¶...");
             loadSiteConfig();
-            Console.WriteLine($"³õÊ¼»¯Êı¾İ¿â...");
+            Console.WriteLine($"åˆå§‹åŒ–æ•°æ®åº“...");
             new DBClient().CreateDB();
-            Console.WriteLine($"Êı¾İ¿â³õÊ¼»¯Íê±Ï...");
+            Console.WriteLine($"æ•°æ®åº“åˆå§‹åŒ–å®Œæ¯•...");
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "½Ó¿ÚÎÄµµ", Description = "api ÎÄµµ", Version = "v1" });
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));// Îª Swagger ÉèÖÃxmlÎÄµµ×¢ÊÍÂ·¾¶
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "æ¥å£æ–‡æ¡£", Description = "api æ–‡æ¡£", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));// ä¸º Swagger è®¾ç½®xmlæ–‡æ¡£æ³¨é‡Šè·¯å¾„
             });
 
-            //jwtÑéÖ¤
+            //jwtéªŒè¯
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,//ÊÇ·ñÑéÖ¤Issuer
-                    ValidateAudience = true,//ÊÇ·ñÑéÖ¤Audience
-                    ValidateLifetime = true,//ÊÇ·ñÑéÖ¤Ê§Ğ§Ê±¼ä
+                    ValidateIssuer = true,//æ˜¯å¦éªŒè¯Issuer
+                    ValidateAudience = true,//æ˜¯å¦éªŒè¯Audience
+                    ValidateLifetime = true,//æ˜¯å¦éªŒè¯å¤±æ•ˆæ—¶é—´
                     ClockSkew = TimeSpan.FromSeconds(30),
-                    ValidateIssuerSigningKey = true,//ÊÇ·ñÑéÖ¤SecurityKey
-                    ValidIssuer = SiteConfig.JWTIssuer,//Issuer£¬ÕâÁ½ÏîºÍÇ°ÃæÇ©·¢jwtµÄÉèÖÃÒ»ÖÂ
+                    ValidateIssuerSigningKey = true,//æ˜¯å¦éªŒè¯SecurityKey
+                    ValidIssuer = SiteConfig.JWTIssuer,//Issuerï¼Œè¿™ä¸¤é¡¹å’Œå‰é¢ç­¾å‘jwtçš„è®¾ç½®ä¸€è‡´
                     ValidAudience = SiteConfig.JWTAudience,//Audience
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SiteConfig.JWTSecurityKey))//ÄÃµ½SecurityKey
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SiteConfig.JWTSecurityKey))//æ‹¿åˆ°SecurityKey
                 };
             });
 
@@ -72,7 +72,7 @@ namespace GenshinPray
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenshinPray v1");
-                c.RoutePrefix = string.Empty;//ÉèÖÃ¸ù½Úµã·ÃÎÊ
+                c.RoutePrefix = string.Empty;//è®¾ç½®æ ¹èŠ‚ç‚¹è®¿é—®
             });
 
             app.UseHttpsRedirection();
@@ -88,10 +88,11 @@ namespace GenshinPray
                 endpoints.MapControllers();
             });
 
-            new GoodsService().loadYSPrayItem(); //¼ÓÔØµ°³ØÊı¾İµ½ÄÚ´æ
+            //åŠ è½½é»˜è®¤è›‹æ± æ•°æ®åˆ°å†…å­˜
+            new GoodsService().LoadYSPrayItem(); 
         }
 
-        //½«ÅäÖÃÎÄ¼şÖĞµÄĞÅÏ¢¼ÓÔØµ½ÄÚ´æ
+        //å°†é…ç½®æ–‡ä»¶ä¸­çš„ä¿¡æ¯åŠ è½½åˆ°å†…å­˜
         private void loadSiteConfig()
         {
             SiteConfig.ConnectionString = Configuration.GetSection("ConnectionString").Value;

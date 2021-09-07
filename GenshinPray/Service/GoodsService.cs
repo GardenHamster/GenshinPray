@@ -20,40 +20,68 @@ namespace GenshinPray.Service
         /// <summary>
         /// 加载蛋池数据到内存
         /// </summary>
-        public void loadYSPrayItem()
+        public void LoadYSPrayItem()
         {
-            SiteConfig.ArmStar3PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.三星));//三星常驻武器
-            SiteConfig.ArmStar4PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.四星));//四星常驻武器
-            SiteConfig.RoleStar4PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
-            SiteConfig.RoleStar5PermList = changeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
+            SiteConfig.DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
+
+
+            SiteConfig.ArmStar3PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.三星));//三星常驻武器
+            SiteConfig.ArmStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.四星));//四星常驻武器
+            SiteConfig.ArmStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.五星));//五星常驻武器
+            SiteConfig.RoleStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
+            SiteConfig.RoleStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
+
+
+            YSUpItem PermItem = new YSUpItem();
+            PermItem.Star5AllList = ConcatList(SiteConfig.RoleStar5PermList, SiteConfig.ArmStar5PermList);
+            PermItem.Star4AllList = ConcatList(SiteConfig.RoleStar4PermList, SiteConfig.ArmStar4PermList);
+            PermItem.Star3AllList = SiteConfig.ArmStar3PermList;
+            SiteConfig.DefaultUpItem[YSPondType.常驻] = PermItem;
+
 
             List<GoodsPO> rolePondList = goodsDao.getByPondType(0, (int)YSPondType.角色);
-            List<YSGoodsItem> roleItemList = changeToYSGoodsItem(rolePondList);
+            List<YSGoodsItem> roleItemList = ChangeToYSGoodsItem(rolePondList);
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
             List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
-            List<YSGoodsItem> roleStar5NonUpList = getNonUpList(SiteConfig.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4NonUpList = getNonUpList(SiteConfig.RoleStar4PermList, roleStar4UpList);
-            List<YSGoodsItem> Star5AllList = concatList(SiteConfig.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> Star4AllList = concatList(SiteConfig.RoleStar4PermList, roleStar4UpList);
-
+            List<YSGoodsItem> roleStar5NonUpList = GetNonUpList(SiteConfig.RoleStar5PermList, roleStar5UpList);
+            List<YSGoodsItem> roleStar4NonUpList = GetNonUpList(SiteConfig.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> roleStar5AllList = ConcatList(SiteConfig.RoleStar5PermList, roleStar5UpList);
+            List<YSGoodsItem> roleStar4AllList = ConcatList(SiteConfig.RoleStar4PermList, roleStar4UpList);
             YSUpItem RoleUpItem = new YSUpItem();
             RoleUpItem.Star5UpList = roleStar5UpList;
             RoleUpItem.Star4UpList = roleStar4UpList;
             RoleUpItem.Star5NonUpList = roleStar5NonUpList;
             RoleUpItem.Star4NonUpList = roleStar4NonUpList;
-            RoleUpItem.Star5AllList = Star5AllList;
-            RoleUpItem.Star4AllList = Star4AllList;
-            RoleUpItem.Star3PermList = SiteConfig.ArmStar3PermList;
+            RoleUpItem.Star5AllList = roleStar5AllList;
+            RoleUpItem.Star4AllList = roleStar4AllList;
+            RoleUpItem.Star3AllList = SiteConfig.ArmStar3PermList;
             SiteConfig.DefaultUpItem[YSPondType.角色] = RoleUpItem;
 
 
+            List<GoodsPO> armPondList = goodsDao.getByPondType(0, (int)YSPondType.武器);
+            List<YSGoodsItem> armItemList = ChangeToYSGoodsItem(armPondList);
+            List<YSGoodsItem> armStar5UpList = armItemList.Where(m => m.RareType == YSRareType.五星).ToList();
+            List<YSGoodsItem> armStar4UpList = armItemList.Where(m => m.RareType == YSRareType.四星).ToList();
+            List<YSGoodsItem> armStar5NonUpList = GetNonUpList(SiteConfig.ArmStar5PermList, armStar5UpList);
+            List<YSGoodsItem> armStar4NonUpList = GetNonUpList(SiteConfig.ArmStar4PermList, armStar4UpList);
+            List<YSGoodsItem> armStar5AllList = ConcatList(SiteConfig.ArmStar5PermList, armStar5UpList);
+            List<YSGoodsItem> armStar4AllList = ConcatList(SiteConfig.ArmStar4PermList, armStar4UpList);
+            YSUpItem ArmUpItem = new YSUpItem();
+            ArmUpItem.Star5UpList = armStar5UpList;
+            ArmUpItem.Star4UpList = armStar4UpList;
+            ArmUpItem.Star5NonUpList = armStar5NonUpList;
+            ArmUpItem.Star4NonUpList = armStar4NonUpList;
+            ArmUpItem.Star5AllList = armStar5AllList;
+            ArmUpItem.Star4AllList = armStar4AllList;
+            ArmUpItem.Star3AllList = SiteConfig.ArmStar3PermList;
+            SiteConfig.DefaultUpItem[YSPondType.武器] = ArmUpItem;
         }
 
         /// <summary>
         /// 返回非up列表
         /// </summary>
         /// <returns></returns>
-        private List<YSGoodsItem> getNonUpList(List<YSGoodsItem> AllList, List<YSGoodsItem> UpList)
+        private List<YSGoodsItem> GetNonUpList(List<YSGoodsItem> AllList, List<YSGoodsItem> UpList)
         {
             List<YSGoodsItem> NonUpList = new List<YSGoodsItem>();
             foreach (YSGoodsItem goodsItem in AllList)
@@ -70,7 +98,7 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="goodsPO"></param>
         /// <returns></returns>
-        private YSGoodsItem changeToYSGoodsItem(GoodsPO goodsPO)
+        private YSGoodsItem ChangeToYSGoodsItem(GoodsPO goodsPO)
         {
             YSGoodsItem goodsItem = new YSGoodsItem();
             goodsItem.Probability = SiteConfig.DefaultPR;
@@ -86,12 +114,12 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="poList"></param>
         /// <returns></returns>
-        private List<YSGoodsItem> changeToYSGoodsItem(List<GoodsPO> poList)
+        private List<YSGoodsItem> ChangeToYSGoodsItem(List<GoodsPO> poList)
         {
             List<YSGoodsItem> goodsItemList = new List<YSGoodsItem>();
             foreach (GoodsPO goodsPO in poList)
             {
-                YSGoodsItem goodsItem = changeToYSGoodsItem(goodsPO);
+                YSGoodsItem goodsItem = ChangeToYSGoodsItem(goodsPO);
                 goodsItemList.Add(goodsItem);
             }
             return goodsItemList;
@@ -110,12 +138,12 @@ namespace GenshinPray.Service
             List<GoodsPO> upList = goodsDao.getByPondType(authId, (int)pondType);
             if (upList == null || upList.Count == 0) return defaultUpItem;
 
-            List<YSGoodsItem> Star5UpList = upList.Where(o => o.RareType == YSRareType.五星).Select(m => changeToYSGoodsItem(m)).ToList();
-            List<YSGoodsItem> Star4UpList = upList.Where(o => o.RareType == YSRareType.四星).Select(m => changeToYSGoodsItem(m)).ToList();
-            List<YSGoodsItem> Star5NonUpList = getNonUpList(defaultUpItem.Star5AllList, Star5UpList);
-            List<YSGoodsItem> Star4NonUpList = getNonUpList(defaultUpItem.Star4AllList, Star4UpList);
-            List<YSGoodsItem> Star5AllList = concatList(defaultUpItem.Star5AllList, Star5UpList);
-            List<YSGoodsItem> Star4AllList = concatList(defaultUpItem.Star4AllList, Star4UpList);
+            List<YSGoodsItem> Star5UpList = upList.Where(o => o.RareType == YSRareType.五星).Select(m => ChangeToYSGoodsItem(m)).ToList();
+            List<YSGoodsItem> Star4UpList = upList.Where(o => o.RareType == YSRareType.四星).Select(m => ChangeToYSGoodsItem(m)).ToList();
+            List<YSGoodsItem> Star5NonUpList = GetNonUpList(defaultUpItem.Star5AllList, Star5UpList);
+            List<YSGoodsItem> Star4NonUpList = GetNonUpList(defaultUpItem.Star4AllList, Star4UpList);
+            List<YSGoodsItem> Star5AllList = ConcatList(defaultUpItem.Star5AllList, Star5UpList);
+            List<YSGoodsItem> Star4AllList = ConcatList(defaultUpItem.Star4AllList, Star4UpList);
 
             YSUpItem ySUpItem = new YSUpItem();
             ySUpItem.Star5UpList = Star5UpList;
@@ -124,7 +152,7 @@ namespace GenshinPray.Service
             ySUpItem.Star4NonUpList = Star4NonUpList;
             ySUpItem.Star5AllList = Star5AllList;
             ySUpItem.Star4AllList = Star4AllList;
-            ySUpItem.Star3PermList = defaultUpItem.Star3PermList;
+            ySUpItem.Star3AllList = defaultUpItem.Star3AllList;
             return ySUpItem;
         }
 
@@ -135,7 +163,7 @@ namespace GenshinPray.Service
         /// <param name="listA"></param>
         /// <param name="listB"></param>
         /// <returns></returns>
-        private List<YSGoodsItem> concatList(List<YSGoodsItem> listA, List<YSGoodsItem> listB)
+        private List<YSGoodsItem> ConcatList(List<YSGoodsItem> listA, List<YSGoodsItem> listB)
         {
             List<YSGoodsItem> returnList = new List<YSGoodsItem>();
             foreach (var item in listA)

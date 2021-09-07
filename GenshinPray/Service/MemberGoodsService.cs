@@ -18,7 +18,7 @@ namespace GenshinPray.Service
             this.memberGoodsDao = new MemberGoodsDao();
         }
 
-        public void addMemberGoods(YSPrayResult ySPrayResult, int authId, string memberCode)
+        public void AddMemberGoods(YSPrayResult ySPrayResult, int authId, string memberCode)
         {
             foreach (var result in ySPrayResult.PrayRecords)
             {

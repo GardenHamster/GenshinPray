@@ -16,12 +16,12 @@ namespace GenshinPray.Service
             this.prayRecordDao = new PrayRecordDao();
         }
 
-        public int getPrayTimesToday(int authId)
+        public int GetPrayTimesToday(int authId)
         {
             return prayRecordDao.getPrayTimesToday(authId);
         }
 
-        public PrayRecordPO addPrayRecord(int authId, string memberCode, int prayCount)
+        public PrayRecordPO AddPrayRecord(int authId, string memberCode, int prayCount)
         {
             PrayRecordPO prayRecord = new PrayRecordPO();
             prayRecord.AuthId = authId;

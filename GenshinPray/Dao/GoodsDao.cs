@@ -15,18 +15,13 @@ namespace GenshinPray.Dao
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.Append(" select g.* from pond_goods pg");
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
-            sqlBuilder.Append(" where pg.PondType=@pondType and pg.AuthId=@authId");
+            sqlBuilder.Append(" where pg.PondType=@pondType and pg.AuthId=@authId and g.isDisable=0");
             return Db.Ado.SqlQuery<GoodsPO>(sqlBuilder.ToString(), new { authId = authId, pondType = pondType });
         }
 
         public List<GoodsPO> getPermGoods(YSGoodsType goodsType, YSRareType rareType)
         {
-            return Db.Queryable<GoodsPO>().Where(o => o.GoodsType == goodsType && o.RareType == rareType && o.IsPerm == true).ToList();
-        }
-
-        public GoodsPO getPermGoods(string goodsName)
-        {
-            return Db.Queryable<GoodsPO>().Where(o => o.GoodsName == goodsName).First();
+            return Db.Queryable<GoodsPO>().Where(o => o.GoodsType == goodsType && o.RareType == rareType && o.IsPerm == true && o.IsDisable == false).ToList();
         }
 
 

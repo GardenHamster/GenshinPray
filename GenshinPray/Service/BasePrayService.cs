@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Models;
+using GenshinPray.Models.PO;
 using GenshinPray.Models.VO;
 using GenshinPray.Type;
 using GenshinPray.Util;
@@ -47,18 +48,28 @@ namespace GenshinPray.Service
         /// <param name="floor180Surplus"></param>
         /// <param name="floor20Surplus"></param>
         /// <returns></returns>
-        protected abstract YSPrayRecord getPrayRecord(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus);
+        protected abstract YSPrayRecord GetActualItem(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus);
+
+        /// <summary>
+        /// 获取祈愿结果
+        /// </summary>
+        /// <param name="memberInfo"></param>
+        /// <param name="ysUpItem"></param>
+        /// <param name="prayCount"></param>
+        /// <param name="imgWidth"></param>
+        /// <returns></returns>
+        public abstract YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth);
 
         /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
         /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        protected YSPrayRecord getRandomGoodsInList(List<YSGoodsItem> goodsItemList)
+        protected YSPrayRecord GetRandomGoodsInList(List<YSGoodsItem> goodsItemList)
         {
             int randomRegion = 0;
-            List<YSGoodsRegion> regionList = getGoodsRegionList(goodsItemList);
-            YSGoodsRegion goodsRegion = getRandomInRegion(regionList, ref randomRegion);
+            List<YSGoodsRegion> regionList = GetGoodsRegionList(goodsItemList);
+            YSGoodsRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
             YSGoodsItem goodsItem = goodsRegion.GoodsItem;
             return new YSPrayRecord(goodsItem, randomRegion);
         }
@@ -68,7 +79,7 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        private List<YSGoodsRegion> getGoodsRegionList(List<YSGoodsItem> goodsItemList)
+        private List<YSGoodsRegion> GetGoodsRegionList(List<YSGoodsItem> goodsItemList)
         {
             int sumRegion = 0;//总区间
             List<YSGoodsRegion> goodsRegionList = new List<YSGoodsRegion>();//区间列表,抽卡时随机获取该区间
@@ -87,7 +98,7 @@ namespace GenshinPray.Service
         /// <param name="regionList"></param>
         /// <param name="randomRegion"></param>
         /// <returns></returns>
-        private YSGoodsRegion getRandomInRegion(List<YSGoodsRegion> regionList, ref int randomRegion)
+        private YSGoodsRegion GetRandomInRegion(List<YSGoodsRegion> regionList, ref int randomRegion)
         {
             randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
             if (randomRegion == regionList.Last().EndRegion) return regionList.Last();
@@ -108,7 +119,7 @@ namespace GenshinPray.Service
         /// <param name="floor20Surplus">距离4星大保底剩余多少抽</param>
         /// <param name="floor10Surplus">距离4星小保底剩余多少抽</param>
         /// <returns></returns>
-        public YSPrayRecord[] getPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
+        public YSPrayRecord[] GetPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
@@ -120,26 +131,26 @@ namespace GenshinPray.Service
 
                 if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomGoodsInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus >= 10)//十连小保底,4星up概率为50%
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus < 10)//十连大保底,必出4星up物品
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus >= 90)//90小保底,5星up概率为50%
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus < 90)//90大保底,必出5星up物品
                 {
-                    records[i] = getPrayRecord(getRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
 
-                bool isupItem = isUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
+                bool isupItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isupItem == false)
                 {
@@ -175,7 +186,7 @@ namespace GenshinPray.Service
         /// <param name="ySUpItem"></param>
         /// <param name="goodsItem"></param>
         /// <returns></returns>
-        protected bool isUpItem(YSUpItem ySUpItem, YSGoodsItem goodsItem)
+        protected bool IsUpItem(YSUpItem ySUpItem, YSGoodsItem goodsItem)
         {
             if (ySUpItem.Star5UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
             if (ySUpItem.Star4UpList.Where(m => m.GoodsName == goodsItem.GoodsName).Count() > 0) return true;
@@ -187,7 +198,7 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="YSPrayRecords"></param>
         /// <returns></returns>
-        public YSPrayRecord[] sortGoods(YSPrayRecord[] YSPrayRecords)
+        public YSPrayRecord[] SortGoods(YSPrayRecord[] YSPrayRecords)
         {
             List<YSPrayRecord> sortList = new List<YSPrayRecord>();
             sortList.AddRange(YSPrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToList());
@@ -203,7 +214,7 @@ namespace GenshinPray.Service
         /// <param name="YSPrayRecords"></param>
         /// <param name="floor90Surplus"></param>
         /// <returns></returns>
-        public int getStar5Cost(YSPrayRecord[] YSPrayRecords, int floor90Surplus)
+        public int GetStar5Cost(YSPrayRecord[] YSPrayRecords, int floor90Surplus)
         {
             int star5Index = -1;
             for (int i = 0; i < YSPrayRecords.Length; i++)
@@ -222,21 +233,24 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="ySUpItem"></param>
         /// <param name="ySPrayResult"></param>
+        /// <param name="authorizePO"></param>
+        /// <param name="prayTimesToday"></param>
         /// <param name="toBase64"></param>
         /// <returns></returns>
-        public ApiPrayResult createPrayResult(YSUpItem ySUpItem, YSPrayResult ySPrayResult, bool toBase64)
+        public ApiPrayResult CreatePrayResult(YSUpItem ySUpItem, YSPrayResult ySPrayResult, AuthorizePO authorizePO, int prayTimesToday, bool toBase64)
         {
             ApiPrayResult prayResult = new ApiPrayResult();
-            prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
             prayResult.Star5Cost = ySPrayResult.Star5Cost;
+            prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
+            prayResult.ApiCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
             prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
             prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
             prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;
-            prayResult.Star5Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
-            prayResult.Star4Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
-            prayResult.Star3Goods = changeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());
-            prayResult.Star5Up = changeToGoodsVO(ySUpItem.Star5UpList);
-            prayResult.Star4Up = changeToGoodsVO(ySUpItem.Star4UpList);
+            prayResult.Star5Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
+            prayResult.Star4Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
+            prayResult.Star3Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());
+            prayResult.Star5Up = ChangeToGoodsVO(ySUpItem.Star5UpList);
+            prayResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
             return prayResult;
         }
 
@@ -245,7 +259,7 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="prayRecords"></param>
         /// <returns></returns>
-        public List<GoodsVO> changeToGoodsVO(YSPrayRecord[] prayRecords)
+        public List<GoodsVO> ChangeToGoodsVO(YSPrayRecord[] prayRecords)
         {
             return prayRecords.Select(m => new GoodsVO()
             {
@@ -261,7 +275,7 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="goodsItems"></param>
         /// <returns></returns>
-        public List<GoodsVO> changeToGoodsVO(List<YSGoodsItem> goodsItems)
+        public List<GoodsVO> ChangeToGoodsVO(List<YSGoodsItem> goodsItems)
         {
             return goodsItems.Select(m => new GoodsVO()
             {

@@ -16,7 +16,7 @@ namespace GenshinPray.Service
             this.memberDao =new MemberDao();
         }
 
-        public MemberPO getOrInsert(int authId, string memberCode)
+        public MemberPO GetOrInsert(int authId, string memberCode)
         {
             MemberPO memberInfo = memberDao.getMember(authId, memberCode);
             if (memberInfo != null) return memberInfo;
@@ -38,7 +38,7 @@ namespace GenshinPray.Service
             return memberDao.Insert(memberInfo);
         }
 
-        public int updateMemberInfo(MemberPO memberInfo)
+        public int UpdateMemberInfo(MemberPO memberInfo)
         {
             return memberDao.Update(memberInfo);
         }

@@ -30,6 +30,11 @@ namespace GenshinPray.Models
         public int Star5Cost { get; set; }
 
         /// <summary>
+        /// api当天剩余调用次数
+        /// </summary>
+        public int ApiCallSurplus { get; set; }
+
+        /// <summary>
         /// 图片路径
         /// </summary>
         public string ImgHttpUrl { get; set; }

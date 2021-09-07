@@ -15,6 +15,9 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, Length = 32, ColumnDescription = "成员编号")]
         public string MemberCode { get; set; }
 
+        [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "武器定轨Id，0表示无定轨")]
+        public int ArmAssignId { get; set; }
+
         [SugarColumn(IsNullable = false, ColumnDescription = "角色池剩余多少发五星大保底")]
         public int Role180Surplus { get; set; }
 

@@ -55,6 +55,11 @@ namespace GenshinPray.Common
         public static List<YSGoodsItem> RoleStar4PermList = new List<YSGoodsItem>();
 
         /// <summary>
+        /// 5星武器常驻列表
+        /// </summary>
+        public static List<YSGoodsItem> ArmStar5PermList = new List<YSGoodsItem>();
+
+        /// <summary>
         /// 4星武器常驻列表
         /// </summary>
         public static List<YSGoodsItem> ArmStar4PermList = new List<YSGoodsItem>();

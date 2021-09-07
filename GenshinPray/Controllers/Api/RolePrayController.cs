@@ -32,19 +32,19 @@ namespace GenshinPray.Controllers.Api
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
 
-                int prayTimesToday = prayRecordService.getPrayTimesToday(authorizePO.Id);
-                if (prayTimesToday >= authorizePO.DailyCall && authorizePO.DailyCall != 0) return ApiResult.ApiMaximum;
+                int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
+                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
-                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
+                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
 
                 memberInfo.RolePrayTimes += prayCount;
-                memberService.updateMemberInfo(memberInfo);//更新保底信息
-                prayRecordService.addPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
-                memberGoodsService.addMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
+                memberService.UpdateMemberInfo(memberInfo);//更新保底信息
+                prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
-                ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;
                 prayResult.Surplus90 = memberInfo.Role90Surplus;
                 return ApiResult.Success(prayResult);
@@ -79,19 +79,19 @@ namespace GenshinPray.Controllers.Api
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
 
-                int prayTimesToday = prayRecordService.getPrayTimesToday(authorizePO.Id);
-                if (prayTimesToday >= authorizePO.DailyCall && authorizePO.DailyCall != 0) return ApiResult.ApiMaximum;
+                int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
+                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
-                MemberPO memberInfo = memberService.getOrInsert(authorizePO.Id, memberCode);
+                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSPrayResult ySPrayResult = GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
 
                 memberInfo.RolePrayTimes += prayCount;
-                memberService.updateMemberInfo(memberInfo);//更新保底信息
-                prayRecordService.addPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
-                memberGoodsService.addMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
+                memberService.UpdateMemberInfo(memberInfo);//更新保底信息
+                prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
-                ApiPrayResult prayResult = basePrayService.createPrayResult(ySUpItem, ySPrayResult, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 prayResult.Surplus180 = memberInfo.Role180Surplus;
                 prayResult.Surplus90 = memberInfo.Role90Surplus;
                 return ApiResult.Success(prayResult);
