@@ -18,7 +18,12 @@ namespace GenshinPray.Models
         public decimal Probability { get; set; }
 
         /// <summary>
-        /// 补给项目名
+        /// 物品ID
+        /// </summary>
+        public int GoodsID { get; set; }
+
+        /// <summary>
+        /// 物品名称
         /// </summary>
         public string GoodsName { get; set; }
 
@@ -37,18 +42,9 @@ namespace GenshinPray.Models
         /// </summary>
         public YSGoodsSubType GoodsSubType { get; set; }
 
-
         public YSGoodsItem()
         {
-            this.Probability = SiteConfig.DefaultPR;
-        }
-
-        public YSGoodsItem(decimal probability, YSGoodsType goodsType, YSRareType rareType, string goodsName)
-        {
-            this.RareType = rareType;
-            this.Probability = probability;
-            this.GoodsName = goodsName;
-            this.GoodsType = goodsType;
+            this.Probability = SiteConfig.GoodsDefaultPR;
         }
 
     }

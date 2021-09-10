@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Service\BasePrayService.cs~RFf64f1c6.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JWT" Version="8.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
     <PackageReference Include="SqlSugarCore" Version="5.0.3.8" />

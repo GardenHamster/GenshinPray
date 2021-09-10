@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class YSGoodsRegion
+    public class YSRegion<T>
     {
         public int StartRegion { get; set; }
 
         public int EndRegion { get; set; }
 
-        public YSGoodsItem GoodsItem { get; set; }
+        public T Item { get; set; }
 
-        public YSGoodsRegion(YSGoodsItem goodsItem, int startRegion, int endRegion)
+        public YSRegion(T item, int startRegion, int endRegion)
         {
+            this.Item = item;
             this.StartRegion = startRegion;
             this.EndRegion = endRegion;
-            this.GoodsItem = goodsItem;
         }
     }
 

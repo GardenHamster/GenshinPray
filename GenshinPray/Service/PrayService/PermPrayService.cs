@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GenshinPray.Service
+namespace GenshinPray.Service.PrayService
 {
-    public class PermPrayService : BasePrayService
+    public class PermPrayService : BaseFloorPrayService
     {
-        protected override YSPrayRecord GetActualItem(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus)
+        protected override YSPrayRecord GetActualItem(YSProbability ysProbability, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus)
         {
             if (prayRecord.GoodsItem.GoodsName == "5星物品")
             {

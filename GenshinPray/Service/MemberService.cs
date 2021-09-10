@@ -27,8 +27,8 @@ namespace GenshinPray.Service
             memberInfo.Role90Surplus = 90;
             memberInfo.Role20Surplus = 20;
             memberInfo.Role10Surplus = 10;
-            memberInfo.Arm180Surplus = 180;
-            memberInfo.Arm90Surplus = 90;
+            memberInfo.Arm160Surplus = 160;
+            memberInfo.Arm80Surplus = 80;
             memberInfo.Arm20Surplus = 20;
             memberInfo.Arm10Surplus = 10;
             memberInfo.Perm180Surplus = 180;

@@ -107,7 +107,7 @@ namespace GenshinPray.Service
         private YSGoodsItem ChangeToYSGoodsItem(GoodsPO goodsPO)
         {
             YSGoodsItem goodsItem = new YSGoodsItem();
-            goodsItem.Probability = SiteConfig.DefaultPR;
+            goodsItem.GoodsID = goodsPO.Id;
             goodsItem.GoodsName = goodsPO.GoodsName;
             goodsItem.RareType = goodsPO.RareType;
             goodsItem.GoodsType = goodsPO.GoodsType;

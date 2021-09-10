@@ -25,9 +25,9 @@ namespace GenshinPray.Common
         public static string JWTAudience = "Audience";
 
         /// <summary>
-        /// 默认概率
+        /// 物品默认概率
         /// </summary>
-        public static readonly decimal DefaultPR = 1;
+        public static readonly decimal GoodsDefaultPR = 1;
 
         /// <summary>
         /// 数据库连接字符串

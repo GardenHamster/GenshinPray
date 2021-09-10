@@ -8,68 +8,83 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace GenshinPray.Service
+namespace GenshinPray.Service.PrayService
 {
     public abstract class BasePrayService
     {
-
         /// <summary>
-        /// 无保底情况下单抽物品概率
+        /// 从物品列表中随机出一个物品
         /// </summary>
-        protected readonly List<YSGoodsItem> AllList = new List<YSGoodsItem>()
-        {
-            new YSGoodsItem(0.6m,YSGoodsType.其他,YSRareType.其他,"5星物品"),
-            new YSGoodsItem(5.1m,YSGoodsType.其他,YSRareType.其他,"4星物品"),
-            new YSGoodsItem(94.3m,YSGoodsType.其他,YSRareType.其他,"3星物品")
-        };
-
-        /// <summary>
-        /// 小保底物品概率
-        /// </summary>
-        protected readonly List<YSGoodsItem> Floor90List = new List<YSGoodsItem>()
-        {
-            new YSGoodsItem(100,YSGoodsType.其他,YSRareType.其他,"5星物品"),
-        };
-
-        /// <summary>
-        /// 十连保底物品概率
-        /// </summary>
-        protected readonly List<YSGoodsItem> Floor10List = new List<YSGoodsItem>()
-        {
-            new YSGoodsItem(0.6m,YSGoodsType.其他,YSRareType.其他,"5星物品"),
-            new YSGoodsItem(99.4m,YSGoodsType.其他,YSRareType.其他,"4星物品")
-        };
-
-        /// <summary>
-        /// 根据名称随机实际补给项目
-        /// </summary>
-        /// <param name="prayRecord"></param>
-        /// <param name="ySUpItem"></param>
-        /// <param name="floor180Surplus"></param>
-        /// <param name="floor20Surplus"></param>
+        /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        protected abstract YSPrayRecord GetActualItem(YSPrayRecord prayRecord, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus);
+        protected YSPrayRecord GetRandomInList(List<YSProbability> goodsItemList)
+        {
+            int randomRegion = 0;
+            List<YSRegion> regionList = GetGoodsRegionList(goodsItemList);
+            YSRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
+            YSGoodsItem goodsItem = goodsRegion.GoodsItem;
+            return new YSPrayRecord(goodsItem, randomRegion);
+        }
 
         /// <summary>
-        /// 获取祈愿结果
+        /// 将概率转化为一个数字区间
         /// </summary>
-        /// <param name="memberInfo"></param>
-        /// <param name="ysUpItem"></param>
-        /// <param name="prayCount"></param>
-        /// <param name="imgWidth"></param>
+        /// <param name="probabilityList"></param>
         /// <returns></returns>
-        public abstract YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth);
+        private List<YSRegion<YSProbabilityType>> GetRegionList(List<YSProbability> probabilityList)
+        {
+            int sumRegion = 0;//总区间
+            List<YSRegion<YSProbabilityType>> regionList = new List<YSRegion<YSProbabilityType>>();//区间列表,抽卡时随机获取该区间
+            foreach (var item in probabilityList)
+            {
+                int startRegion = sumRegion;//开始区间
+                sumRegion = sumRegion + Convert.ToInt32(item.Probability * 1000);
+                regionList.Add(new YSRegion<YSProbabilityType>(goodsItem, startRegion, sumRegion));
+            }
+            return regionList;
+        }
+
+        /// <summary>
+        /// 从区间列表中随机出一个区间
+        /// </summary>
+        /// <param name="regionList"></param>
+        /// <param name="randomRegion"></param>
+        /// <returns></returns>
+        private YSProbabilityRegion GetRandomInRegion(List<YSProbability> regionList, ref int randomRegion)
+        {
+            randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
+            if (randomRegion == regionList.Last().EndRegion) return regionList.Last();
+            foreach (YSRegion goodsRegion in regionList)
+            {
+                if (randomRegion >= goodsRegion.StartRegion && randomRegion < goodsRegion.EndRegion) return goodsRegion;
+            }
+            return null;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
         /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        protected YSPrayRecord GetRandomGoodsInList(List<YSGoodsItem> goodsItemList)
+        protected YSPrayRecord GetRandomInList(List<YSGoodsItem> goodsItemList)
         {
             int randomRegion = 0;
-            List<YSGoodsRegion> regionList = GetGoodsRegionList(goodsItemList);
-            YSGoodsRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
+            List<YSRegion> regionList = GetGoodsRegionList(goodsItemList);
+            YSRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
             YSGoodsItem goodsItem = goodsRegion.GoodsItem;
             return new YSPrayRecord(goodsItem, randomRegion);
         }
@@ -79,15 +94,15 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        private List<YSGoodsRegion> GetGoodsRegionList(List<YSGoodsItem> goodsItemList)
+        private List<YSRegion> GetRegionList(List<YSGoodsItem> goodsItemList)
         {
             int sumRegion = 0;//总区间
-            List<YSGoodsRegion> goodsRegionList = new List<YSGoodsRegion>();//区间列表,抽卡时随机获取该区间
+            List<YSRegion> goodsRegionList = new List<YSRegion>();//区间列表,抽卡时随机获取该区间
             foreach (YSGoodsItem goodsItem in goodsItemList)
             {
                 int startRegion = sumRegion;//开始区间
                 sumRegion = sumRegion + Convert.ToInt32(goodsItem.Probability * 1000);
-                goodsRegionList.Add(new YSGoodsRegion(goodsItem, startRegion, sumRegion));
+                goodsRegionList.Add(new YSRegion(goodsItem, startRegion, sumRegion));
             }
             return goodsRegionList;
         }
@@ -98,87 +113,20 @@ namespace GenshinPray.Service
         /// <param name="regionList"></param>
         /// <param name="randomRegion"></param>
         /// <returns></returns>
-        private YSGoodsRegion GetRandomInRegion(List<YSGoodsRegion> regionList, ref int randomRegion)
+        private YSRegion GetRandomInRegion(List<YSRegion> regionList, ref int randomRegion)
         {
             randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
             if (randomRegion == regionList.Last().EndRegion) return regionList.Last();
-            foreach (YSGoodsRegion goodsRegion in regionList)
+            foreach (YSRegion goodsRegion in regionList)
             {
                 if (randomRegion >= goodsRegion.StartRegion && randomRegion < goodsRegion.EndRegion) return goodsRegion;
             }
             return null;
         }
 
-        /// <summary>
-        /// 模拟抽卡,获取祈愿记录
-        /// </summary>
-        /// <param name="ySUpItem"></param>
-        /// <param name="prayCount">抽卡次数</param>
-        /// <param name="floor180Surplus">距离180大保底剩余多少抽</param>
-        /// <param name="floor90Surplus">距离90小保底剩余多少抽</param>
-        /// <param name="floor20Surplus">距离4星大保底剩余多少抽</param>
-        /// <param name="floor10Surplus">距离4星小保底剩余多少抽</param>
-        /// <returns></returns>
-        public YSPrayRecord[] GetPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
-        {
-            YSPrayRecord[] records = new YSPrayRecord[prayCount];
-            for (int i = 0; i < records.Length; i++)
-            {
-                floor180Surplus--;
-                floor90Surplus--;
-                floor20Surplus--;
-                floor10Surplus--;
 
-                if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
-                {
-                    records[i] = GetActualItem(GetRandomGoodsInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
-                }
-                if (floor10Surplus == 0 && floor20Surplus >= 10)//十连小保底,4星up概率为50%
-                {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
-                }
-                if (floor10Surplus == 0 && floor20Surplus < 10)//十连大保底,必出4星up物品
-                {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
-                }
-                if (floor90Surplus == 0 && floor180Surplus >= 90)//90小保底,5星up概率为50%
-                {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
-                }
-                if (floor90Surplus == 0 && floor180Surplus < 90)//90大保底,必出5星up物品
-                {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
-                }
 
-                bool isupItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
 
-                if (records[i].GoodsItem.RareType == YSRareType.四星 && isupItem == false)
-                {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 10;//十连大保底重置为10
-                }
-                if (records[i].GoodsItem.RareType == YSRareType.四星 && isupItem == true)
-                {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
-                }
-                if (records[i].GoodsItem.RareType == YSRareType.五星 && isupItem == false)
-                {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
-                    floor90Surplus = 90;//九十小保底重置
-                    floor180Surplus = 90;//九十大保底重置为90
-                }
-                if (records[i].GoodsItem.RareType == YSRareType.五星 && isupItem == true)
-                {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
-                    floor90Surplus = 90;//九十小保底重置
-                    floor180Surplus = 180;//九十大保底重置
-                }
-            }
-            return records;
-        }
 
         /// <summary>
         /// 判断一个项目是否up项目
