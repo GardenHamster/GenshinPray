@@ -15,12 +15,6 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, Length = 32, ColumnDescription = "成员编号")]
         public string MemberCode { get; set; }
 
-        [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "武器定轨Id，0表示无定轨")]
-        public int ArmAssignId { get; set; }
-
-        [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "武器池命定值")]
-        public int ArmAssignValue { get; set; }
-
         [SugarColumn(IsNullable = false, DefaultValue = "180", ColumnDescription = "角色池剩余多少发五星大保底")]
         public int Role180Surplus { get; set; }
 
@@ -33,8 +27,11 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "角色池剩余多少发十连保底")]
         public int Role10Surplus { get; set; }
 
-        [SugarColumn(IsNullable = false, DefaultValue = "160", ColumnDescription = "武器池剩余多少发五星大保底")]
-        public int Arm160Surplus { get; set; }
+        [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "武器定轨Id，0表示无定轨")]
+        public int ArmAssignId { get; set; }
+
+        [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "武器池命定值")]
+        public int ArmAssignValue { get; set; }
 
         [SugarColumn(IsNullable = false, DefaultValue = "80", ColumnDescription = "武器池剩余多少发五星保底")]
         public int Arm80Surplus { get; set; }
@@ -45,14 +42,8 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "武器池剩余多少发十连保底")]
         public int Arm10Surplus { get; set; }
 
-        [SugarColumn(IsNullable = false, DefaultValue = "180", ColumnDescription = "常驻池剩余多少发五星大保底")]
-        public int Perm180Surplus { get; set; }
-
         [SugarColumn(IsNullable = false, DefaultValue = "90", ColumnDescription = "常驻池剩余多少发五星保底")]
         public int Perm90Surplus { get; set; }
-
-        [SugarColumn(IsNullable = false, DefaultValue = "20", ColumnDescription = "常驻池剩余多少发十连大保底")]
-        public int Perm20Surplus { get; set; }
 
         [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "常驻池剩余多少发十连保底")]
         public int Perm10Surplus { get; set; }

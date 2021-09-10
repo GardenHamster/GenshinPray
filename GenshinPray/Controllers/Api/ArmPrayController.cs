@@ -46,7 +46,6 @@ namespace GenshinPray.Controllers.Api
                 memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
-                prayResult.Surplus180 = memberInfo.Arm160Surplus;
                 prayResult.Surplus90 = memberInfo.Arm80Surplus;
                 return ApiResult.Success(prayResult);
             }
@@ -94,7 +93,6 @@ namespace GenshinPray.Controllers.Api
                 memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
-                prayResult.Surplus180 = memberInfo.Arm160Surplus;
                 prayResult.Surplus90 = memberInfo.Arm80Surplus;
                 return ApiResult.Success(prayResult);
             }
