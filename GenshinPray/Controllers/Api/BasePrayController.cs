@@ -1,10 +1,8 @@
 ﻿using GenshinPray.Exceptions;
 using GenshinPray.Models;
-using GenshinPray.Models.PO;
 using GenshinPray.Service;
-using GenshinPray.Util;
+using GenshinPray.Service.PrayService;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace GenshinPray.Controllers.Api
 {

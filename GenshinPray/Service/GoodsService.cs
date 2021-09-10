@@ -18,19 +18,29 @@ namespace GenshinPray.Service
         }
 
         /// <summary>
+        /// 根据Id获取YSGoodsItem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public YSGoodsItem GetGoodsItemById(int id)
+        {
+            GoodsPO goodsPO = goodsDao.GetById(id);
+            if (goodsPO == null) return null;
+            return ChangeToYSGoodsItem(goodsPO);
+        }
+
+        /// <summary>
         /// 加载蛋池数据到内存
         /// </summary>
         public void LoadYSPrayItem()
         {
             SiteConfig.DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
 
-
             SiteConfig.ArmStar3PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.三星));//三星常驻武器
             SiteConfig.ArmStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.四星));//四星常驻武器
             SiteConfig.ArmStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.五星));//五星常驻武器
             SiteConfig.RoleStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
             SiteConfig.RoleStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
-
 
             YSUpItem PermItem = new YSUpItem();
             List<YSGoodsItem> permStar5AllList = ConcatList(SiteConfig.RoleStar5PermList, SiteConfig.ArmStar5PermList);
@@ -43,7 +53,6 @@ namespace GenshinPray.Service
             PermItem.Star4AllList = permStar4AllList;
             PermItem.Star3AllList = SiteConfig.ArmStar3PermList;
             SiteConfig.DefaultUpItem[YSPondType.常驻] = PermItem;
-
 
             List<GoodsPO> rolePondList = goodsDao.getByPondType(0, (int)YSPondType.角色);
             List<YSGoodsItem> roleItemList = ChangeToYSGoodsItem(rolePondList);
@@ -62,7 +71,6 @@ namespace GenshinPray.Service
             RoleUpItem.Star4AllList = roleStar4AllList;
             RoleUpItem.Star3AllList = SiteConfig.ArmStar3PermList;
             SiteConfig.DefaultUpItem[YSPondType.角色] = RoleUpItem;
-
 
             List<GoodsPO> armPondList = goodsDao.getByPondType(0, (int)YSPondType.武器);
             List<YSGoodsItem> armItemList = ChangeToYSGoodsItem(armPondList);

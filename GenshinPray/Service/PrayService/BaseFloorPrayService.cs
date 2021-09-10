@@ -33,8 +33,8 @@ namespace GenshinPray.Service.PrayService
         /// </summary>
         protected readonly List<YSProbability> Floor10List = new List<YSProbability>()
         {
-            new YSProbability(0.7m, YSProbabilityType.五星物品),
-            new YSProbability(99.3m,YSProbabilityType.四星物品)
+            new YSProbability(0.6m, YSProbabilityType.五星物品),
+            new YSProbability(99.4m,YSProbabilityType.四星物品)
         };
 
 
@@ -81,23 +81,23 @@ namespace GenshinPray.Service.PrayService
 
                 if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
                 {
-                    records[i] = GetActualItem(GetRandomGoodsInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus >= 10)//十连小保底,4星up概率为50%
                 {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor10Surplus == 0 && floor20Surplus < 10)//十连大保底,必出4星up物品
                 {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus >= 90)//90小保底,5星up概率为50%
                 {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
                 if (floor90Surplus == 0 && floor180Surplus < 90)//90大保底,必出5星up物品
                 {
-                    records[i] = GetActualItem(GetRandomGoodsInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
                 }
 
                 bool isUpItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品

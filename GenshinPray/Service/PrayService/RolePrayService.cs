@@ -1,6 +1,8 @@
 ﻿using GenshinPray.Common;
+using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
+using GenshinPray.Type;
 using GenshinPray.Util;
 using System;
 using System.Collections.Generic;
@@ -13,21 +15,21 @@ namespace GenshinPray.Service.PrayService
     {
         protected override YSPrayRecord GetActualItem(YSProbability ysProbability, YSUpItem ySUpItem, int floor180Surplus, int floor20Surplus)
         {
-            if (prayRecord.GoodsItem.GoodsName == "5星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.五星物品)
             {
-                bool isGetUp = floor180Surplus < 90 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? GetRandomGoodsInList(ySUpItem.Star5UpList) : GetRandomGoodsInList(ySUpItem.Star5NonUpList);
+                bool isGetUp = floor180Surplus < 90 ? true : RandomHelper.getRandomBetween(1, 100) <= 50;
+                return isGetUp ? GetRandomInList(ySUpItem.Star5UpList) : GetRandomInList(ySUpItem.Star5NonUpList);
             }
-            if (prayRecord.GoodsItem.GoodsName == "4星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.四星物品)
             {
-                bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? GetRandomGoodsInList(ySUpItem.Star4UpList) : GetRandomGoodsInList(ySUpItem.Star4NonUpList);
+                bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) <= 50;
+                return isGetUp ? GetRandomInList(ySUpItem.Star4UpList) : GetRandomInList(ySUpItem.Star4NonUpList);
             }
-            if (prayRecord.GoodsItem.GoodsName == "3星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.三星物品)
             {
-                return GetRandomGoodsInList(ySUpItem.Star3AllList);
+                return GetRandomInList(ySUpItem.Star3AllList);
             }
-            return prayRecord;
+            throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
         public override YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)

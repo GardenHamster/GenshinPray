@@ -3,7 +3,7 @@ using GenshinPray.Common;
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
-using GenshinPray.Service;
+using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
 using Microsoft.AspNetCore.Mvc;
 using System;

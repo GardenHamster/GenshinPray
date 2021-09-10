@@ -12,14 +12,8 @@ namespace GenshinPray.Models
         /// </summary>
         public YSGoodsItem GoodsItem { get; set; }
 
-        /// <summary>
-        /// 随机区域
-        /// </summary>
-        public int RandomRegion { get; set; }
-
-        public YSPrayRecord(YSGoodsItem goodsItem, int randomRegion)
+        public YSPrayRecord(YSGoodsItem goodsItem)
         {
-            this.RandomRegion = randomRegion;
             this.GoodsItem = goodsItem;
         }
 

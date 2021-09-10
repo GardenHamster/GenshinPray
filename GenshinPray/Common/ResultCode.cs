@@ -27,7 +27,15 @@ namespace GenshinPray.Common
         /// </summary>
         public static readonly int InvalidParameter = 602;
 
+        /// <summary>
+        /// 找不到物品
+        /// </summary>
+        public static readonly int GoodsNotFound = 603;
 
+        /// <summary>
+        /// Api限制
+        /// </summary>
+        public static readonly int ApiLimit = 604;
 
     }
 }

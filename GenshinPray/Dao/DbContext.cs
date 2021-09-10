@@ -24,7 +24,7 @@ namespace GenshinPray.Dao
         /// <returns></returns>
         public virtual T GetById(int id)
         {
-            return Db.Queryable<T>().InSingle(id);
+            return Db.Queryable<T>().Where(o => o.Id == id).First();
         }
 
         /// <summary>

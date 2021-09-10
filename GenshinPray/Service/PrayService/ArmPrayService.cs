@@ -1,4 +1,6 @@
-﻿using GenshinPray.Models;
+﻿using GenshinPray.Dao;
+using GenshinPray.Exceptions;
+using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
@@ -12,27 +14,30 @@ namespace GenshinPray.Service.PrayService
 {
     public class ArmPrayService : BaseAssignPrayService
     {
-        
-        protected override YSPrayRecord GetActualItem(YSProbability ySProbability, YSUpItem ySUpItem, int assignValue, int floor20Surplus)
+        protected override YSPrayRecord GetActualItem(YSProbability ysProbability, YSUpItem ysUpItem, YSGoodsItem assignGoodsItem, int assignValue, int floor20Surplus)
         {
-            if (prayRecord.GoodsItem.GoodsName == "5星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.五星物品)
             {
-                bool isGetUp = floor160Surplus < 80 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? GetRandomGoodsInList(ySUpItem.Star5UpList) : GetRandomGoodsInList(ySUpItem.Star5NonUpList);
+                //当祈愿获取到5星武器时，有75.000%的概率为本期5星UP武器
+                bool isGetAssign = assignGoodsItem != null && assignValue >= 2;
+                bool isGetUp = RandomHelper.getRandomBetween(1, 100) <= 75;
+                if (isGetAssign) return new YSPrayRecord(assignGoodsItem);
+                return isGetUp ? GetRandomInList(ysUpItem.Star5UpList) : GetRandomInList(ysUpItem.Star5NonUpList);
             }
-            if (prayRecord.GoodsItem.GoodsName == "4星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.四星物品)
             {
-                bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) > 50;
-                return isGetUp ? GetRandomGoodsInList(ySUpItem.Star4UpList) : GetRandomGoodsInList(ySUpItem.Star4NonUpList);
+                //当祈愿获取到4星物品时，有75.000%的概率为本期4星UP武器
+                bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) <= 75;
+                return isGetUp ? GetRandomInList(ysUpItem.Star4UpList) : GetRandomInList(ysUpItem.Star4NonUpList);
             }
-            if (prayRecord.GoodsItem.GoodsName == "3星物品")
+            if (ysProbability.ProbabilityType == YSProbabilityType.三星物品)
             {
-                return GetRandomGoodsInList(ySUpItem.Star3AllList);
+                return GetRandomInList(ysUpItem.Star3AllList);
             }
-            return prayRecord;
+            throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
-        public override YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
+        public override YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, YSGoodsItem assignGoodsItem, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int arm160Surplus = memberInfo.Arm160Surplus;
@@ -40,8 +45,8 @@ namespace GenshinPray.Service.PrayService
             int arm80SurplusBefore = memberInfo.Arm80Surplus;
             int arm20Surplus = memberInfo.Arm20Surplus;
             int arm10Surplus = memberInfo.Arm10Surplus;
-
-            YSPrayRecord[] prayRecords = GetPrayRecord(ysUpItem, prayCount, ref arm160Surplus, ref arm80Surplus, ref arm20Surplus, ref arm10Surplus);
+            
+            YSPrayRecord[] prayRecords = GetPrayRecord(ysUpItem, assignGoodsItem, prayCount, ref arm160Surplus, ref arm80Surplus, ref arm20Surplus, ref arm10Surplus);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
             memberInfo.Arm160Surplus = arm160Surplus;

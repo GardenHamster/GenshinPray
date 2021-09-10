@@ -2,7 +2,7 @@
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
-using GenshinPray.Service;
+using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -37,7 +37,8 @@ namespace GenshinPray.Controllers.Api
 
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, prayCount, imgWidth);
 
                 memberInfo.ArmPrayTimes += prayCount;
                 memberService.UpdateMemberInfo(memberInfo);//更新保底信息
@@ -84,7 +85,8 @@ namespace GenshinPray.Controllers.Api
 
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, prayCount, imgWidth);
 
                 memberInfo.ArmPrayTimes += prayCount;
                 memberService.UpdateMemberInfo(memberInfo);//更新保底信息

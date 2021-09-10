@@ -15,15 +15,13 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
-        /// <param name="goodsItemList"></param>
+        /// <param name="probabilityList"></param>
         /// <returns></returns>
-        protected YSPrayRecord GetRandomInList(List<YSProbability> goodsItemList)
+        protected YSProbability GetRandomInList(List<YSProbability> probabilityList)
         {
-            int randomRegion = 0;
-            List<YSRegion> regionList = GetGoodsRegionList(goodsItemList);
-            YSRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
-            YSGoodsItem goodsItem = goodsRegion.GoodsItem;
-            return new YSPrayRecord(goodsItem, randomRegion);
+            List<YSRegion<YSProbability>> regionList = GetRegionList(probabilityList);
+            YSRegion<YSProbability> region = GetRandomInRegion(regionList);
+            return region.Item;
         }
 
         /// <summary>
@@ -31,15 +29,15 @@ namespace GenshinPray.Service.PrayService
         /// </summary>
         /// <param name="probabilityList"></param>
         /// <returns></returns>
-        private List<YSRegion<YSProbabilityType>> GetRegionList(List<YSProbability> probabilityList)
+        private List<YSRegion<YSProbability>> GetRegionList(List<YSProbability> probabilityList)
         {
             int sumRegion = 0;//总区间
-            List<YSRegion<YSProbabilityType>> regionList = new List<YSRegion<YSProbabilityType>>();//区间列表,抽卡时随机获取该区间
+            List<YSRegion<YSProbability>> regionList = new List<YSRegion<YSProbability>>();//区间列表,抽卡时随机获取该区间
             foreach (var item in probabilityList)
             {
                 int startRegion = sumRegion;//开始区间
-                sumRegion = sumRegion + Convert.ToInt32(item.Probability * 1000);
-                regionList.Add(new YSRegion<YSProbabilityType>(goodsItem, startRegion, sumRegion));
+                sumRegion = startRegion + Convert.ToInt32(item.Probability * 10000);//结束区间
+                regionList.Add(new YSRegion<YSProbability>(item, startRegion, sumRegion));
             }
             return regionList;
         }
@@ -48,30 +46,16 @@ namespace GenshinPray.Service.PrayService
         /// 从区间列表中随机出一个区间
         /// </summary>
         /// <param name="regionList"></param>
-        /// <param name="randomRegion"></param>
         /// <returns></returns>
-        private YSProbabilityRegion GetRandomInRegion(List<YSProbability> regionList, ref int randomRegion)
+        private YSRegion<YSProbability> GetRandomInRegion(List<YSRegion<YSProbability>> regionList)
         {
-            randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
-            if (randomRegion == regionList.Last().EndRegion) return regionList.Last();
-            foreach (YSRegion goodsRegion in regionList)
+            int randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
+            foreach (var item in regionList)
             {
-                if (randomRegion >= goodsRegion.StartRegion && randomRegion < goodsRegion.EndRegion) return goodsRegion;
+                if (randomRegion >= item.StartRegion && randomRegion < item.EndRegion) return item;
             }
-            return null;
+            return regionList.Last();
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -82,11 +66,9 @@ namespace GenshinPray.Service.PrayService
         /// <returns></returns>
         protected YSPrayRecord GetRandomInList(List<YSGoodsItem> goodsItemList)
         {
-            int randomRegion = 0;
-            List<YSRegion> regionList = GetGoodsRegionList(goodsItemList);
-            YSRegion goodsRegion = GetRandomInRegion(regionList, ref randomRegion);
-            YSGoodsItem goodsItem = goodsRegion.GoodsItem;
-            return new YSPrayRecord(goodsItem, randomRegion);
+            List<YSRegion<YSGoodsItem>> regionList = GetRegionList(goodsItemList);
+            YSRegion<YSGoodsItem> region = GetRandomInRegion(regionList);
+            return new YSPrayRecord(region.Item);
         }
 
         /// <summary>
@@ -94,37 +76,33 @@ namespace GenshinPray.Service.PrayService
         /// </summary>
         /// <param name="goodsItemList"></param>
         /// <returns></returns>
-        private List<YSRegion> GetRegionList(List<YSGoodsItem> goodsItemList)
+        private List<YSRegion<YSGoodsItem>> GetRegionList(List<YSGoodsItem> goodsItemList)
         {
             int sumRegion = 0;//总区间
-            List<YSRegion> goodsRegionList = new List<YSRegion>();//区间列表,抽卡时随机获取该区间
-            foreach (YSGoodsItem goodsItem in goodsItemList)
+            List<YSRegion<YSGoodsItem>> regionList = new List<YSRegion<YSGoodsItem>>();//区间列表,抽卡时随机获取该区间
+            foreach (var item in goodsItemList)
             {
                 int startRegion = sumRegion;//开始区间
-                sumRegion = sumRegion + Convert.ToInt32(goodsItem.Probability * 1000);
-                goodsRegionList.Add(new YSRegion(goodsItem, startRegion, sumRegion));
+                sumRegion = startRegion + Convert.ToInt32(item.Probability * 10000);//结束区间
+                regionList.Add(new YSRegion<YSGoodsItem>(item, startRegion, sumRegion));
             }
-            return goodsRegionList;
+            return regionList;
         }
 
         /// <summary>
         /// 从区间列表中随机出一个区间
         /// </summary>
         /// <param name="regionList"></param>
-        /// <param name="randomRegion"></param>
         /// <returns></returns>
-        private YSRegion GetRandomInRegion(List<YSRegion> regionList, ref int randomRegion)
+        private YSRegion<YSGoodsItem> GetRandomInRegion(List<YSRegion<YSGoodsItem>> regionList)
         {
-            randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
-            if (randomRegion == regionList.Last().EndRegion) return regionList.Last();
-            foreach (YSRegion goodsRegion in regionList)
+            int randomRegion = RandomHelper.getRandomBetween(0, regionList.Last().EndRegion);
+            foreach (var item in regionList)
             {
-                if (randomRegion >= goodsRegion.StartRegion && randomRegion < goodsRegion.EndRegion) return goodsRegion;
+                if (randomRegion >= item.StartRegion && randomRegion < item.EndRegion) return item;
             }
-            return null;
+            return regionList.Last();
         }
-
-
 
 
 
