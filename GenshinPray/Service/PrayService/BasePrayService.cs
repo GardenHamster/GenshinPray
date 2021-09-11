@@ -7,6 +7,7 @@ using GenshinPray.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 
 namespace GenshinPray.Service.PrayService
@@ -226,6 +227,18 @@ namespace GenshinPray.Service.PrayService
                 GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
                 RareType = Enum.GetName(typeof(YSRareType), m.RareType),
             }).ToList();
+        }
+
+        /// <summary>
+        /// 绘制祈愿结果图片,返回FileInfo对象
+        /// </summary>
+        /// <param name="sortPrayRecords"></param>
+        /// <param name="imgWidth"></param>
+        /// <returns></returns>
+        protected FileInfo DrawPrayImg(YSPrayRecord[] sortPrayRecords, int imgWidth)
+        {
+            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth);
+            return DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
         }
 
     }

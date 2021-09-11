@@ -170,6 +170,20 @@ namespace GenshinPray.Service
             return ySUpItem;
         }
 
+        /// <summary>
+        /// 根据定轨物品id，返回YSUpItem，如果当前Up池中不包含该定轨物品id，返回null
+        /// </summary>
+        /// <param name="ySUpItem"></param>
+        /// <param name="armAssignId"></param>
+        /// <returns></returns>
+        public YSGoodsItem getAssignGoodsItem(YSUpItem ySUpItem, int armAssignId)
+        {
+            if (armAssignId == 0) return null;
+            GoodsPO goodsInfo = goodsDao.GetById(armAssignId);
+            if (goodsInfo == null) return null;
+            if (ySUpItem.Star5UpList.Where(o => o.GoodsID == armAssignId).Count() == 0) return null;
+            return ChangeToYSGoodsItem(goodsInfo);
+        }
 
         /// <summary>
         /// 连接两个集合,返回无重复部分

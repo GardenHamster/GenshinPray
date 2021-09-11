@@ -14,6 +14,7 @@ namespace GenshinPray.Service.PrayService
 {
     public class ArmPrayService : BasePrayService
     {
+
         /// <summary>
         /// 无保底情况下单抽物品概率
         /// </summary>
@@ -63,19 +64,11 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
-                if (memberInfo.Arm10Surplus == 0 && memberInfo.Arm20Surplus >= 10)//当祈愿获取到4星物品时，有75.000%的概率为本期4星UP武器
+                if (memberInfo.Arm10Surplus == 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
-                if (memberInfo.Arm10Surplus == 0 && memberInfo.Arm20Surplus < 10)//如果本次祈愿获取的4星物品非本期4星UP武器，下次祈愿获取的4星物品必定为本期4星UP武器
-                {
-                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
-                }
-                if (memberInfo.Arm80Surplus == 0 && memberInfo.ArmAssignValue < 2)//当祈愿获取到5星武器时，有75.000%的概率为本期5星UP武器
-                {
-                    records[i] = GetActualItem(GetRandomInList(Floor80List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
-                }
-                if (memberInfo.Arm80Surplus == 0 && memberInfo.ArmAssignValue >= 2)//命定值达到满值后，在本祈愿中获得的下一把5星武器必定为当前定轨武器
+                if (memberInfo.Arm80Surplus == 0)//八十发保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor80List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
@@ -86,7 +79,7 @@ namespace GenshinPray.Service.PrayService
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == false)
                 {
                     memberInfo.Arm10Surplus = 10;//十连小保底重置
-                    memberInfo.Arm20Surplus = 10;//十连大保底重置为10
+                    memberInfo.Arm20Surplus = 10;//十连大保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == true)
                 {
@@ -115,9 +108,10 @@ namespace GenshinPray.Service.PrayService
         {
             if (ysProbability.ProbabilityType == YSProbabilityType.五星物品)
             {
-                //当祈愿获取到5星武器时，有75.000%的概率为本期5星UP武器
+                //命定值达到满值后，在本祈愿中获得的下一把5星武器必定为当前定轨武器
                 bool isGetAssign = assignGoodsItem != null && assignValue >= 2;
                 if (isGetAssign) return new YSPrayRecord(assignGoodsItem);
+                //当祈愿获取到5星武器时，有75.000%的概率为本期5星UP武器
                 bool isGetUp = RandomHelper.getRandomBetween(1, 100) <= 75;
                 return isGetUp ? GetRandomInList(ysUpItem.Star5UpList) : GetRandomInList(ysUpItem.Star5NonUpList);
             }
@@ -147,7 +141,7 @@ namespace GenshinPray.Service.PrayService
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
+            ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, arm80SurplusBefore);
@@ -155,7 +149,7 @@ namespace GenshinPray.Service.PrayService
             return ysPrayResult;
         }
 
-
+        
 
 
     }

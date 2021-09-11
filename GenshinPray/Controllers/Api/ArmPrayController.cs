@@ -37,7 +37,7 @@ namespace GenshinPray.Controllers.Api
 
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
+                YSGoodsItem assignGoodsItem = goodsService.getAssignGoodsItem(ySUpItem, memberInfo.ArmAssignId);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, prayCount, imgWidth);
 
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录

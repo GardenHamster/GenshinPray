@@ -1,6 +1,4 @@
-﻿using GenshinPray.Common;
-using GenshinPray.Dao;
-using GenshinPray.Exceptions;
+﻿using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
@@ -8,7 +6,6 @@ using GenshinPray.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GenshinPray.Service.PrayService
 {
@@ -63,19 +60,11 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (memberInfo.Role10Surplus == 0 && memberInfo.Role20Surplus >= 10)//十连小保底,4星up概率为50%
+                if (memberInfo.Role10Surplus == 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (memberInfo.Role10Surplus == 0 && memberInfo.Role20Surplus < 10)//十连大保底,必出4星up物品
-                {
-                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
-                }
-                if (memberInfo.Role90Surplus == 0 && memberInfo.Role180Surplus >= 90)//90小保底,5星up概率为50%
-                {
-                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
-                }
-                if (memberInfo.Role90Surplus == 0 && memberInfo.Role180Surplus < 90)//90大保底,必出5星up物品
+                if (memberInfo.Role90Surplus == 0)//九十发保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
@@ -144,7 +133,7 @@ namespace GenshinPray.Service.PrayService
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
+            ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, role90SurplusBefore);

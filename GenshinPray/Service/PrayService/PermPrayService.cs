@@ -113,7 +113,7 @@ namespace GenshinPray.Service.PrayService
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
+            ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, perm90SurplusBefore);
