@@ -1,4 +1,5 @@
-﻿using GenshinPray.Models;
+﻿using GenshinPray.Dao;
+using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Models.VO;
 using GenshinPray.Type;
@@ -12,6 +13,13 @@ namespace GenshinPray.Service.PrayService
 {
     public abstract class BasePrayService
     {
+        protected MemberDao memberDao;
+
+        public BasePrayService()
+        {
+            this.memberDao = new MemberDao(); ;
+        }
+
         /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
@@ -168,7 +176,15 @@ namespace GenshinPray.Service.PrayService
             ApiPrayResult prayResult = new ApiPrayResult();
             prayResult.Star5Cost = ySPrayResult.Star5Cost;
             prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
-            prayResult.ApiCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
+
+            prayResult.Role180Surplus = ySPrayResult.MemberInfo.Role180Surplus;
+            prayResult.Role90Surplus = ySPrayResult.MemberInfo.Role90Surplus;
+            prayResult.Arm80Surplus = ySPrayResult.MemberInfo.Arm80Surplus;
+            prayResult.ArmAssignValue = ySPrayResult.MemberInfo.ArmAssignValue;
+            prayResult.Perm90Surplus = ySPrayResult.MemberInfo.Perm90Surplus;
+            prayResult.Surplus10 = ySPrayResult.Surplus10;
+
+            prayResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
             prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
             prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
             prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;

@@ -40,13 +40,10 @@ namespace GenshinPray.Controllers.Api
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, prayCount, imgWidth);
 
-                memberInfo.ArmPrayTimes += prayCount;
-                memberService.UpdateMemberInfo(memberInfo);//更新保底信息
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
-                prayResult.Surplus90 = memberInfo.Arm80Surplus;
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
@@ -87,13 +84,10 @@ namespace GenshinPray.Controllers.Api
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, prayCount, imgWidth);
 
-                memberInfo.ArmPrayTimes += prayCount;
-                memberService.UpdateMemberInfo(memberInfo);//更新保底信息
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, authorizePO.Id, memberCode);//添加成员出货记录
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
-                prayResult.Surplus90 = memberInfo.Arm80Surplus;
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)

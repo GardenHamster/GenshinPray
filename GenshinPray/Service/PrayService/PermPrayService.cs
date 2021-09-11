@@ -44,40 +44,39 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 模拟抽卡,获取祈愿记录
         /// </summary>
+        /// <param name="memberInfo"></param>
         /// <param name="ySUpItem"></param>
         /// <param name="prayCount">抽卡次数</param>
-        /// <param name="floor90Surplus">距离90小保底剩余多少抽</param>
-        /// <param name="floor10Surplus">距离4星小保底剩余多少抽</param>
         /// <returns></returns>
-        public virtual YSPrayRecord[] GetPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor90Surplus, ref int floor10Surplus)
+        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, int prayCount)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
             {
-                floor90Surplus--;
-                floor10Surplus--;
+                memberInfo.Perm90Surplus--;
+                memberInfo.Perm10Surplus--;
 
-                if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
+                if (memberInfo.Perm10Surplus > 0 && memberInfo.Perm90Surplus > 0)//无保底情况
                 {
                     records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem);
                 }
-                if (floor10Surplus == 0)//十连保底
+                if (memberInfo.Perm10Surplus == 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem);
                 }
-                if (floor90Surplus == 0)//九十发保底
+                if (memberInfo.Perm90Surplus == 0)//九十发保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星)
                 {
-                    floor10Surplus = 10;//十连保底重置
+                    memberInfo.Perm10Surplus = 10;//十连保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星)
                 {
-                    floor10Surplus = 10;//十连保底重置
-                    floor90Surplus = 90;//九十发保底重置
+                    memberInfo.Perm10Surplus = 10;//十连保底重置
+                    memberInfo.Perm90Surplus = 90;//九十发保底重置
                 }
             }
             return records;
@@ -104,21 +103,21 @@ namespace GenshinPray.Service.PrayService
         public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
-            int perm90Surplus = memberInfo.Perm90Surplus;
             int perm90SurplusBefore = memberInfo.Perm90Surplus;
-            int perm10Surplus = memberInfo.Perm10Surplus;
 
-            YSPrayRecord[] prayRecords = GetPrayRecord(ysUpItem, prayCount, ref perm90Surplus, ref perm10Surplus);
+            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, prayCount);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
-            memberInfo.Perm90Surplus = perm90Surplus;
-            memberInfo.Perm10Surplus = perm10Surplus;
+            memberInfo.PermPrayTimes += prayCount;
             memberInfo.TotalPrayTimes += prayCount;
+            memberDao.Update(memberInfo);//更新保底信息
 
+            ysPrayResult.MemberInfo = memberInfo;
             ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, perm90SurplusBefore);
+            ysPrayResult.Surplus10 = memberInfo.Perm10Surplus;
             return ysPrayResult;
         }
 

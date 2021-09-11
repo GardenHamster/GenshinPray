@@ -15,14 +15,34 @@ namespace GenshinPray.Models
         public int PrayCount { get; set; }
 
         /// <summary>
-        /// 剩余多少抽五星大保底
+        /// 角色池剩余多少抽五星大保底
         /// </summary>
-        public int Surplus180 { get; set; }
+        public int Role180Surplus { get; set; }
 
         /// <summary>
-        /// 剩余多少抽五星小保底
+        /// 角色池剩余多少抽五星小保底
         /// </summary>
-        public int Surplus90 { get; set; }
+        public int Role90Surplus { get; set; }
+
+        /// <summary>
+        /// 武器池剩余多少抽五星保底
+        /// </summary>
+        public int Arm80Surplus { get; set; }
+
+        /// <summary>
+        /// 武器池命定值
+        /// </summary>
+        public int ArmAssignValue { get; set; }
+
+        /// <summary>
+        /// 常驻池剩余多少抽五星保底
+        /// </summary>
+        public int Perm90Surplus { get; set; }
+
+        /// <summary>
+        /// 当前祈愿池剩余多少抽十连保底
+        /// </summary>
+        public int Surplus10 { get; set; }
 
         /// <summary>
         /// 获得5星物品时累计消耗多少抽
@@ -32,7 +52,7 @@ namespace GenshinPray.Models
         /// <summary>
         /// api当天剩余调用次数
         /// </summary>
-        public int ApiCallSurplus { get; set; }
+        public int ApiDailyCallSurplus { get; set; }
 
         /// <summary>
         /// 图片路径

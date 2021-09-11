@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Common;
+using GenshinPray.Dao;
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
@@ -13,7 +14,6 @@ namespace GenshinPray.Service.PrayService
 {
     public class RolePrayService : BasePrayService
     {
-
         /// <summary>
         /// 无保底情况下单抽物品概率
         /// </summary>
@@ -45,69 +45,66 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 模拟抽卡,获取祈愿记录
         /// </summary>
+        /// <param name="memberInfo"></param>
         /// <param name="ySUpItem"></param>
         /// <param name="prayCount">抽卡次数</param>
-        /// <param name="floor180Surplus">距离180大保底剩余多少抽</param>
-        /// <param name="floor90Surplus">距离90小保底剩余多少抽</param>
-        /// <param name="floor20Surplus">距离4星大保底剩余多少抽</param>
-        /// <param name="floor10Surplus">距离4星小保底剩余多少抽</param>
         /// <returns></returns>
-        public virtual YSPrayRecord[] GetPrayRecord(YSUpItem ySUpItem, int prayCount, ref int floor180Surplus, ref int floor90Surplus, ref int floor20Surplus, ref int floor10Surplus)
+        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, int prayCount)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
             {
-                floor180Surplus--;
-                floor90Surplus--;
-                floor20Surplus--;
-                floor10Surplus--;
+                memberInfo.Role180Surplus--;
+                memberInfo.Role90Surplus--;
+                memberInfo.Role20Surplus--;
+                memberInfo.Role10Surplus--;
 
-                if (floor10Surplus > 0 && floor90Surplus > 0)//无保底情况
+                if (memberInfo.Role10Surplus > 0 && memberInfo.Role90Surplus > 0)//无保底情况
                 {
-                    records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (floor10Surplus == 0 && floor20Surplus >= 10)//十连小保底,4星up概率为50%
+                if (memberInfo.Role10Surplus == 0 && memberInfo.Role20Surplus >= 10)//十连小保底,4星up概率为50%
                 {
-                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (floor10Surplus == 0 && floor20Surplus < 10)//十连大保底,必出4星up物品
+                if (memberInfo.Role10Surplus == 0 && memberInfo.Role20Surplus < 10)//十连大保底,必出4星up物品
                 {
-                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (floor90Surplus == 0 && floor180Surplus >= 90)//90小保底,5星up概率为50%
+                if (memberInfo.Role90Surplus == 0 && memberInfo.Role180Surplus >= 90)//90小保底,5星up概率为50%
                 {
-                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                if (floor90Surplus == 0 && floor180Surplus < 90)//90大保底,必出5星up物品
+                if (memberInfo.Role90Surplus == 0 && memberInfo.Role180Surplus < 90)//90大保底,必出5星up物品
                 {
-                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, floor180Surplus, floor20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
 
                 bool isUpItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == false)
                 {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 10;//十连大保底重置为10
+                    memberInfo.Role10Surplus = 10;//十连小保底重置
+                    memberInfo.Role20Surplus = 10;//十连大保底重置为10
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == true)
                 {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
+                    memberInfo.Role10Surplus = 10;//十连小保底重置
+                    memberInfo.Role20Surplus = 20;//十连大保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isUpItem == false)
                 {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
-                    floor90Surplus = 90;//九十发小保底重置
-                    floor180Surplus = 90;//九十发大保底重置为90
+                    memberInfo.Role10Surplus = 10;//十连小保底重置
+                    memberInfo.Role20Surplus = 20;//十连大保底重置
+                    memberInfo.Role90Surplus = 90;//九十发小保底重置
+                    memberInfo.Role180Surplus = 90;//九十发大保底重置为90
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isUpItem == true)
                 {
-                    floor10Surplus = 10;//十连小保底重置
-                    floor20Surplus = 20;//十连大保底重置
-                    floor90Surplus = 90;//九十发小保底重置
-                    floor180Surplus = 180;//九十发大保底重置
+                    memberInfo.Role10Surplus = 10;//十连小保底重置
+                    memberInfo.Role20Surplus = 20;//十连大保底重置
+                    memberInfo.Role90Surplus = 90;//九十发小保底重置
+                    memberInfo.Role180Surplus = 180;//九十发大保底重置
                 }
             }
             return records;
@@ -117,11 +114,13 @@ namespace GenshinPray.Service.PrayService
         {
             if (ysProbability.ProbabilityType == YSProbabilityType.五星物品)
             {
+                //当祈愿获取到5星角色时，有50.000%的概率为本期5星UP角色
                 bool isGetUp = floor180Surplus < 90 ? true : RandomHelper.getRandomBetween(1, 100) <= 50;
                 return isGetUp ? GetRandomInList(ySUpItem.Star5UpList) : GetRandomInList(ySUpItem.Star5NonUpList);
             }
             if (ysProbability.ProbabilityType == YSProbabilityType.四星物品)
             {
+                //当祈愿获取到4星物品时，有50.000%的概率为本期4星UP角色
                 bool isGetUp = floor20Surplus < 10 ? true : RandomHelper.getRandomBetween(1, 100) <= 50;
                 return isGetUp ? GetRandomInList(ySUpItem.Star4UpList) : GetRandomInList(ySUpItem.Star4NonUpList);
             }
@@ -135,25 +134,21 @@ namespace GenshinPray.Service.PrayService
         public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
-            int role180Surplus = memberInfo.Role180Surplus;
-            int role90Surplus = memberInfo.Role90Surplus;
             int role90SurplusBefore = memberInfo.Role90Surplus;
-            int role20Surplus = memberInfo.Role20Surplus;
-            int role10Surplus = memberInfo.Role10Surplus;
 
-            YSPrayRecord[] prayRecords = GetPrayRecord(ysUpItem, prayCount, ref role180Surplus, ref role90Surplus, ref role20Surplus, ref role10Surplus);
+            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, prayCount);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
-            memberInfo.Role180Surplus = role180Surplus;
-            memberInfo.Role90Surplus = role90Surplus;
-            memberInfo.Role20Surplus = role20Surplus;
-            memberInfo.Role10Surplus = role10Surplus;
+            memberInfo.RolePrayTimes += prayCount;
             memberInfo.TotalPrayTimes += prayCount;
+            memberDao.Update(memberInfo);//更新保底信息
 
+            ysPrayResult.MemberInfo = memberInfo;
             ysPrayResult.ParyFileInfo = prayCount == 1 ? DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth) : DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, role90SurplusBefore);
+            ysPrayResult.Surplus10 = memberInfo.Role10Surplus;
             return ysPrayResult;
         }
 
