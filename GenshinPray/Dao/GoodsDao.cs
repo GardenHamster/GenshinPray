@@ -24,6 +24,11 @@ namespace GenshinPray.Dao
             return Db.Queryable<GoodsPO>().Where(o => o.GoodsType == goodsType && o.RareType == rareType && o.IsPerm == true && o.IsDisable == false).ToList();
         }
 
+        public GoodsPO getByGoodsName(string goodsName)
+        {
+            return Db.Queryable<GoodsPO>().Where(o => o.GoodsName == goodsName && o.IsDisable == false).First();
+        }
+
 
     }
 }

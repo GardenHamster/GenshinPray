@@ -37,5 +37,12 @@ namespace GenshinPray.Common
         /// </summary>
         public static readonly int ApiLimit = 604;
 
+        /// <summary>
+        /// 当前up池中不存在待定轨的物品
+        /// </summary>
+        public static readonly int AssignNotFound = 605;
+
+        
+
     }
 }

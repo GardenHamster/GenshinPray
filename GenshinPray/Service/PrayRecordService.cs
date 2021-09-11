@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Service
 {
-    public class PrayRecordService
+    public class PrayRecordService : BaseService
     {
         private PrayRecordDao prayRecordDao;
 

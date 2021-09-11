@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GenshinPray.Service
 {
-    public class GoodsService
+    public class GoodsService : BaseService
     {
         private GoodsDao goodsDao;
 
@@ -28,6 +28,27 @@ namespace GenshinPray.Service
             if (goodsPO == null) return null;
             return ChangeToYSGoodsItem(goodsPO);
         }
+
+        /// <summary>
+        /// 根据物品id获取GoodsPO
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public GoodsPO GetGoodsById(int id)
+        {
+            return goodsDao.GetById(id);
+        }
+
+        /// <summary>
+        /// 根据物品名称获取GoodsPO
+        /// </summary>
+        /// <param name="goodsName"></param>
+        /// <returns></returns>
+        public GoodsPO GetGoodsByName(string goodsName)
+        {
+            return goodsDao.getByGoodsName(goodsName);
+        }
+
 
         /// <summary>
         /// 加载蛋池数据到内存

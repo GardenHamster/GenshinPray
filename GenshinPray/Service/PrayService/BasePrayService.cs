@@ -1,7 +1,6 @@
 ﻿using GenshinPray.Dao;
 using GenshinPray.Models;
 using GenshinPray.Models.PO;
-using GenshinPray.Models.VO;
 using GenshinPray.Type;
 using GenshinPray.Util;
 using System;
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace GenshinPray.Service.PrayService
 {
-    public abstract class BasePrayService
+    public abstract class BasePrayService : BaseService
     {
         protected MemberDao memberDao;
 
@@ -66,8 +65,6 @@ namespace GenshinPray.Service.PrayService
             return regionList.Last();
         }
 
-
-
         /// <summary>
         /// 从物品列表中随机出一个物品
         /// </summary>
@@ -113,8 +110,6 @@ namespace GenshinPray.Service.PrayService
             return regionList.Last();
         }
 
-
-
         /// <summary>
         /// 判断一个项目是否up项目
         /// </summary>
@@ -144,7 +139,7 @@ namespace GenshinPray.Service.PrayService
 
 
         /// <summary>
-        /// 获取90发内,玩家获得5星角色的累计祈愿次数,0代表还未获得S
+        /// 获取90发内,成员获得5星角色的累计祈愿次数,0代表还未获得S
         /// </summary>
         /// <param name="YSPrayRecords"></param>
         /// <param name="floor90Surplus"></param>
@@ -195,38 +190,6 @@ namespace GenshinPray.Service.PrayService
             prayResult.Star5Up = ChangeToGoodsVO(ySUpItem.Star5UpList);
             prayResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
             return prayResult;
-        }
-
-        /// <summary>
-        /// 将YSPrayRecord转换为GoodsVO
-        /// </summary>
-        /// <param name="prayRecords"></param>
-        /// <returns></returns>
-        public List<GoodsVO> ChangeToGoodsVO(YSPrayRecord[] prayRecords)
-        {
-            return prayRecords.Select(m => new GoodsVO()
-            {
-                GoodsName = m.GoodsItem.GoodsName,
-                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsItem.GoodsType),
-                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsItem.GoodsSubType),
-                RareType = Enum.GetName(typeof(YSRareType), m.GoodsItem.RareType),
-            }).ToList();
-        }
-
-        /// <summary>
-        /// 将YSPrayRecord转换为GoodsVO
-        /// </summary>
-        /// <param name="goodsItems"></param>
-        /// <returns></returns>
-        public List<GoodsVO> ChangeToGoodsVO(List<YSGoodsItem> goodsItems)
-        {
-            return goodsItems.Select(m => new GoodsVO()
-            {
-                GoodsName = m.GoodsName,
-                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsType),
-                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
-                RareType = Enum.GetName(typeof(YSRareType), m.RareType),
-            }).ToList();
         }
 
         /// <summary>

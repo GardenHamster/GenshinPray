@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GenshinPray.Controllers.Api
 {
-    public abstract class BasePrayController<T> : ControllerBase where T : BasePrayService, new()
+    public abstract class BasePrayController<T> : BaseController where T : BasePrayService, new()
     {
         protected T basePrayService;
         protected AuthorizeService authorizeService;
@@ -29,10 +29,9 @@ namespace GenshinPray.Controllers.Api
             this.memberGoodsService = new MemberGoodsService();
         }
 
-        protected bool checkImgWidth(int imgWidth)
+        protected void checkImgWidth(int imgWidth)
         {
             if (imgWidth < 0 || imgWidth > 1920) throw new ParamException("图片宽度只能设定在0~1920之间");
-            return true;
         }
 
 

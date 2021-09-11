@@ -30,9 +30,24 @@ namespace GenshinPray.Models
             this.Data = data;
         }
 
+        public static ApiResult Success()
+        {
+            return new ApiResult(ResultCode.Success, "ok", null);
+        }
+
+        public static ApiResult Success(string message)
+        {
+            return new ApiResult(ResultCode.Success, message, null);
+        }
+
         public static ApiResult Success(object data)
         {
             return new ApiResult(ResultCode.Success, "ok", data);
+        }
+
+        public static ApiResult Success(string message, object data)
+        {
+            return new ApiResult(ResultCode.Success, message, data);
         }
 
         public static ApiResult Error(BaseException ex)
@@ -82,6 +97,41 @@ namespace GenshinPray.Models
                 return new ApiResult(ResultCode.ApiMaximum, "今日api调用上限");
             }
         }
+
+        /// <summary>
+        /// 找不到相关物品
+        /// </summary>
+        public static ApiResult GoodsNotFound
+        {
+            get
+            {
+                return new ApiResult(ResultCode.GoodsNotFound, "找不到相关物品");
+            }
+        }
+
+        /// <summary>
+        /// 找不到相关物品
+        /// </summary>
+        public static ApiResult AssignNotFound
+        {
+            get
+            {
+                return new ApiResult(ResultCode.AssignNotFound, "定轨的物品不在当前up池中");
+            }
+        }
+
+        /// <summary>
+        /// 参数错误
+        /// </summary>
+        public static ApiResult InvalidParameter
+        {
+            get
+            {
+                return new ApiResult(ResultCode.InvalidParameter, "参数错误");
+            }
+        }
+
+        
 
 
 

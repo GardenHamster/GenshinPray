@@ -19,6 +19,9 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, Length = 50, ColumnDescription = "物品名称")]
         public string GoodsName { get; set; }
 
+        [SugarColumn(IsNullable = false, ColumnDescription = "来源蛋池")]
+        public YSPondType PondType { get; set; }
+
         [SugarColumn(IsNullable = false, ColumnDescription = "物品类型")]
         public YSGoodsType GoodsType { get; set; }
 
