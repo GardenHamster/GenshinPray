@@ -10,7 +10,7 @@ namespace GenshinPray.Models.PO
     [SugarTable("pond_goods")]
     public class PondGoodsPO : BasePO
     {
-        [SugarColumn(IsNullable = false, ColumnDescription = "授权码ID")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "授权码ID，0表示admin配置的默认蛋池，非0时表示该授权码的自定义蛋池")]
         public int AuthId { get; set; }
 
         [SugarColumn(IsNullable = false, ColumnDescription = "蛋池类型")]
