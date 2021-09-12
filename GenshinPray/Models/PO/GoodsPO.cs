@@ -28,7 +28,7 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, ColumnDescription = "添加日期")]
         public DateTime CreateDate { get; set; }
 
-        [SugarColumn(IsNullable = false, ColumnDataType = "tinyint", ColumnDescription = "是否被禁用")]
+        [SugarColumn(IsNullable = false, ColumnDataType = "tinyint", ColumnDescription = "是否被禁用，缺少相关素材时请将此值设为1")]
         public bool IsDisable { get; set; }
 
         public GoodsPO() { }
