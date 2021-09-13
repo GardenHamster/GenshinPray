@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[5.0.9, )"
             },
+            "SqlSugar.IOC": {
+              "target": "Package",
+              "version": "[1.7.0, )"
+            },
             "SqlSugarCore": {
               "target": "Package",
               "version": "[5.0.3.8, )"

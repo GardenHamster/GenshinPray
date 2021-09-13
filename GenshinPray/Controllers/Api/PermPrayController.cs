@@ -6,6 +6,7 @@ using GenshinPray.Models.PO;
 using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar.IOC;
 using System;
 
 namespace GenshinPray.Controllers.Api
@@ -33,27 +34,29 @@ namespace GenshinPray.Controllers.Api
 
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
+                DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = SiteConfig.DefaultUpItem[YSPondType.常驻];
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
-
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.常驻, authorizePO.Id, memberCode);//添加成员出货记录
+                DbScoped.SugarScope.CommitTran();
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
             {
+                DbScoped.SugarScope.RollbackTran();
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
                 //LogHelper.LogError(ex);
+                DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }
         }
@@ -77,27 +80,29 @@ namespace GenshinPray.Controllers.Api
 
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
+                DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = SiteConfig.DefaultUpItem[YSPondType.常驻];
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
-
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.常驻, authorizePO.Id, memberCode);//添加成员出货记录
+                DbScoped.SugarScope.CommitTran();
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
             {
+                DbScoped.SugarScope.RollbackTran();
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
                 //LogHelper.LogError(ex);
+                DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }
         }

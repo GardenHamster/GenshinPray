@@ -1,20 +1,14 @@
 ﻿using GenshinPray.Models.PO;
 using SqlSugar;
+using SqlSugar.IOC;
 
 namespace GenshinPray.Dao
 {
     public class DbContext<T> where T : BasePO, new()
     {
-        protected readonly DBClient DBClient;
-
-        public DbContext()
+        protected SqlSugarScope Db
         {
-            DBClient = new DBClient();
-        }
-
-        protected SqlSugarClient Db
-        {
-            get { return DBClient.SqlSugarClient; }
+            get { return DbScoped.SugarScope; }
         }
 
         /// <summary>

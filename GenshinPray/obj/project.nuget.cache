@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "u6Vqe8BD8ZwOFwnjO1wtSK366/eomCtteUt2NQUQF67zTUZxDk7SGCk/kuGfZMu8rc7VYBOh8nILPRjhutj/uA==",
+  "dgSpecHash": "xtSz4qWPcFAYATnzjeUNbVWcHlQdvWpgVfBtVFudEpuWPTrhmgPOOa3lhkAklwJf1QBFBQ49Estm9aaBZ0NqaQ==",
   "success": true,
   "projectFilePath": "D:\\project\\GenshinPray\\GenshinPray\\GenshinPray.csproj",
   "expectedPackageFiles": [
@@ -17,6 +17,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.data.sqlite\\2.2.4\\microsoft.data.sqlite.2.2.4.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.data.sqlite.core\\2.2.4\\microsoft.data.sqlite.core.2.2.4.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.identity.client\\4.21.1\\microsoft.identity.client.4.21.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.8.0\\microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.identitymodel.logging\\6.8.0\\microsoft.identitymodel.logging.6.8.0.nupkg.sha512",
@@ -56,6 +57,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3.osx\\1.1.12\\sqlitepclraw.lib.e_sqlite3.osx.1.1.12.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3.v110_xp\\1.1.12\\sqlitepclraw.lib.e_sqlite3.v110_xp.1.1.12.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3.netstandard11\\1.1.12\\sqlitepclraw.provider.e_sqlite3.netstandard11.1.1.12.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\sqlsugar.ioc\\1.7.0\\sqlsugar.ioc.1.7.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlsugarcore\\5.0.3.8\\sqlsugarcore.5.0.3.8.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlsugarcore.dm\\1.0.0\\sqlsugarcore.dm.1.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\sqlsugarcore.kdbndp\\1.0.0\\sqlsugarcore.kdbndp.1.0.0.nupkg.sha512",
@@ -119,6 +121,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.interopservices\\4.3.0\\system.runtime.interopservices.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.interopservices.runtimeinformation\\4.3.0\\system.runtime.interopservices.runtimeinformation.4.3.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.loader\\4.3.0\\system.runtime.loader.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.numerics\\4.3.0\\system.runtime.numerics.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.serialization.formatters\\4.3.0\\system.runtime.serialization.formatters.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.serialization.primitives\\4.3.0\\system.runtime.serialization.primitives.4.3.0.nupkg.sha512",

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SqlSugar.IOC;
 using System;
 using System.IO;
 using System.Reflection;
@@ -33,6 +34,12 @@ namespace GenshinPray
             Console.WriteLine($"读取配置文件...");
             loadSiteConfig();
             Console.WriteLine($"初始化数据库...");
+            services.AddSqlSugar(new IocConfig()//注入Sqlsuger
+            {
+                DbType = IocDbType.MySql,
+                ConnectionString = SiteConfig.ConnectionString,
+                IsAutoCloseConnection = true//自动释放
+            });
             new DBClient().CreateDB();
             Console.WriteLine($"数据库初始化完毕...");
             services.AddControllers();
