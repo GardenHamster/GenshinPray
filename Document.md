@@ -6,7 +6,7 @@
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
 ## 枚举
-- 数据表中如GoodsType等值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
+- 数据表中如字段名为 *Type 等字段值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
 
 ## 状态码
 - 所有接口返回的数据都包含一个 `code` 字段的状态码, 分别代表不同的响应状态. 详细请参考[ResultCode.cs](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Common/ResultCode.cs)
@@ -32,7 +32,7 @@
 | ------------- | ---------------------------- | ----- | --------------------- |
 | authorzation  | 授权码，放在Header中          | 是    |                       |  
 | memberCode    | 成员编号                      | 是    |                       |    
-| imgWidth      | 生成图片宽度,单位p            | 否     | 1920                  |
+| imgWidth      | 生成图片宽度,单位px           | 否     | 1920                  |
 | toBase64      | 是否返回base64字符串          | 否     | false                |
 
 #### 响应
@@ -96,7 +96,7 @@
 - 如果默认或自定义蛋池中不包含目标武器，将视为定轨失败。
 - 如果祈愿时已定轨武器但定轨目标不在当前蛋池中，将视为未定轨处理
 - 在后台修改自定义蛋池时，将会清空定轨目标级命定值
-- 
+
 | 请求类型 | 请求地址                        |  说明                         |
 | ------ | -------------------------------- | ---------------------------- |
 | Post   | /api/PrayInfo/SetMemberAssign    | 武器定轨                      | 
