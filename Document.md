@@ -3,6 +3,7 @@
 ## 数据库
 - 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据[initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
 - 表和字段说明请参考数据表中的[注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
+- 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
 ## 枚举
 - 数据表中如GoodsType等值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
@@ -15,9 +16,6 @@
 
 
 ## 祈愿接口
-
-### 十连祈愿
-
 | 请求类型 | 请求地址                     |  说明                        |
 | ------ | ---------------------------- | ---------------------------- |
 | Get    | /api/RolePray/PrayOne        | 角色池单抽                    |    
@@ -39,9 +37,9 @@
 
 ```json5
 {
-    "code": 0,
-    "message": "ok",
-    "data": {
+    "code": 0,                            //状态码
+    "message": "ok",                      //处理结果
+    "data": {                             
         "prayCount": 10,                  //祈愿次数     
         "role180Surplus": 10,             //角色池剩余多少抽大保底
         "role90Surplus": 10,              //角色池剩余多少抽保底
@@ -92,8 +90,60 @@
 }
 ```
 
+## 武器定轨
+- 如果默认或自定义蛋池中不包含目标武器，将视为定轨失败。
+- 如果祈愿时已定轨武器但定轨目标不在当前蛋池中，将视为未定轨处理
+- 在后台修改自定义蛋池时，将会清空定轨目标级命定值
+- 
+| 请求类型 | 请求地址                        |  说明                         |
+| ------ | -------------------------------- | ---------------------------- |
+| Post   | /api/PrayInfo/SetMemberAssign    | 武器定轨                      | 
+
+#### 参数
+| 键            | 说明                          | 必须  | 默认                  |
+| ------------- | ---------------------------- | ----- | --------------------- |
+| memberCode    | 成员编号                      | 是    |                       |    
+| goodsName     | 武器名称                      | 是    |                       |
+
+#### 响应
+
+```json5
+{
+    "code": 0,
+    "message": "ok",
+    "data": null
+}
+```
 
 
+## 查询定轨
+
+| 请求类型 | 请求地址                        |  说明                         |
+| ------ | -------------------------------- | ---------------------------- |
+| Get    | /api/PrayInfo/GetMemberAssign    | 查询定轨                      | 
+
+#### 参数
+| 键            | 说明                          | 必须  | 默认                  |
+| ------------- | ---------------------------- | ----- | --------------------- |
+| memberCode    | 成员编号                      | 是    |                       |
+
+#### 响应
+
+```json5
+{
+    "code": 0,
+    "message": "ok",
+    "data": {                               //值为null时表示未找到定轨信息                               
+        "goodsName": "飞雷之弦振",           //物品名称
+        "goodsType": "武器",                //物品类型，武器/角色
+        "goodsSubType": "弓",               //物品子类型
+        "rareType": "五星",                 //稀有类型
+        "assignValue": 0                    //命定值
+    }
+}
+```
+
+## 查询蛋池
 
 
 
