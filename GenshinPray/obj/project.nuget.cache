@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xtSz4qWPcFAYATnzjeUNbVWcHlQdvWpgVfBtVFudEpuWPTrhmgPOOa3lhkAklwJf1QBFBQ49Estm9aaBZ0NqaQ==",
+  "dgSpecHash": "+eoDq/XYPz3kHSbQ1Rd0TsUln8TZdE5i1SWgpQgju0ooapyuaTimFjP6yIdthH5CAS8CTCO2v3qCjGt+FAz9eg==",
   "success": true,
   "projectFilePath": "D:\\project\\GenshinPray\\GenshinPray\\GenshinPray.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\k4os.compression.lz4\\1.1.11\\k4os.compression.lz4.1.1.11.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\k4os.compression.lz4.streams\\1.1.11\\k4os.compression.lz4.streams.1.1.11.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\log4net\\2.0.12\\log4net.2.0.12.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.9\\microsoft.aspnetcore.authentication.jwtbearer.5.0.9.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.1\\microsoft.data.sqlclient.2.1.1.nupkg.sha512",

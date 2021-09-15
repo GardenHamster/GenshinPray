@@ -63,6 +63,10 @@
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[5.0.2, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
             }
           },
           "imports": [

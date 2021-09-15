@@ -5,6 +5,7 @@ using GenshinPray.Models;
 using GenshinPray.Models.PO;
 using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
+using GenshinPray.Util;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar.IOC;
 using System;
@@ -30,9 +31,9 @@ namespace GenshinPray.Controllers.Api
             {
                 int prayCount = 1;
                 checkNullParam(memberCode);
-                checkImgWidth(imgWidth);
+                CheckImgWidth(imgWidth);
 
-                var authorzation = HttpContext.Request.Headers["authorzation"];
+                var authorzation = GetAuthCode();
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
@@ -51,11 +52,12 @@ namespace GenshinPray.Controllers.Api
             catch (BaseException ex)
             {
                 DbScoped.SugarScope.RollbackTran();
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，toBase64：{toBase64}，imgWidth：{imgWidth}");
                 DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }
@@ -76,9 +78,9 @@ namespace GenshinPray.Controllers.Api
             {
                 int prayCount = 10;
                 checkNullParam(memberCode);
-                checkImgWidth(imgWidth);
+                CheckImgWidth(imgWidth);
 
-                var authorzation = HttpContext.Request.Headers["authorzation"];
+                var authorzation = GetAuthCode();
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
@@ -97,11 +99,12 @@ namespace GenshinPray.Controllers.Api
             catch (BaseException ex)
             {
                 DbScoped.SugarScope.RollbackTran();
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，toBase64：{toBase64}，imgWidth：{imgWidth}");
                 DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }

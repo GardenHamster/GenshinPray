@@ -2,6 +2,7 @@ using GenshinPray.Attribute;
 using GenshinPray.Common;
 using GenshinPray.Dao;
 using GenshinPray.Service;
+using GenshinPray.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,9 +32,11 @@ namespace GenshinPray
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine($"读取配置文件...");
             loadSiteConfig();
-            Console.WriteLine($"初始化数据库...");
+
+            LogHelper.ConfigureLog();//log4net
+            LogHelper.Info($"读取配置文件...");
+            LogHelper.Info($"初始化数据库...");
             services.AddSqlSugar(new IocConfig()//注入Sqlsuger
             {
                 DbType = IocDbType.MySql,
@@ -41,7 +44,8 @@ namespace GenshinPray
                 IsAutoCloseConnection = true//自动释放
             });
             new DBClient().CreateDB();
-            Console.WriteLine($"数据库初始化完毕...");
+            LogHelper.Info($"数据库初始化完毕...");
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

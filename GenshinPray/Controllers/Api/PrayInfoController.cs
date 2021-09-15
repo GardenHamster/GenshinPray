@@ -69,11 +69,12 @@ namespace GenshinPray.Controllers.Api
             }
             catch (BaseException ex)
             {
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex);
                 return ApiResult.ServerError;
             }
         }
@@ -128,11 +129,12 @@ namespace GenshinPray.Controllers.Api
             }
             catch (BaseException ex)
             {
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex);
                 return ApiResult.ServerError;
             }
         }
@@ -151,11 +153,12 @@ namespace GenshinPray.Controllers.Api
             }
             catch (BaseException ex)
             {
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex);
                 return ApiResult.ServerError;
             }
         }
@@ -184,11 +187,12 @@ namespace GenshinPray.Controllers.Api
             }
             catch (BaseException ex)
             {
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex);
                 return ApiResult.ServerError;
             }
         }
