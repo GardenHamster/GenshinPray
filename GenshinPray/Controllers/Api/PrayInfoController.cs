@@ -4,12 +4,14 @@ using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
+using GenshinPray.Models.VO;
 using GenshinPray.Service;
 using GenshinPray.Type;
 using GenshinPray.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GenshinPray.Controllers.Api
@@ -47,7 +49,7 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 YSUpItem armUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
                 YSUpItem roleUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSUpItem permUpItem = SiteConfig.DefaultUpItem[YSPondType.常驻];
+                YSUpItem permUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
                 return ApiResult.Success(new
                 {
                     arm = new
@@ -140,16 +142,21 @@ namespace GenshinPray.Controllers.Api
         }
 
         /// <summary>
-        /// 获取群内抽卡统计排行
+        /// 获取群内欧气排行
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public ApiResult GetRanking()
+        public ApiResult GetLuckRanking()
         {
             try
             {
-                return ApiResult.Error("coding");
+                int top = 20;
+                int days = 15;
+                var authorzation = HttpContext.Request.Headers["authorzation"];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                LuckRankingVO luckRankingVO = memberGoodsService.getLuckRanking(authorizePO.Id, days, top);
+                return ApiResult.Success(luckRankingVO);
             }
             catch (BaseException ex)
             {
@@ -226,18 +233,15 @@ namespace GenshinPray.Controllers.Api
             }
             catch (BaseException ex)
             {
+                LogHelper.Info(ex);
                 return ApiResult.Error(ex);
             }
             catch (Exception ex)
             {
-                //LogHelper.LogError(ex);
+                LogHelper.Error(ex);
                 return ApiResult.ServerError;
             }
         }
-
-
-
-
 
 
     }

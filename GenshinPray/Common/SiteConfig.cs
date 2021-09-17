@@ -45,34 +45,9 @@ namespace GenshinPray.Common
         public static string PrayMaterialSavePath = "";
 
         /// <summary>
-        /// 5星角色常驻列表
+        /// 排行统计缓存时间(分钟)
         /// </summary>
-        public static List<YSGoodsItem> RoleStar5PermList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 4星角色常驻列表
-        /// </summary>
-        public static List<YSGoodsItem> RoleStar4PermList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 5星武器常驻列表
-        /// </summary>
-        public static List<YSGoodsItem> ArmStar5PermList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 4星武器常驻列表
-        /// </summary>
-        public static List<YSGoodsItem> ArmStar4PermList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 3星武器常驻列表
-        /// </summary>
-        public static List<YSGoodsItem> ArmStar3PermList = new List<YSGoodsItem>();
-
-        /// <summary>
-        /// 默认UP
-        /// </summary>
-        public static Dictionary<YSPondType, YSUpItem> DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
+        public static int RankingCacheMinutes = 5;
 
     }
 }

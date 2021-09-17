@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[5.0.9, )"
             },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.3.3, )"
+            },
             "SqlSugar.IOC": {
               "target": "Package",
               "version": "[1.7.0, )"

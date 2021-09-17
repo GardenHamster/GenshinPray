@@ -18,6 +18,7 @@
     <PackageReference Include="JWT" Version="8.2.3" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="SqlSugar.IOC" Version="1.7.0" />
     <PackageReference Include="SqlSugarCore" Version="5.0.3.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
