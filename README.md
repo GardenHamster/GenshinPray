@@ -18,11 +18,11 @@
 - [x] 武器祈愿
 - [x] 常驻祈愿
 - [x] 武器定轨功能
-- [ ] 自定义卡池
+- [x] 自定义卡池
 - [x] 自定义图片大小，返回base64
-- [ ] 图片上传到云盘，返回网络地址
-- [ ] 统计群成员祈愿信息
-- [ ] 统计群成员欧气排行
+- [x] 图片上传到云盘，返回网络地址
+- [x] 获取群成员祈愿信息
+- [x] 统计群成员欧气排行
 - [x] 接口授权，根据授权码限制每日调用次数
 - [ ] 定时清理历史图片
 - [ ] 重复获取角色时，展示相应的转化素材和转化效果
@@ -33,8 +33,8 @@
 ## 其他
 - 目前缺少的素材有：天空之翼、和璞鸢，风鹰剑。如果有解包素材的大佬请务必发issuse联系我...
 - 目前合成出来的图片中光效会比实际游戏画面中的暗一些，这是由于我使用背景橡皮擦擦除背景后导致的，还请各位PS大佬赐教...
-- 主要的抽卡逻辑写在[Service/PrayService](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Service/PrayService)，如果有逻辑上的问题还请大佬指正...
-- 有更好的想法或者建议欢迎在issuse中提出来...
+- 目前主要的祈愿逻辑有[角色祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/RolePrayService.cs)，[武器祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/ArmPrayService.cs)，[常驻祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/PermPrayService.cs)，如果有逻辑上的问题还请大佬指正...
+- 如果有更好的想法或者建议欢迎在issuse中提出来...
 
 ## 效果图
 ![20210822022412](https://user-images.githubusercontent.com/89188316/130333062-ef0a7f35-72c1-44d9-89be-e09e91c61e07.jpg)
