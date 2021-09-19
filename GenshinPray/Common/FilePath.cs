@@ -17,7 +17,7 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getPrayImgSavePath()
         {
-            string path = Path.Combine(SiteConfig.PrayImgSavePath, DateTime.Now.ToString("yyyyMMdd"));
+            string path = Path.Combine(SiteConfig.PrayImgSavePath, $"GenshinPray{DateTime.Now.ToString("yyyyMMdd")}");
             if (Directory.Exists(path) == false) Directory.CreateDirectory(path);
             return path;
         }

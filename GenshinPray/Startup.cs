@@ -2,6 +2,7 @@ using GenshinPray.Attribute;
 using GenshinPray.Common;
 using GenshinPray.Dao;
 using GenshinPray.Service;
+using GenshinPray.Timer;
 using GenshinPray.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -46,14 +47,10 @@ namespace GenshinPray
             new DBClient().CreateDB();
             LogHelper.Info($"数据库初始化完毕...");
 
+            //controller
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "接口文档", Description = "api 文档", Version = "v1" });
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));// 为 Swagger 设置xml文档注释路径
-            });
 
-            //jwt验证
+            //jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -69,7 +66,17 @@ namespace GenshinPray
                 };
             });
 
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            //Quartz
+            LogHelper.Info($"正在初始化定时任务...");
+            TimerManager.StartAllJob();
+
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "接口文档", Description = "api 文档", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));// 为 Swagger 设置xml文档注释路径
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
