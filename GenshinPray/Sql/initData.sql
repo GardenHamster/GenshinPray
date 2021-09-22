@@ -73,10 +73,10 @@ INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`,
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('74', '阿莫斯之弓', '2', '12', '5', '1', '2021-08-25 23:36:38', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('75', '天空之卷', '2', '11', '5', '1', '2021-08-25 23:36:38', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('76', '天空之傲', '2', '9', '5', '1', '2021-08-25 23:36:38', '0');
-INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('77', '风鹰剑', '2', '8', '5', '1', '2021-08-25 23:36:38', '0');
-INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('78', '和璞鸢', '2', '10', '5', '1', '2021-08-25 23:36:38', '0');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('77', '风鹰剑', '2', '8', '5', '1', '2021-08-25 23:36:38', '1');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('78', '和璞鸢', '2', '10', '5', '1', '2021-08-25 23:36:38', '1');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('79', '四风原典', '2', '11', '5', '1', '2021-08-25 23:36:38', '0');
-INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('80', '天空之翼', '2', '12', '5', '1', '2021-08-25 23:36:38', '0');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('80', '天空之翼', '2', '12', '5', '1', '2021-08-25 23:36:38', '1');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('81', '天空之脊', '2', '10', '5', '1', '2021-08-25 23:36:38', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('82', '尘世之锁', '2', '11', '5', '0', '2021-08-25 23:36:38', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('83', '无工之剑', '2', '9', '5', '0', '2021-08-25 23:36:38', '0');
@@ -89,21 +89,26 @@ INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`,
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('90', '雷电将军', '1', '4', '5', '0', '2021-09-20 03:56:27', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('91', '九条裟罗', '1', '4', '4', '0', '2021-09-20 03:56:27', '0');
 INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('92', '薙草之稻光', '2', '10', '5', '0', '2021-09-20 03:56:27', '0');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('93', '珊瑚宫心海', '1', '2', '5', '0', '2021-09-23 00:30:57', '0');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('94', '不灭月华', '2', '11', '5', '0', '2021-09-23 00:30:57', '0');
+INSERT INTO `goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('95', '磐岩结绿', '2', '8', '5', '0', '2021-09-23 00:30:57', '0');
 
 
 
 -- ----------------------------
 -- Records of pond_goods
 -- ----------------------------
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (1, 0, 1, 53);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (2, 0, 1, 38);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (3, 0, 1, 47);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (4, 0, 1, 37);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (5, 0, 2, 70);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (6, 0, 2, 72);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (7, 0, 2, 29);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (8, 0, 2, 24);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (9, 0, 2, 23);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (10, 0, 2, 19);
-INSERT INTO `pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES (11, 0, 2, 17);
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('1', '0', '1', '93');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('2', '0', '1', '36');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('3', '0', '1', '44');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('4', '0', '1', '43');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('5', '0', '2', '94');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('6', '0', '2', '95');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('7', '0', '2', '30');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('8', '0', '2', '27');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('9', '0', '2', '23');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('10', '0', '2', '21');
+INSERT INTO `pond_goods` (`Id`, `AuthId`, `PondType`, `GoodsId`) VALUES ('11', '0', '2', '16');
+
+
 
