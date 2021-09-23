@@ -1,5 +1,6 @@
 ﻿using GenshinPray.Common;
 using GenshinPray.Models.PO;
+using GenshinPray.Util;
 using SqlSugar;
 using SqlSugar.IOC;
 using System;
@@ -11,15 +12,26 @@ namespace GenshinPray.Dao
 {
     public class DBClient
     {
+        /// <summary>
+        /// 创建数据库和表
+        /// </summary>
         public void CreateDB()
         {
-            DbScoped.SugarScope.DbMaintenance.CreateDatabase();
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(AuthorizePO));
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(GoodsPO));
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(MemberGoodsPO));
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(MemberPO));
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(PondGoodsPO));
-            DbScoped.SugarScope.CodeFirst.InitTables(typeof(PrayRecordPO));
+            try
+            {
+                DbScoped.SugarScope.DbMaintenance.CreateDatabase();
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(AuthorizePO));
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(GoodsPO));
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(MemberGoodsPO));
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(MemberPO));
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(PondGoodsPO));
+                DbScoped.SugarScope.CodeFirst.InitTables(typeof(PrayRecordPO));
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Info("自动建表失败...");
+                LogHelper.Error(ex);
+            }
         }
 
         /// <summary>
