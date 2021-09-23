@@ -10,6 +10,12 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>D:\project\GenshinPray\GenshinPraybin\Release\net5.0\GenshinPray\GenshinPray.xml</DocumentationFile>
+    <OutputPath>bin\Release\net5.0\GenshinPray\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Service\BasePrayService.cs~RFf64f1c6.TMP" />
   </ItemGroup>
