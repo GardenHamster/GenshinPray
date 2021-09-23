@@ -1,9 +1,72 @@
 # API 文档
 
 ## 数据库
-- 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据[initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
+- 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据 [initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
 - 表和字段说明请参考数据表中的[注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
+
+## 部署
+修改根目录下的配置文件appsettings.Production.json
+```json5
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;",   //数据库链接字符串
+  "PrayImgSavePath": "C:\\tool\\apache-tomcat-8.5.65\\webapps\\prayImg",              //祈愿结果图片保存目录
+  "PrayMaterialSavePath": "C:\\PrayMaterial"                                          //祈愿素材图片目录
+}
+```
+
+然后将 [PrayMaterial](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/PrayMaterial) 中的素材复制到PrayMaterialSavePath配置的路径下
+
+
+### centos7下部署
+1、签名密钥并添加 Microsoft 包存储库
+```bash
+sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+```
+2、安装ASP.NET Core 运行时
+```bash
+sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+```
+3、安装libgdiplus
+```bash
+yum install epel-release
+```
+```bash
+sudo yum install libgdiplus
+```
+```bash
+sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll     （32位系统）
+sudo ln -s /usr/lib64/libgdiplus.so /usr/lib64/gdiplus.dll （64位系统）
+```
+4、切换到GenshinPray.dll所在目录下，运行GenshinPray.dll，根据自己的需要修改端口和http或https
+```bash
+dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
+```
+正常运行结果如下
+```bash
+2021-09-23 21:48:26,890 [1] INFO  ConsoleLog - 读取配置文件...
+2021-09-23 21:48:26,909 [1] INFO  ConsoleLog - 初始化数据库...
+2021-09-23 21:48:35,453 [1] INFO  ConsoleLog - 数据库初始化完毕...
+2021-09-23 21:48:35,512 [1] INFO  ConsoleLog - 正在初始化定时任务...
+2021-09-23 21:48:35,801 [1] INFO  ConsoleLog - 正在初始化定时清理任务...
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://0.0.0.0:8080
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /srv/GenshinPray
+```
+其他linux版本可以参考 [微软官方文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
 
 ## 枚举
 - 数据表中如字段名为 *Type 等字段值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
