@@ -2,11 +2,12 @@
 
 ## 数据库
 - 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据 [initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
-- 表和字段说明请参考数据表中的[注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
+- 表和字段说明请参考数据表中的 [注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
 ## 部署
-修改根目录下的配置文件appsettings.Production.json
+- 从 [releases](https://github.com/GardenHamster/GenshinPray/releases) 处下载最新版本
+- 修改根目录下的配置文件appsettings.Production.json
 ```json5
 {
   "Logging": {
