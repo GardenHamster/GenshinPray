@@ -31,9 +31,9 @@
 ```bash
 sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
 ```
-2、安装ASP.NET Core 运行时
+2、安装ASP.NET Core 5.0 运行时
 ```bash
-sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+sudo yum install aspnetcore-runtime-5.0
 ```
 3、安装libgdiplus
 ```bash
@@ -67,6 +67,15 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: /srv/GenshinPray
 ```
 其他linux版本可以参考 [微软官方文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
+
+### windows下部署
+- 下载并安装 [ASP.NET Core Runtime 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
+- 启动powershell并将路径切换到GenshinPray.dll所在目录下，
+
+- 运行GenshinPray.dll，根据自己的需要修改端口和http或https
+```bash
+dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
+```
 
 ## 枚举
 - 数据表中如字段名为 *Type 等字段值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
