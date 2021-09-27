@@ -49,7 +49,8 @@ sudo ln -s /usr/lib64/libgdiplus.so /usr/lib64/gdiplus.dll （64位系统）
 ```
 4、切换到GenshinPray.dll所在目录下，运行GenshinPray.dll，根据自己的需要修改端口和http或https
 ```bash
-dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
+sudo dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080           (前台运行方式)
+sudo nohup dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080     (后台运行方式)
 ```
 正常运行结果如下
 ```bash
