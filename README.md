@@ -5,6 +5,9 @@
  - 相关功能还在摸鱼开发中，完善以后会发布release
  - api文档请参考 [Api文档](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)  
   
+ ## 声明
+ - 本项目为个人学习.net core、linux、docker、vue...时所开发出来的项目，并没有任何收益，不得将项目用于任何商业用途
+  
 ## 特点
 - 基于.net core 5.0 编写，可以在 Windows、macOS 和 Linux 操作系统上运行。
 
