@@ -23,7 +23,6 @@
 - [x] 武器定轨功能
 - [x] 自定义卡池
 - [x] 自定义图片大小，返回base64
-- [ ] 图片上传到云盘，返回网络地址
 - [x] 获取群成员祈愿信息
 - [x] 统计群成员欧气排行
 - [x] 接口授权，根据授权码限制每日调用次数
@@ -34,9 +33,7 @@
 - [ ] 后台管理web界面
 
 ## 其他
-- 目前缺少的素材有：天空之翼、和璞鸢，风鹰剑。如果有解包素材的大佬请务必发issuse联系我...
-- 目前合成出来的图片中光效会比实际游戏画面中的暗一些，这是由于我使用背景橡皮擦擦除背景后导致的，还请各位PS大佬赐教...
-- 目前主要的祈愿逻辑有[角色祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/RolePrayService.cs)，[武器祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/ArmPrayService.cs)，[常驻祈愿](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Service/PrayService/PermPrayService.cs)，如果有逻辑上的问题还请大佬指正...
+- 目前缺少的素材有：和璞鸢，风鹰剑。如果有解包素材的大佬请务必发issuse联系我...
 - 如果有更好的想法或者建议欢迎在issuse中提出来...
 
 ## 效果图
