@@ -5,6 +5,9 @@
 - 表和字段说明请参考数据表中的 [注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
+## 字体
+- 安装[Fonts目录](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Fonts)下的字体,否则可能会出现中文乱码的问题
+
 ## 部署
 - 从 [releases](https://github.com/GardenHamster/GenshinPray/releases) 处下载最新版本
 - 修改根目录下的配置文件appsettings.Production.json
@@ -49,8 +52,8 @@ sudo ln -s /usr/lib64/libgdiplus.so /usr/lib64/gdiplus.dll （64位系统）
 ```
 4、切换到GenshinPray.dll所在目录下，运行GenshinPray.dll，根据自己的需要修改端口和http或https
 ```bash
-sudo dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080           (前台运行方式)
-sudo nohup dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080     (后台运行方式)
+dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080           (前台运行方式)
+nohup dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080     (后台运行方式)
 ```
 正常运行结果如下
 ```bash
@@ -68,7 +71,7 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: /srv/GenshinPray
 ```
-其他linux版本可以参考 [微软官方文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
+其他linux版本可以参考 [微软文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
 
 ### windows下部署
 - 下载并安装 [ASP.NET Core Runtime 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
