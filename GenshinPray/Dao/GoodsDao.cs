@@ -1,4 +1,5 @@
-﻿using GenshinPray.Models.PO;
+﻿using GenshinPray.Models.DTO;
+using GenshinPray.Models.PO;
 using GenshinPray.Type;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,16 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
             sqlBuilder.Append(" where pg.PondType=@pondType and pg.AuthId=@authId and g.isDisable=0");
             return Db.Ado.SqlQuery<GoodsPO>(sqlBuilder.ToString(), new { authId = authId, pondType = pondType });
+        }
+
+        public List<MemberGoodsDTO> GetMemberGoods(int authId, string memberCode)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append(" select GoodsName,count(GoodsName) as Count,GoodsType,RareType from member_goods");
+            sqlBuilder.Append(" where AuthId=@authId and MemberCode=@memberCode");
+            sqlBuilder.Append(" group by GoodsName,GoodsType,RareType");
+            sqlBuilder.Append(" order by RareType desc,count desc");
+            return Db.Ado.SqlQuery<MemberGoodsDTO>(sqlBuilder.ToString(), new { authId = authId, memberCode = memberCode });
         }
 
         public List<GoodsPO> getPermGoods(YSGoodsType goodsType, YSRareType rareType)

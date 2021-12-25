@@ -76,9 +76,21 @@ namespace GenshinPray.Common
         /// <returns></returns>
         public static string getYSLightPath(YSGoodsItem goodsItem)
         {
-            if (goodsItem.RareType == YSRareType.五星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框/金光.png");
-            if (goodsItem.RareType == YSRareType.四星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框/紫光.png");
-            if (goodsItem.RareType == YSRareType.三星) return Path.Combine(SiteConfig.PrayMaterialSavePath, "框/蓝光.png");
+            if (goodsItem.RareType == YSRareType.五星)
+            {
+                string dirPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "框/金色框");
+                return getRandomInDir(dirPath).FullName;
+            }
+            if (goodsItem.RareType == YSRareType.四星)
+            {
+                string dirPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "框/紫色框");
+                return getRandomInDir(dirPath).FullName;
+            }
+            if (goodsItem.RareType == YSRareType.三星)
+            {
+                string dirPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "框/蓝色框");
+                return getRandomInDir(dirPath).FullName;
+            }
             throw new Exception($"找不到与{Enum.GetName(typeof(YSGoodsItem), goodsItem.RareType)}对应的光效图");
         }
 
@@ -89,6 +101,15 @@ namespace GenshinPray.Common
         public static string getYSStarPath()
         {
             return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标/星星.png");
+        }
+
+        /// <summary>
+        /// 花纹路径
+        /// </summary>
+        /// <returns></returns>
+        public static string getYSShadingPath()
+        {
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "框", "花纹.png");
         }
 
         /// <summary>
@@ -138,6 +159,15 @@ namespace GenshinPray.Common
         public static string getYSCloseIconPath()
         {
             return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标/关闭.png");
+        }
+
+        /// <summary>
+        /// 关闭图标路径
+        /// </summary>
+        /// <returns></returns>
+        public static string getYSNewIconPath()
+        {
+            return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "new.png");
         }
 
         /// <summary>
@@ -201,6 +231,19 @@ namespace GenshinPray.Common
                 Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡/蓝色25.png"),
                 Path.Combine(SiteConfig.PrayMaterialSavePath,"泡泡/紫色25.png")
             };
+        }
+
+        /// <summary>
+        /// 从一个文件夹中随机获取一个文件
+        /// </summary>
+        /// <param name="dirPath"></param>
+        /// <returns></returns>
+        private static FileInfo getRandomInDir(string dirPath)
+        {
+            DirectoryInfo sourceDirectory = new DirectoryInfo(dirPath);
+            FileInfo[] fileInfos = sourceDirectory.GetFiles();
+            int randomFileIndex = new Random().Next(fileInfos.Length);
+            return fileInfos[randomFileIndex];
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using GenshinPray.Exceptions;
 using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
 using GenshinPray.Util;
@@ -46,9 +47,10 @@ namespace GenshinPray.Service.PrayService
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <param name="ySUpItem"></param>
+        /// <param name="memberGoods"></param>
         /// <param name="prayCount">抽卡次数</param>
         /// <returns></returns>
-        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, int prayCount)
+        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, List<MemberGoodsDTO> memberGoods, int prayCount)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
@@ -68,6 +70,8 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
+
+                records[i].OwnCount = memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Count();
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星)
                 {
@@ -100,12 +104,12 @@ namespace GenshinPray.Service.PrayService
             throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
-        public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, int prayCount, int imgWidth)
+        public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int perm90SurplusBefore = memberInfo.Perm90Surplus;
 
-            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, prayCount);
+            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, memberGoods, prayCount);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
             memberInfo.PermPrayTimes += prayCount;

@@ -12,6 +12,11 @@ namespace GenshinPray.Models
         /// </summary>
         public YSGoodsItem GoodsItem { get; set; }
 
+        /// <summary>
+        /// 拥有数量
+        /// </summary>
+        public int OwnCount { get; set; }
+
         public YSPrayRecord(YSGoodsItem goodsItem)
         {
             this.GoodsItem = goodsItem;

@@ -1,6 +1,7 @@
 ﻿using GenshinPray.Common;
 using GenshinPray.Dao;
 using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
 using System.Collections.Generic;
@@ -188,6 +189,17 @@ namespace GenshinPray.Service
             ySUpItem.Star4AllList = Star4AllList;
             ySUpItem.Star3AllList = defaultUpItem.Star3AllList;
             return ySUpItem;
+        }
+
+        /// <summary>
+        /// 获取群员已有物品级数量
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="memberCode"></param>
+        /// <returns></returns>
+        public List<MemberGoodsDTO> GetMemberGoods(int authId, string memberCode)
+        {
+            return goodsDao.GetMemberGoods(authId, memberCode);
         }
 
         /// <summary>

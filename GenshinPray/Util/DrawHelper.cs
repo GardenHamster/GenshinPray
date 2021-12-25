@@ -33,10 +33,15 @@ namespace GenshinPray.Util
                 YSGoodsItem goodsItem = goodsRecord.GoodsItem;
                 drawFrame(bgGraphics, goodsItem, indexX, indexY);//画框
                 drawEquip(bgGraphics, goodsItem, indexX, indexY);//画装备或角色
+                if (goodsItem.GoodsType == YSGoodsType.武器 && goodsItem.RareType == YSRareType.五星)
+                {
+                    drawShading(bgGraphics, goodsItem, indexX, indexY);//画武器花纹
+                }
                 drawIcon(bgGraphics, goodsItem, indexX, indexY);//画装备图标
                 drawStar(bgGraphics, goodsItem, indexX, indexY);//画星星
                 drawLight(bgGraphics, goodsItem, indexX, indexY);//画光框
                 drawProspect(bgGraphics, goodsItem, indexX, indexY);//画框前景色(带星)
+                if (goodsRecord.OwnCount==0) drawNewIcon(bgGraphics, indexX, indexY);//画New图标
                 drawCloseIcon(bgGraphics);//画关闭图标
                 indexX -= 148;
             }
@@ -95,7 +100,7 @@ namespace GenshinPray.Util
         private static void drawRoleName(Graphics bgGraphics, YSGoodsItem goodsItem)
         {
             using GraphicsPath path = new GraphicsPath();
-            Font nameFont = new Font("微软雅黑", 48, FontStyle.Bold);
+            Font nameFont = new Font("汉仪文黑-85W", 45, FontStyle.Bold);
             StringFormat format = StringFormat.GenericTypographic;
             RectangleF rect = new RectangleF(194, 576, 600, 200);
             float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72; ;
@@ -153,10 +158,10 @@ namespace GenshinPray.Util
         private static void drawEquipName(Graphics bgGraphics, YSGoodsItem goodsItem)
         {
             using GraphicsPath path = new GraphicsPath();
-            Font nameFont = new Font("微软雅黑", 48, FontStyle.Bold);
+            Font nameFont = new Font("汉仪文黑-85W", 45, FontStyle.Bold);
             StringFormat format = StringFormat.GenericTypographic;
-            RectangleF rect = new RectangleF(190, 556, 600, 200);
-            float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72; ;
+            RectangleF rect = new RectangleF(190, 555, 600, 200);
+            float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72;
             path.AddString(goodsItem.GoodsName, nameFont.FontFamily, (int)nameFont.Style, size, rect, format);
             bgGraphics.SmoothingMode = SmoothingMode.AntiAlias;
             bgGraphics.DrawPath(new Pen(Color.Black, 2), path);
@@ -198,10 +203,11 @@ namespace GenshinPray.Util
 
         private static void drawBubbles(Graphics bgGraphics)
         {
+            int randomBigCount = new Random().Next(5, 11);
             List<Image> bigImageList = new List<Image>();
             List<string> bigPathList = FilePath.getBubblesBigPathList();
             foreach (var item in bigPathList) bigImageList.Add(new Bitmap(item));
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < randomBigCount; i++)
             {
                 int randomWidth = RandomHelper.getRandomBetween(50, 200);
                 int randomXIndex = RandomHelper.getRandomBetween(20, 1900);
@@ -210,10 +216,11 @@ namespace GenshinPray.Util
                 bgGraphics.DrawImage(randomImage, randomXIndex, randomyIndex, randomWidth, randomWidth);
             }
 
+            int randomSmallCount = new Random().Next(50, 101);
             List<Image> smallImageList = new List<Image>();
             List<string> smallPathList = FilePath.getBubblesSmallPathList();
             foreach (var item in smallPathList) smallImageList.Add(new Bitmap(item));
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < randomSmallCount; i++)
             {
                 int randomWidth = RandomHelper.getRandomBetween(5, 15);
                 int randomXIndex = RandomHelper.getRandomBetween(20, 1900);
@@ -237,7 +244,7 @@ namespace GenshinPray.Util
         private static void drawProspect(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
         {
             using Image imgProspect = new Bitmap(FilePath.getYSProspectImgPath());
-            bgGraphics.DrawImage(imgProspect, indexX + 9, indexY + 7, imgProspect.Width, imgProspect.Height);
+            bgGraphics.DrawImage(imgProspect, indexX + 9, indexY + 10, imgProspect.Width, imgProspect.Height);
         }
 
         private static void drawEquip(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
@@ -246,7 +253,7 @@ namespace GenshinPray.Util
             {
                 using Image imgRole = new Bitmap(FilePath.getYSSmallRoleImgPath(goodsItem));
                 using Image imgResize = new Bitmap(imgRole, imgRole.Width, imgRole.Height);
-                bgGraphics.DrawImage(imgResize, indexX + 4, indexY + 2, new Rectangle(0, 0, imgResize.Width - 5, imgResize.Height), GraphicsUnit.Pixel);
+                bgGraphics.DrawImage(imgResize, indexX - 1, indexY + 5, new Rectangle(-3, 0, imgResize.Width, imgResize.Height), GraphicsUnit.Pixel);
             }
             if (goodsItem.GoodsType == YSGoodsType.武器)
             {
@@ -274,8 +281,8 @@ namespace GenshinPray.Util
         {
             int shiftXIndex = 0;
             int shiftYIndex = -5;
-            if (goodsItem.RareType == YSRareType.五星) shiftXIndex = -63;
-            if (goodsItem.RareType == YSRareType.四星) shiftXIndex = -61;
+            if (goodsItem.RareType == YSRareType.五星) shiftXIndex = -105;
+            if (goodsItem.RareType == YSRareType.四星) shiftXIndex = -98;
             if (goodsItem.RareType == YSRareType.三星) shiftXIndex = 2;
             using Image imgLight = new Bitmap(FilePath.getYSLightPath(goodsItem));
             bgGraphics.DrawImage(imgLight, indexX + shiftXIndex, shiftYIndex, imgLight.Width, imgLight.Height);
@@ -308,17 +315,29 @@ namespace GenshinPray.Util
             }
         }
 
+        private static void drawShading(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
+        {
+            using Image imgShading = new Bitmap(FilePath.getYSShadingPath());
+            bgGraphics.DrawImage(imgShading, indexX, indexY + 45, imgShading.Width, imgShading.Height);
+        }
+
         private static void drawCloseIcon(Graphics bgGraphics)
         {
             using Image imgClose = new Bitmap(FilePath.getYSCloseIconPath());
             bgGraphics.DrawImage(imgClose, 1920 - 105, 20, imgClose.Width, imgClose.Height);
         }
 
+        private static void drawNewIcon(Graphics bgGraphics, int indexX, int indexY)
+        {
+            using Image imgNew = new Bitmap(FilePath.getYSNewIconPath());
+            bgGraphics.DrawImage(imgNew, indexX + 100, indexY + 20, (float)(imgNew.Width * 0.95), (float)(imgNew.Height * 0.95));
+        }
+
         private static void drawWaterMark(Graphics bgGraphics)
         {
-            using Font watermarkFont = new Font("微软雅黑", 15, FontStyle.Regular);
+            using Font watermarkFont = new Font("汉仪文黑-85W", 15, FontStyle.Regular);
             using SolidBrush brushWatermark = new SolidBrush(Color.FromArgb(150, 178, 193));
-            bgGraphics.DrawString("本图片由theresa3rd-bot模拟生成", watermarkFont, brushWatermark, 1580, 1030);
+            bgGraphics.DrawString("本图片由theresa3rd-bot模拟生成", watermarkFont, brushWatermark, 1560, 1020);
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using GenshinPray.Dao;
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
 using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
@@ -49,9 +50,10 @@ namespace GenshinPray.Service.PrayService
         /// <param name="memberInfo"></param>
         /// <param name="ySUpItem"></param>
         /// <param name="assignGoodsItem"></param>
+        /// <param name="memberGoods"></param>
         /// <param name="prayCount">抽卡次数</param>
         /// <returns></returns>
-        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, YSGoodsItem assignGoodsItem, int prayCount)
+        public virtual YSPrayRecord[] GetPrayRecord(MemberPO memberInfo, YSUpItem ySUpItem, YSGoodsItem assignGoodsItem, List<MemberGoodsDTO> memberGoods, int prayCount)
         {
             YSPrayRecord[] records = new YSPrayRecord[prayCount];
             for (int i = 0; i < records.Length; i++)
@@ -75,6 +77,7 @@ namespace GenshinPray.Service.PrayService
 
                 bool isUpItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
                 bool isAssignItem = assignGoodsItem != null && records[i].GoodsItem.GoodsID == assignGoodsItem.GoodsID;//判断是否为本期定轨物品
+                records[i].OwnCount = memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Count();
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == false)
                 {
@@ -128,12 +131,12 @@ namespace GenshinPray.Service.PrayService
             throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
-        public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, YSGoodsItem assignGoodsItem, int prayCount, int imgWidth)
+        public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, YSGoodsItem assignGoodsItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int arm80SurplusBefore = memberInfo.Arm80Surplus;
 
-            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, assignGoodsItem, prayCount);
+            YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
             memberInfo.ArmPrayTimes += prayCount;

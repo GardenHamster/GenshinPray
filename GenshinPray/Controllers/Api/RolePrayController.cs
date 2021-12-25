@@ -1,6 +1,7 @@
 ﻿using GenshinPray.Attribute;
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
 using GenshinPray.Service.PrayService;
 using GenshinPray.Type;
@@ -8,6 +9,7 @@ using GenshinPray.Util;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar.IOC;
 using System;
+using System.Collections.Generic;
 
 namespace GenshinPray.Controllers.Api
 {
@@ -40,7 +42,8 @@ namespace GenshinPray.Controllers.Api
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.角色, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
@@ -87,7 +90,8 @@ namespace GenshinPray.Controllers.Api
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, prayCount, imgWidth);
+                List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.角色, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();

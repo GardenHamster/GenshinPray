@@ -23,5 +23,7 @@ namespace GenshinPray.Models.DTO
 
         public int PermStar5Count { get; set; }
 
+        public List<MemberGoodsDTO> MemberGoods { get; set; }
+
     }
 }

@@ -25,7 +25,7 @@ namespace GenshinPray.Service
         {
             foreach (var result in ySPrayResult.PrayRecords)
             {
-                if (result.GoodsItem.RareType != YSRareType.四星 && result.GoodsItem.RareType != YSRareType.五星) continue;
+                //if (result.GoodsItem.RareType != YSRareType.四星 && result.GoodsItem.RareType != YSRareType.五星) continue;
                 MemberGoodsPO memberGoods = new MemberGoodsPO();
                 memberGoods.AuthId = authId;
                 memberGoods.GoodsName = result.GoodsItem.GoodsName;
