@@ -80,9 +80,9 @@ namespace GenshinPray.Service
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
             List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
             List<YSGoodsItem> roleStar5NonUpList = GetNonUpList(DataCache.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4NonUpList = GetNonUpList(DataCache.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> roleStar4NonUpList = GetNonUpList(ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList), roleStar4UpList);
             List<YSGoodsItem> roleStar5AllList = ConcatList(DataCache.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4AllList = ConcatList(DataCache.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> roleStar4AllList = ConcatList(ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList), roleStar4UpList);
             YSUpItem RoleUpItem = new YSUpItem();
             RoleUpItem.Star5UpList = roleStar5UpList;
             RoleUpItem.Star4UpList = roleStar4UpList;
