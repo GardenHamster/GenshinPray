@@ -70,7 +70,7 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
-                if (memberInfo.Arm80Surplus == 0)//八十发保底
+                if (17 - memberInfo.Arm80Surplus >= RandomHelper.getRandomBetween(0, 17))//八十发保底，从63发往后每次出货率大幅提升
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor80List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }

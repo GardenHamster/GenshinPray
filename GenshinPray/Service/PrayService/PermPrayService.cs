@@ -66,7 +66,7 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem);
                 }
-                if (memberInfo.Perm90Surplus == 0)//九十发保底
+                if (17 - memberInfo.Perm90Surplus >= RandomHelper.getRandomBetween(0, 17))//九十发保底，从73发往后每次出货率大幅提升
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
