@@ -33,10 +33,12 @@ namespace GenshinPray
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            loadSiteConfig();
-
             LogHelper.ConfigureLog();//log4net
+            LogHelper.Info($"日志配置完毕...");
+
+            loadSiteConfig();
             LogHelper.Info($"读取配置文件...");
+
             LogHelper.Info($"初始化数据库...");
             services.AddSqlSugar(new IocConfig()//注入Sqlsuger
             {
