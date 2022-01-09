@@ -140,7 +140,68 @@ namespace GenshinPray.Controllers.Api
                 return ApiResult.ServerError;
             }
         }
+        /// <summary>
+        /// 获取成员祈愿出货次数记录
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthCode]
+        public ApiResult GetMemberPrayRecords(string memberCode)
+        {
+            try
+            {
+                checkNullParam(memberCode);
+                var authorzation = HttpContext.Request.Headers["authorzation"];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                MemberPO memberInfo = memberService.GetByCode(authorizePO.Id, memberCode);
+                if (memberInfo == null) return ApiResult.Success();
 
+                List<MemberGoodsPO> memberGoodsAll = goodsService.GetMemberGoodsAll(authorizePO.Id, memberCode);
+
+                Func<YSPondType, List<MemberGoodsStar5CostDTO>> f = (t) =>
+                {
+                    List<MemberGoodsPO> memberGoods = memberGoodsAll.Where(c => c.PondType == t).ToList();
+                    List<MemberGoodsStar5CostDTO> result = new();
+                    int c = 0;
+                    foreach (var good in memberGoods)
+                    {
+                        c++;
+                        if (good.RareType == YSRareType.五星)
+                        {
+                            MemberGoodsStar5CostDTO item = new()
+                            {
+                                GoodsName = good.GoodsName,
+                                GoodsType = good.GoodsType,
+                                GoodsSubType = good.GoodsSubType,
+                                RareType = good.RareType,
+                                CreateDate = good.CreateDate,
+                                Cost = c
+                            };
+                            result.Add(item);
+                            c = 0;
+                        }
+                    }
+                    return result;
+                };
+
+                return ApiResult.Success(new
+                {
+                    arm = BaseService.ChangeToGoodsCostVO(f(YSPondType.武器)),
+                    role = BaseService.ChangeToGoodsCostVO(f(YSPondType.角色)),
+                    perm = BaseService.ChangeToGoodsCostVO(f(YSPondType.常驻))
+                });
+            }
+            catch (BaseException ex)
+            {
+                LogHelper.Info(ex);
+                return ApiResult.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+                return ApiResult.ServerError;
+            }
+        }
         /// <summary>
         /// 获取群内欧气排行
         /// </summary>

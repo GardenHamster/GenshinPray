@@ -202,6 +202,16 @@ namespace GenshinPray.Service
             return goodsDao.GetMemberGoods(authId, memberCode);
         }
 
+        /// 获取群员已有物品列表
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="memberCode"></param>
+        /// <returns></returns>
+        public List<MemberGoodsPO> GetMemberGoodsAll(int authId, string memberCode)
+        {
+            return goodsDao.GetMemberGoodsAll(authId, memberCode);
+        }
+
         /// <summary>
         /// 根据定轨物品id，返回YSUpItem，如果当前Up池中不包含该定轨物品id，返回null
         /// </summary>

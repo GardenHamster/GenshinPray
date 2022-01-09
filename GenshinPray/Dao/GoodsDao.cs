@@ -30,6 +30,14 @@ namespace GenshinPray.Dao
             return Db.Ado.SqlQuery<MemberGoodsDTO>(sqlBuilder.ToString(), new { authId = authId, memberCode = memberCode });
         }
 
+        public List<MemberGoodsPO> GetMemberGoodsAll(int authId, string memberCode)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append(" select * from member_goods");
+            sqlBuilder.Append(" where AuthId=@authId and MemberCode=@memberCode");
+            return Db.Ado.SqlQuery<MemberGoodsPO>(sqlBuilder.ToString(), new { authId = authId, memberCode = memberCode });
+        }
+
         public List<GoodsPO> getPermGoods(YSGoodsType goodsType, YSRareType rareType)
         {
             return Db.Queryable<GoodsPO>().Where(o => o.GoodsType == goodsType && o.RareType == rareType && o.IsPerm == true && o.IsDisable == false).ToList();

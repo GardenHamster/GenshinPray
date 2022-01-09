@@ -42,5 +42,22 @@ namespace GenshinPray.Service
             }).ToList();
         }
 
+        /// <summary>
+        /// 将List<MemberGoodsStar5CostDTO>转换为GoodsCostVO
+        /// </summary>
+        /// <param name="prayRecords"></param>
+        /// <returns></returns>
+        public static List<GoodsCostVO> ChangeToGoodsCostVO(List<Models.DTO.MemberGoodsStar5CostDTO> Star5Goods)
+        {
+            return Star5Goods.Select(m => new GoodsCostVO()
+            {
+                GoodsName = m.GoodsName,
+                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsType),
+                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
+                RareType = Enum.GetName(typeof(YSRareType), m.RareType),
+                Cost = m.Cost,
+                Datetime = m.CreateDate,
+            }).ToList();
+        }
     }
 }
