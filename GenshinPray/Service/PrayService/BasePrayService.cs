@@ -195,11 +195,12 @@ namespace GenshinPray.Service.PrayService
         /// </summary>
         /// <param name="sortPrayRecords"></param>
         /// <param name="imgWidth"></param>
+        /// <param name="uid"></param>
         /// <returns></returns>
-        protected FileInfo DrawPrayImg(YSPrayRecord[] sortPrayRecords, int imgWidth)
+        protected FileInfo DrawPrayImg(YSPrayRecord[] sortPrayRecords, int imgWidth, string uid = "")
         {
-            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth);
-            return DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
+            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth, uid);
+            return DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth, uid);
         }
 
     }

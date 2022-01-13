@@ -18,8 +18,9 @@ namespace GenshinPray.Util
         /// </summary>
         /// <param name="YSPrayRecords"></param>
         /// <param name="imgWidth"></param>
+        /// <param name="uid"></param>
         /// <returns></returns>
-        public static FileInfo drawTenPrayImg(YSPrayRecord[] YSPrayRecords, int imgWidth)
+        public static FileInfo drawTenPrayImg(YSPrayRecord[] YSPrayRecords, int imgWidth, string uid = "")
         {
             int startIndexX = 230 + 151 * 9;
             int startIndexY = 228;
@@ -46,6 +47,7 @@ namespace GenshinPray.Util
                 indexX -= 148;
             }
             drawBubbles(bgGraphics);//画泡泡
+            drawUID(bgGraphics, uid);//画UID
             drawWaterMark(bgGraphics);//画水印
             return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
         }
@@ -55,8 +57,9 @@ namespace GenshinPray.Util
         /// </summary>
         /// <param name="YSPrayRecord"></param>
         /// <param name="imgWidth"></param>
+        /// <param name="uid"></param>
         /// <returns></returns>
-        public static FileInfo drawOnePrayImg(YSPrayRecord YSPrayRecord, int imgWidth)
+        public static FileInfo drawOnePrayImg(YSPrayRecord YSPrayRecord, int imgWidth, string uid = "")
         {
             string backImgUrl = FilePath.getYSPrayBGPath();
             using Bitmap bitmap = new Bitmap(backImgUrl);
@@ -79,6 +82,7 @@ namespace GenshinPray.Util
                 drawToken(bgGraphics, goodsItem);//画代币
             }
             drawBubbles(bgGraphics);//画泡泡
+            drawUID(bgGraphics, uid);//画UID
             drawWaterMark(bgGraphics);//画水印
             return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
         }
@@ -339,7 +343,19 @@ namespace GenshinPray.Util
             using SolidBrush brushWatermark = new SolidBrush(Color.FromArgb(150, 178, 193));
             bgGraphics.DrawString("本图片由theresa3rd-bot模拟生成", watermarkFont, brushWatermark, 1560, 1020);
         }
-
+        private static void drawUID(Graphics bgGraphics, string uid)
+        {
+            if (uid == "") return;
+            using GraphicsPath path = new GraphicsPath();
+            Font nameFont = new Font("汉仪文黑-85W", 15, FontStyle.Bold);
+            StringFormat format = StringFormat.GenericTypographic;
+            RectangleF rect = new RectangleF(1685, 1050, 600, 30);
+            float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72; ;
+            path.AddString($"UID:{uid}", nameFont.FontFamily, (int)nameFont.Style, size, rect, format);
+            bgGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+            bgGraphics.DrawPath(new Pen(Color.Black, 2), path);
+            bgGraphics.FillPath(Brushes.White, path);
+        }
 
 
 
