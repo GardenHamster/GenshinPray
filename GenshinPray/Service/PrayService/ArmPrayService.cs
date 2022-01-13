@@ -147,7 +147,7 @@ namespace GenshinPray.Service.PrayService
             ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
-            ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, arm80SurplusBefore);
+            ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, arm80SurplusBefore,80);
             ysPrayResult.Surplus10 = memberInfo.Arm10Surplus;
             return ysPrayResult;
         }
