@@ -48,8 +48,9 @@ namespace GenshinPray.Controllers.Api
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 YSUpItem armUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSUpItem roleUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSUpItem permUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
+                YSUpItem roleUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色, 0);
+                YSUpItem role2UpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色, 1);
+                YSUpItem permUpItem = DataCache.DefaultUpItem[YSPondType.常驻][0];
                 return ApiResult.Success(new
                 {
                     arm = new
@@ -61,6 +62,11 @@ namespace GenshinPray.Controllers.Api
                     {
                         Star5UpList = memberGoodsService.ChangeToGoodsVO(roleUpItem.Star5UpList),
                         Star4UpList = memberGoodsService.ChangeToGoodsVO(roleUpItem.Star4UpList)
+                    },
+                    role2 = new
+                    {
+                        Star5UpList = memberGoodsService.ChangeToGoodsVO(role2UpItem.Star5UpList),
+                        Star4UpList = memberGoodsService.ChangeToGoodsVO(role2UpItem.Star4UpList)
                     },
                     perm = new
                     {

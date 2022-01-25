@@ -42,7 +42,7 @@ namespace GenshinPray.Controllers.Api
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
+                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻][0];
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
@@ -90,7 +90,7 @@ namespace GenshinPray.Controllers.Api
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
+                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻][0];
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录

@@ -39,9 +39,10 @@ namespace GenshinPray.Controllers.Api
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
+                int pool = int.Parse(GetPool());
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色, pool);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
@@ -87,9 +88,10 @@ namespace GenshinPray.Controllers.Api
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
 
+                int pool = int.Parse(GetPool());
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色, pool);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
@@ -112,7 +114,10 @@ namespace GenshinPray.Controllers.Api
                 return ApiResult.ServerError;
             }
         }
-
+        protected string GetPool()
+        {
+            return HttpContext.Request.Headers.ContainsKey("pool") ? HttpContext.Request.Headers["pool"].ToString() : "0";
+        }
 
 
 
