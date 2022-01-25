@@ -213,6 +213,7 @@ namespace GenshinPray.Service
             return goodsDao.GetMemberGoods(authId, memberCode);
         }
 
+        /// <summary>
         /// 获取群员已有物品列表
         /// </summary>
         /// <param name="authId"></param>

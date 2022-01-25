@@ -43,9 +43,9 @@ namespace GenshinPray.Service
         }
 
         /// <summary>
-        /// 将List<MemberGoodsStar5CostDTO>转换为GoodsCostVO
+        /// 将MemberGoodsStar5CostDTO转换为GoodsCostVO
         /// </summary>
-        /// <param name="prayRecords"></param>
+        /// <param name="Star5Goods"></param>
         /// <returns></returns>
         public static List<GoodsCostVO> ChangeToGoodsCostVO(List<Models.DTO.MemberGoodsStar5CostDTO> Star5Goods)
         {
