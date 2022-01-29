@@ -24,14 +24,13 @@ namespace GenshinPray.Dao
         public List<LuckRankingDTO> getLuckRanking(int authId, int top, YSRareType rareType, DateTime startDate, DateTime endDate)
         {
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append(" select temp.AuthId, temp.MemberCode, temp.RareType, temp.RareCount,");
-            sqlBuilder.Append(" m.TotalPrayTimes, temp.rareCount/m.TotalPrayTimes as RareRate from member m");
-            sqlBuilder.Append(" inner join (");
-            sqlBuilder.Append(" 	select AuthId,MemberCode,RareType,count(RareType) RareCount from member_goods");
-            sqlBuilder.Append(" 	where AuthId=@AuthId and RareType=@RareType and CreateDate>=@StartDate and CreateDate<@EndDate");
-            sqlBuilder.Append(" 	group by AuthId,MemberCode,RareType limit @Top");
-            sqlBuilder.Append(" ) temp on temp.MemberCode=m.MemberCode");
-            sqlBuilder.Append(" where m.AuthId=@AuthId order by temp.RareType desc,rareRate desc");
+            sqlBuilder.Append(" select AuthId,MemberCode,RareType,RareCount,");
+            sqlBuilder.Append(" TotalPrayTimes, RareCount/TotalPrayTimes as RareRate from(");
+            sqlBuilder.Append("     select AuthId,MemberCode,@RareType as RareType,");
+            sqlBuilder.Append("     SUM(if(RareType=5,1,0)) AS RareCount, count(ID) as TotalPrayTimes from member_goods");
+            sqlBuilder.Append(" 	where AuthId=@AuthId and CreateDate>=@StartDate and CreateDate<@EndDate");
+            sqlBuilder.Append(" 	group by AuthId,MemberCode");
+            sqlBuilder.Append(" ) temp where RareCount>0 order by rareRate desc limit @Top");
             return Db.Ado.SqlQuery<LuckRankingDTO>(sqlBuilder.ToString(), new { AuthId = authId, Top = top, RareType = (int)rareType, StartDate = startDate, EndDate = endDate });
         }
 
