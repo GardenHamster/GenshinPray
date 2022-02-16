@@ -136,12 +136,13 @@ namespace GenshinPray.Service.PrayService
 
 
         /// <summary>
-        /// 获取90发内,成员获得5星角色的累计祈愿次数,0代表还未获得S
+        /// 获取一次五星保底内,成员获得5星角色的累计祈愿次数,0代表还未获得S
         /// </summary>
         /// <param name="YSPrayRecords"></param>
-        /// <param name="floor90Surplus"></param>
+        /// <param name="floorSurplus"></param>
+        /// <param name="maxSurplus"></param>
         /// <returns></returns>
-        public int GetStar5Cost(YSPrayRecord[] YSPrayRecords, int floor90Surplus)
+        public int GetStar5Cost(YSPrayRecord[] YSPrayRecords, int floorSurplus, int maxSurplus)
         {
             int star5Index = -1;
             for (int i = 0; i < YSPrayRecords.Length; i++)
@@ -152,7 +153,7 @@ namespace GenshinPray.Service.PrayService
                 break;
             }
             if (star5Index == -1) return 0;
-            return 90 - floor90Surplus + star5Index + 1;
+            return maxSurplus - floorSurplus + star5Index + 1;
         }
 
         /// <summary>

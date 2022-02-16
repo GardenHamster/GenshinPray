@@ -62,11 +62,11 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem);
                 }
-                if (memberInfo.Perm10Surplus == 0)//十连保底
+                if (memberInfo.Perm10Surplus <= 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem);
                 }
-                if (memberInfo.Perm90Surplus == 0)//九十发保底
+                if (memberInfo.Perm90Surplus <= 0)//九十发保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
@@ -120,7 +120,7 @@ namespace GenshinPray.Service.PrayService
             ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
-            ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, perm90SurplusBefore);
+            ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, perm90SurplusBefore, 90);
             ysPrayResult.Surplus10 = memberInfo.Perm10Surplus;
             return ysPrayResult;
         }
