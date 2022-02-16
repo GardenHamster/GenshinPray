@@ -62,16 +62,16 @@ namespace GenshinPray.Service
             DataCache.ArmStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.五星));//五星常驻武器
             DataCache.RoleStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.四星));//四星常驻角色
             DataCache.RoleStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.角色, YSRareType.五星));//五星常驻角色
+            DataCache.Star5PermList = ConcatList(DataCache.RoleStar5PermList, DataCache.ArmStar5PermList);
+            DataCache.Star4PermList = ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList);
 
             YSUpItem PermItem = new YSUpItem();
-            List<YSGoodsItem> permStar5AllList = ConcatList(DataCache.RoleStar5PermList, DataCache.ArmStar5PermList);
-            List<YSGoodsItem> permStar4AllList = ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList);
-            PermItem.Star5UpList = permStar5AllList;
-            PermItem.Star4UpList = permStar4AllList;
+            PermItem.Star5UpList = DataCache.Star5PermList;
+            PermItem.Star4UpList = DataCache.Star4PermList;
             PermItem.Star5NonUpList = new List<YSGoodsItem>();
             PermItem.Star4NonUpList = new List<YSGoodsItem>();
-            PermItem.Star5AllList = permStar5AllList;
-            PermItem.Star4AllList = permStar4AllList;
+            PermItem.Star5AllList = DataCache.Star5PermList;
+            PermItem.Star4AllList = DataCache.Star4PermList;
             PermItem.Star3AllList = DataCache.ArmStar3PermList;
             DataCache.DefaultUpItem[YSPondType.常驻] = PermItem;
 
@@ -80,9 +80,9 @@ namespace GenshinPray.Service
             List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
             List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
             List<YSGoodsItem> roleStar5NonUpList = GetNonUpList(DataCache.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4NonUpList = GetNonUpList(DataCache.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> roleStar4NonUpList = GetNonUpList(DataCache.Star4PermList, roleStar4UpList);
             List<YSGoodsItem> roleStar5AllList = ConcatList(DataCache.RoleStar5PermList, roleStar5UpList);
-            List<YSGoodsItem> roleStar4AllList = ConcatList(DataCache.RoleStar4PermList, roleStar4UpList);
+            List<YSGoodsItem> roleStar4AllList = ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList, roleStar4UpList);
             YSUpItem RoleUpItem = new YSUpItem();
             RoleUpItem.Star5UpList = roleStar5UpList;
             RoleUpItem.Star4UpList = roleStar4UpList;
@@ -218,29 +218,24 @@ namespace GenshinPray.Service
         }
 
         /// <summary>
-        /// 连接两个集合,返回无重复部分
+        /// 连接所有集合,返回无重复部分
         /// </summary>
-        /// <param name="listA"></param>
-        /// <param name="listB"></param>
+        /// <param name="lists"></param>
         /// <returns></returns>
-        private List<YSGoodsItem> ConcatList(List<YSGoodsItem> listA, List<YSGoodsItem> listB)
+        private List<YSGoodsItem> ConcatList(params List<YSGoodsItem>[] lists)
         {
             List<YSGoodsItem> returnList = new List<YSGoodsItem>();
-            foreach (var item in listA)
+            foreach (var list in lists)
             {
-                if (returnList.Where(m => m.GoodsName == item.GoodsName).Count() > 0) continue;
-                returnList.Add(item);
-            }
-            foreach (var item in listB)
-            {
-                if (returnList.Where(m => m.GoodsName == item.GoodsName).Count() > 0) continue;
-                returnList.Add(item);
+                foreach (var item in list)
+                {
+                    if (returnList.Where(m => m.GoodsName == item.GoodsName).Any()) continue;
+                    returnList.Add(item);
+                }
             }
             return returnList;
         }
-
-
-
+        
 
     }
 }

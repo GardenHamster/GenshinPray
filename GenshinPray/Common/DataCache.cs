@@ -36,6 +36,16 @@ namespace GenshinPray.Common
         public static List<YSGoodsItem> ArmStar3PermList = new List<YSGoodsItem>();
 
         /// <summary>
+        /// 4星常驻列表
+        /// </summary>
+        public static List<YSGoodsItem> Star4PermList = new List<YSGoodsItem>();
+
+        /// <summary>
+        /// 5星常驻列表
+        /// </summary>
+        public static List<YSGoodsItem> Star5PermList = new List<YSGoodsItem>();
+
+        /// <summary>
         /// 默认UP
         /// </summary>
         public static Dictionary<YSPondType, YSUpItem> DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
