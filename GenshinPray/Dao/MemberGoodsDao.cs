@@ -27,7 +27,7 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" select AuthId,MemberCode,RareType,RareCount,");
             sqlBuilder.Append(" TotalPrayTimes, RareCount/TotalPrayTimes as RareRate from(");
             sqlBuilder.Append("     select AuthId,MemberCode,@RareType as RareType,");
-            sqlBuilder.Append("     SUM(if(RareType=5,1,0)) AS RareCount, count(ID) as TotalPrayTimes from member_goods");
+            sqlBuilder.Append("     SUM(if(RareType=@RareType,1,0)) AS RareCount, count(ID) as TotalPrayTimes from member_goods");
             sqlBuilder.Append(" 	where AuthId=@AuthId and CreateDate>=@StartDate and CreateDate<@EndDate");
             sqlBuilder.Append(" 	group by AuthId,MemberCode");
             sqlBuilder.Append(" ) temp where RareCount>0 order by rareRate desc limit @Top");
