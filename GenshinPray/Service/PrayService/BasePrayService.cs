@@ -130,11 +130,8 @@ namespace GenshinPray.Service.PrayService
         /// <returns></returns>
         public YSPrayRecord[] SortGoods(YSPrayRecord[] YSPrayRecords)
         {
-            List<YSPrayRecord> sortList = new List<YSPrayRecord>();
-            sortList.AddRange(YSPrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToList());
-            sortList.AddRange(YSPrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToList());
-            sortList.AddRange(YSPrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToList());
-            return sortList.ToArray();
+            //先按物品种类排序（0->2），相同种类的物品之间按稀有度倒序排序（5->1）
+            return YSPrayRecords.OrderBy(c => c.GoodsItem.GoodsType).ThenByDescending(c => c.GoodsItem.RareType).ToArray();
         }
 
 
