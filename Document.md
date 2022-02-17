@@ -6,21 +6,13 @@
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
 ## 字体
-- 安装[Fonts目录](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Fonts)下的字体,否则可能会出现中文乱码的问题
+- 安装[Fonts目录](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Fonts)下的字体，否则可能会出现中文乱码的问题
 
 ## 部署
 - 从 [releases](https://github.com/GardenHamster/GenshinPray/releases) 处下载最新版本
 - 修改根目录下的配置文件appsettings.Production.json
 ```json5
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
-  "AllowedHosts": "*",
   "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;",   //数据库链接字符串
   "PrayImgSavePath": "C:\\tool\\apache-tomcat-8.5.65\\webapps\\prayImg",              //祈愿结果图片保存目录
   "PrayMaterialSavePath": "C:\\PrayMaterial"                                          //祈愿素材图片目录
@@ -74,7 +66,7 @@ info: Microsoft.Hosting.Lifetime[0]
 其他linux版本可以参考 [微软文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
 
 ### windows下部署
-- 下载并安装 [ASP.NET Core Runtime 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
+- 下载并安装 [ASP.NET Core Runtime 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)，推荐下载页面中的[Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-5.0.14-windows-hosting-bundle-installer)
 - 启动powershell并将路径切换到GenshinPray.dll所在目录下，
 
 - 运行GenshinPray.dll，根据自己的需要修改端口和http或https
