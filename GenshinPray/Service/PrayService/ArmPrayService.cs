@@ -19,7 +19,7 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 无保底情况下单抽物品概率
         /// </summary>
-        protected readonly List<YSProbability> AllList = new List<YSProbability>()
+        protected readonly List<YSProbability> SingleList = new List<YSProbability>()
         {
             new YSProbability(0.7m, YSProbabilityType.五星物品),
             new YSProbability(6.0m, YSProbabilityType.四星物品),
@@ -62,15 +62,16 @@ namespace GenshinPray.Service.PrayService
                 memberInfo.Arm20Surplus--;
                 memberInfo.Arm10Surplus--;
 
-                if (memberInfo.Arm10Surplus > 0 && memberInfo.Arm80Surplus > 0)//无保底情况
+                if (memberInfo.Arm10Surplus > 0)//无保底
                 {
-                    records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
+                    records[i] = GetActualItem(GetRandomInList(SingleList), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
                 if (memberInfo.Arm10Surplus <= 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }
-                if (memberInfo.Arm80Surplus <= 0)//八十发保底
+                //武器池从第66抽开始,每抽出5星概率提高7%(基础概率),直到第80抽时概率上升到100%
+                if (memberInfo.Arm80Surplus < 14 && RandomHelper.getRandomBetween(1, 100) < (14 - memberInfo.Arm80Surplus + 1) * 0.07 * 100)//低保
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor80List), ySUpItem, assignGoodsItem, memberInfo.ArmAssignValue, memberInfo.Arm20Surplus);
                 }

@@ -17,7 +17,7 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 无保底情况下单抽物品概率
         /// </summary>
-        protected readonly List<YSProbability> AllList = new List<YSProbability>()
+        protected readonly List<YSProbability> SingleList = new List<YSProbability>()
         {
             new YSProbability(0.6m, YSProbabilityType.五星物品),
             new YSProbability(5.1m, YSProbabilityType.四星物品),
@@ -58,15 +58,16 @@ namespace GenshinPray.Service.PrayService
                 memberInfo.Perm90Surplus--;
                 memberInfo.Perm10Surplus--;
 
-                if (memberInfo.Perm10Surplus > 0 && memberInfo.Perm90Surplus > 0)//无保底情况
+                if (memberInfo.Perm10Surplus > 0)//无保底
                 {
-                    records[i] = GetActualItem(GetRandomInList(AllList), ySUpItem);
+                    records[i] = GetActualItem(GetRandomInList(SingleList), ySUpItem);
                 }
                 if (memberInfo.Perm10Surplus <= 0)//十连保底
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem);
                 }
-                if (memberInfo.Perm90Surplus <= 0)//九十发保底
+                //常驻池从第74抽开始,每抽出5星概率提高6%(基础概率),直到第90抽时概率上升到100%
+                if (memberInfo.Perm90Surplus < 16 && RandomHelper.getRandomBetween(1, 100) < (16 - memberInfo.Perm90Surplus + 1) * 0.06 * 100)//低保
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }

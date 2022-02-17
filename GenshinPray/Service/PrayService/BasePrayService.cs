@@ -134,13 +134,12 @@ namespace GenshinPray.Service.PrayService
             return YSPrayRecords.OrderBy(c => c.GoodsItem.GoodsType).ThenByDescending(c => c.GoodsItem.RareType).ToArray();
         }
 
-
         /// <summary>
         /// 获取一次五星保底内,成员获得5星角色的累计祈愿次数,0代表还未获得S
         /// </summary>
-        /// <param name="YSPrayRecords"></param>
-        /// <param name="floorSurplus"></param>
-        /// <param name="maxSurplus"></param>
+        /// <param name="YSPrayRecords">祈愿结果</param>
+        /// <param name="floorSurplus">剩余N次保底</param>
+        /// <param name="maxSurplus">抽出5星最多需要N抽</param>
         /// <returns></returns>
         public int GetStar5Cost(YSPrayRecord[] YSPrayRecords, int floorSurplus, int maxSurplus)
         {
