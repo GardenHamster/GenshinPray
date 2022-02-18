@@ -32,10 +32,7 @@ namespace GenshinPray.Util
                 YSPrayRecord goodsRecord = YSPrayRecords[i];
                 YSGoodsItem goodsItem = goodsRecord.GoodsItem;
                 drawFrame(bgGraphics, goodsItem, indexX, indexY);//画框
-                if (goodsItem.GoodsType == YSGoodsType.武器 && goodsItem.RareType == YSRareType.五星)
-                {
-                    drawShading(bgGraphics, goodsItem, indexX, indexY);//画武器花纹
-                }
+                if (goodsItem.RareType == YSRareType.五星) drawShading(bgGraphics, goodsItem, indexX, indexY);//画底纹
                 drawEquip(bgGraphics, goodsItem, indexX, indexY);//画装备或角色
                 drawIcon(bgGraphics, goodsItem, indexX, indexY);//画装备图标
                 drawStar(bgGraphics, goodsItem, indexX, indexY);//画星星
