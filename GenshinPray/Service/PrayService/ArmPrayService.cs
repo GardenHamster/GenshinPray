@@ -142,6 +142,12 @@ namespace GenshinPray.Service.PrayService
 
             memberInfo.ArmPrayTimes += prayCount;
             memberInfo.TotalPrayTimes += prayCount;
+            if (assignGoodsItem == null || memberInfo.ArmAssignValue > 2)
+            {
+                //当命定值溢出或者定轨项目不在本期5星up内时,重置命定值
+                memberInfo.ArmAssignId = 0;
+                memberInfo.ArmAssignValue = 0;
+            }
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
@@ -153,7 +159,7 @@ namespace GenshinPray.Service.PrayService
             return ysPrayResult;
         }
 
-        
+
 
 
     }

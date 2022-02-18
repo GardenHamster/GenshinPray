@@ -1,8 +1,6 @@
 ﻿using GenshinPray.Exceptions;
-using GenshinPray.Models;
 using GenshinPray.Service;
 using GenshinPray.Service.PrayService;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GenshinPray.Controllers.Api
 {
@@ -14,10 +12,6 @@ namespace GenshinPray.Controllers.Api
         protected GoodsService goodsService;
         protected PrayRecordService prayRecordService;
         protected MemberGoodsService memberGoodsService;
-
-        public abstract ApiResult PrayOne(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0);
-
-        public abstract ApiResult PrayTen(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0);
 
         public BasePrayController()
         {

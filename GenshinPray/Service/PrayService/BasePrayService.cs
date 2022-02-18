@@ -14,10 +14,12 @@ namespace GenshinPray.Service.PrayService
     public abstract class BasePrayService : BaseService
     {
         protected MemberDao memberDao;
+        protected GoodsDao goodsDao;
 
         public BasePrayService()
         {
-            this.memberDao = new MemberDao(); ;
+            this.memberDao = new MemberDao();
+            this.goodsDao = new GoodsDao();
         }
 
         /// <summary>

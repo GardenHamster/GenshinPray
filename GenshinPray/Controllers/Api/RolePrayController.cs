@@ -27,7 +27,7 @@ namespace GenshinPray.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayOne(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
+        public ApiResult PrayOne(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -40,18 +40,18 @@ namespace GenshinPray.Controllers.Api
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
-                if (ySUpItem == null) return ApiResult.PondNotConfigured;
+                YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ysUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.角色, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
@@ -78,7 +78,7 @@ namespace GenshinPray.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayTen(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
+        public ApiResult PrayTen(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -91,18 +91,18 @@ namespace GenshinPray.Controllers.Api
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
-                if (ySUpItem == null) return ApiResult.PondNotConfigured;
+                YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ysUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, YSPondType.角色, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ySUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)

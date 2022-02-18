@@ -52,21 +52,33 @@ namespace GenshinPray.Controllers.Api
                 Dictionary<int, YSUpItem> permUpItemDic = DataCache.DefaultUpItem[YSPondType.常驻];
                 return ApiResult.Success(new
                 {
-                    arm = armUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
+                    arm = armUpItemDic.Select(m => new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
-                    })),
-                    role = roleUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
+                        pondIndex = m.Key,
+                        pondInfo = new
+                        {
+                            Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                            Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                        }
+                    }),
+                    role = roleUpItemDic.Select(m => new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
-                    })),
-                    perm = permUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
+                        pondIndex = m.Key,
+                        pondInfo = new
+                        {
+                            Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                            Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                        }
+                    }),
+                    perm = permUpItemDic.Select(m => new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
-                    })),
+                        pondIndex = m.Key,
+                        pondInfo = new
+                        {
+                            Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                            Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                        }
+                    }),
                 });
             }
             catch (BaseException ex)
@@ -175,14 +187,14 @@ namespace GenshinPray.Controllers.Api
         /// </summary>
         /// <param name="memberCode"></param>
         /// <param name="goodsName"></param>
-        /// <param name="pondIndex"></param>
         /// <returns></returns>
         [HttpPost]
         [AuthCode]
-        public ApiResult SetMemberAssign(string memberCode, string goodsName, int pondIndex = 0)
+        public ApiResult SetMemberAssign(string memberCode, string goodsName)
         {
             try
             {
+                int pondIndex = 0;
                 checkNullParam(memberCode, goodsName);
                 GoodsPO goodsInfo = goodsService.GetGoodsByName(goodsName);
                 if (goodsInfo == null) return ApiResult.GoodsNotFound;
@@ -192,7 +204,7 @@ namespace GenshinPray.Controllers.Api
                 Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
                 YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
                 if (ySUpItem == null) return ApiResult.PondNotConfigured;
-                if (ySUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Count() == 0) return ApiResult.AssignNotFound;
+                if (ySUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Any() == false) return ApiResult.AssignNotFound;
                 MemberPO memberInfo = memberService.SetArmAssign(goodsInfo, authorizePO.Id, memberCode);
                 return ApiResult.Success();
             }
