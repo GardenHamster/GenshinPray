@@ -47,26 +47,26 @@ namespace GenshinPray.Controllers.Api
             {
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-                YSUpItem armUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSUpItem roleUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                YSUpItem permUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
+                Dictionary<int, YSUpItem> armUpItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
+                Dictionary<int, YSUpItem> roleUpItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+                Dictionary<int, YSUpItem> permUpItemDic = DataCache.DefaultUpItem[YSPondType.常驻];
                 return ApiResult.Success(new
                 {
-                    arm = new
+                    arm = armUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(armUpItem.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(armUpItem.Star4UpList)
-                    },
-                    role = new
+                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                    })),
+                    role = roleUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(roleUpItem.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(roleUpItem.Star4UpList)
-                    },
-                    perm = new
+                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                    })),
+                    perm = permUpItemDic.Select(m => new KeyValuePair<int, object>(m.Key, new
                     {
-                        Star5UpList = memberGoodsService.ChangeToGoodsVO(permUpItem.Star5UpList),
-                        Star4UpList = memberGoodsService.ChangeToGoodsVO(permUpItem.Star4UpList)
-                    }
+                        Star5UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star5UpList),
+                        Star4UpList = memberGoodsService.ChangeToGoodsVO(m.Value.Star4UpList)
+                    })),
                 });
             }
             catch (BaseException ex)
@@ -175,10 +175,11 @@ namespace GenshinPray.Controllers.Api
         /// </summary>
         /// <param name="memberCode"></param>
         /// <param name="goodsName"></param>
+        /// <param name="pondIndex"></param>
         /// <returns></returns>
         [HttpPost]
         [AuthCode]
-        public ApiResult SetMemberAssign(string memberCode, string goodsName)
+        public ApiResult SetMemberAssign(string memberCode, string goodsName, int pondIndex = 0)
         {
             try
             {
@@ -187,7 +188,10 @@ namespace GenshinPray.Controllers.Api
                 if (goodsInfo == null) return ApiResult.GoodsNotFound;
                 var authorzation = HttpContext.Request.Headers["authorzation"];
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
+
+                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
+                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ySUpItem == null) return ApiResult.PondNotConfigured;
                 if (ySUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Count() == 0) return ApiResult.AssignNotFound;
                 MemberPO memberInfo = memberService.SetArmAssign(goodsInfo, authorizePO.Id, memberCode);
                 return ApiResult.Success();

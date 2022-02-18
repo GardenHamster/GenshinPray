@@ -42,7 +42,10 @@ namespace GenshinPray.Common
         /// </summary>
         public static readonly int AssignNotFound = 605;
 
-        
+        /// <summary>
+        /// 卡池未配置
+        /// </summary>
+        public static readonly int PondNotConfigured = 606;
 
     }
 }

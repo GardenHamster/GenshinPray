@@ -48,7 +48,7 @@ namespace GenshinPray.Common
         /// <summary>
         /// 默认UP
         /// </summary>
-        public static Dictionary<YSPondType, YSUpItem> DefaultUpItem = new Dictionary<YSPondType, YSUpItem>();
+        public static Dictionary<YSPondType, Dictionary<int, YSUpItem>> DefaultUpItem = new Dictionary<YSPondType, Dictionary<int, YSUpItem>>();
 
         /// <summary>
         /// 排行缓存

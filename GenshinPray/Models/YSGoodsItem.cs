@@ -42,6 +42,12 @@ namespace GenshinPray.Models
         /// </summary>
         public YSGoodsSubType GoodsSubType { get; set; }
 
+        /// <summary>
+        /// 蛋池编号
+        /// </summary>
+        public int PondIndex { get; set; }
+
+
         public YSGoodsItem()
         {
             this.Probability = SiteConfig.GoodsDefaultPR;

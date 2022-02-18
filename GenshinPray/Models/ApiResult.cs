@@ -131,7 +131,18 @@ namespace GenshinPray.Models
             }
         }
 
-        
+        /// <summary>
+        /// 卡池未配置
+        /// </summary>
+        public static ApiResult PondNotConfigured
+        {
+            get
+            {
+                return new ApiResult(ResultCode.PondNotConfigured, "卡池未配置");
+            }
+        }
+
+
 
 
 

@@ -22,12 +22,13 @@ namespace GenshinPray.Controllers.Api
         /// 单抽常祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="pondIndex">卡池编号</param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayOne(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public override ApiResult PrayOne(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -39,10 +40,10 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
+                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻][0];
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
@@ -70,12 +71,13 @@ namespace GenshinPray.Controllers.Api
         /// 十连常驻祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="pondIndex">卡池编号</param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayTen(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public override ApiResult PrayTen(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -87,10 +89,10 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
+                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻][0];
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = DataCache.DefaultUpItem[YSPondType.常驻];
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录

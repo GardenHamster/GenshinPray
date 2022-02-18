@@ -43,8 +43,11 @@ namespace GenshinPray.Models
         /// </summary>
         public List<YSGoodsItem> Star4NonUpList { get; set; }
 
-        
-        
+        /// <summary>
+        /// 蛋池编号
+        /// </summary>
+        public int PondIndex { get; set; }
+
 
     }
 }

@@ -21,12 +21,13 @@ namespace GenshinPray.Controllers.Api
         /// 单抽武器祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="pondIndex">卡池编号</param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayOne(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public override ApiResult PrayOne(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -38,10 +39,12 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
+                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
+                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ySUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
                 YSGoodsItem assignGoodsItem = goodsService.getAssignGoodsItem(ySUpItem, memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
@@ -60,7 +63,7 @@ namespace GenshinPray.Controllers.Api
             }
             catch (Exception ex)
             {
-                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，toBase64：{toBase64}，imgWidth：{imgWidth}");
+                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，pondIndex：{pondIndex}，toBase64：{toBase64}，imgWidth：{imgWidth}");
                 DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }
@@ -70,12 +73,13 @@ namespace GenshinPray.Controllers.Api
         /// 十连武器祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="pondIndex">卡池编号</param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public override ApiResult PrayTen(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public override ApiResult PrayTen(string memberCode, int pondIndex = 0, bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -87,10 +91,12 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
+                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
+                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ySUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
-                YSUpItem ySUpItem = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
@@ -109,7 +115,7 @@ namespace GenshinPray.Controllers.Api
             }
             catch (Exception ex)
             {
-                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，toBase64：{toBase64}，imgWidth：{imgWidth}");
+                LogHelper.Error(ex, $"authorzation：{GetAuthCode()}，memberCode：{memberCode}，pondIndex：{pondIndex}，toBase64：{toBase64}，imgWidth：{imgWidth}");
                 DbScoped.SugarScope.RollbackTran();
                 return ApiResult.ServerError;
             }
