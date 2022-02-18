@@ -17,7 +17,7 @@ namespace GenshinPray.Dao
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.Append(" select g.GoodsName,g.RareType,g.GoodsType,g.GoodsSubType,pg.PondIndex,pg.GoodsId from pond_goods pg");
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
-            sqlBuilder.Append(" where pg.PondType=@pondType and pg.AuthId=@authId and g.isDisable=0");
+            sqlBuilder.Append(" where pg.AuthId=@authId and pg.PondType=@pondType and g.isDisable=0");
             return Db.Ado.SqlQuery<YSGoodsItem>(sqlBuilder.ToString(), new { authId = authId, pondType = pondType });
         }
 
@@ -26,7 +26,7 @@ namespace GenshinPray.Dao
             StringBuilder sqlBuilder = new StringBuilder();
             sqlBuilder.Append(" select g.GoodsName,g.RareType,g.GoodsType,g.GoodsSubType,pg.PondIndex,pg.GoodsId from pond_goods pg");
             sqlBuilder.Append(" inner join goods g on g.id=pg.goodsId");
-            sqlBuilder.Append(" where pg.PondType=@pondType and pg.PondIndex=@pondIndex and pg.AuthId=@authId and g.isDisable=0");
+            sqlBuilder.Append(" where pg.AuthId=@authId and pg.PondType=@pondType and pg.PondIndex=@pondIndex and g.isDisable=0");
             return Db.Ado.SqlQuery<YSGoodsItem>(sqlBuilder.ToString(), new { authId = authId, pondType = pondType, pondIndex = pondIndex });
         }
 
