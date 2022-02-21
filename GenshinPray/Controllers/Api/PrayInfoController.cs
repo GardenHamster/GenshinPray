@@ -259,6 +259,55 @@ namespace GenshinPray.Controllers.Api
             }
         }
 
+        [HttpGet]
+        [AuthCode]
+        public ApiResult GetMemberPrayRecords(string memberCode)
+        {
+            try
+            {
+                checkNullParam(memberCode);
+                var authorzation = HttpContext.Request.Headers["authorzation"];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                MemberPO memberInfo = memberService.GetByCode(authorizePO.Id, memberCode);
+                if (memberInfo == null) return ApiResult.Success();
+                List<PrayRecordDTO> allStar5List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.五星, 20);
+                List<PrayRecordDTO> armStar5List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.五星, YSPondType.武器, 20);
+                List<PrayRecordDTO> roleStar5List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.五星, YSPondType.角色, 20);
+                List<PrayRecordDTO> permStar5List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.五星, YSPondType.常驻, 20);
+                List<PrayRecordDTO> allStar4List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.四星, 20);
+                List<PrayRecordDTO> armStar4List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.四星, YSPondType.武器, 20);
+                List<PrayRecordDTO> roleStar4List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.四星, YSPondType.角色, 20);
+                List<PrayRecordDTO> permStar4List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.四星, YSPondType.常驻, 20);
+                return ApiResult.Success(new
+                {
+                    star5 = new
+                    {
+                        arm = memberGoodsService.ChangeToPrayRecordVO(armStar5List),
+                        role = memberGoodsService.ChangeToPrayRecordVO(roleStar5List),
+                        perm = memberGoodsService.ChangeToPrayRecordVO(permStar5List),
+                        all = memberGoodsService.ChangeToPrayRecordVO(allStar5List)
+                    },
+                    star4 = new
+                    {
+                        arm = memberGoodsService.ChangeToPrayRecordVO(armStar4List),
+                        role = memberGoodsService.ChangeToPrayRecordVO(roleStar4List),
+                        perm = memberGoodsService.ChangeToPrayRecordVO(permStar4List),
+                        all = memberGoodsService.ChangeToPrayRecordVO(allStar4List)
+                    }
+                });
+            }
+            catch (BaseException ex)
+            {
+                LogHelper.Info(ex);
+                return ApiResult.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+                return ApiResult.ServerError;
+            }
+        }
+
 
     }
 }

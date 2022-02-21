@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.VO;
 using GenshinPray.Type;
 using System;
@@ -39,6 +40,24 @@ namespace GenshinPray.Service
                 GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsType),
                 GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
                 RareType = Enum.GetName(typeof(YSRareType), m.RareType)
+            }).ToList();
+        }
+
+        /// <summary>
+        /// 将YSPrayRecord转换为GoodsVO
+        /// </summary>
+        /// <param name="prayRecordList"></param>
+        /// <returns></returns>
+        public List<PrayRecordVO> ChangeToPrayRecordVO(List<PrayRecordDTO> prayRecordList)
+        {
+            return prayRecordList.Select(m => new PrayRecordVO()
+            {
+                GoodsName = m.GoodsName,
+                GoodsType = Enum.GetName(typeof(YSGoodsType), m.GoodsType),
+                GoodsSubType = Enum.GetName(typeof(YSGoodsSubType), m.GoodsSubType),
+                RareType = Enum.GetName(typeof(YSRareType), m.RareType),
+                Cost = m.Cost,
+                CreateDate = m.CreateDate
             }).ToList();
         }
 

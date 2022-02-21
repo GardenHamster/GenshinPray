@@ -79,6 +79,17 @@ namespace GenshinPray.Service
             return rareRankingVO;
         }
 
+        public List<PrayRecordDTO> getPrayRecords(int authId, string memberCode, YSRareType rareType, int top)
+        {
+            return memberGoodsDao.getPrayRecords(authId, memberCode, rareType, top);
+        }
+
+        public List<PrayRecordDTO> getPrayRecords(int authId, string memberCode, YSRareType rareType, YSPondType pondType, int top)
+        {
+            return memberGoodsDao.getPrayRecords(authId, memberCode, rareType, pondType, top);
+        }
+
+
 
     }
 }
