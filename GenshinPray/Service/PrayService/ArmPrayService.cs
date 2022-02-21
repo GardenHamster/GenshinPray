@@ -78,31 +78,35 @@ namespace GenshinPray.Service.PrayService
 
                 bool isUpItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
                 bool isAssignItem = assignGoodsItem != null && records[i].GoodsItem.GoodsID == assignGoodsItem.GoodsID;//判断是否为本期定轨物品
-                records[i].OwnCount = memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Count();
+                records[i].IsNew = !memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Any();
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == false)
                 {
+                    records[i].Cost = 10 - memberInfo.Arm10Surplus;
                     memberInfo.Arm10Surplus = 10;//十连小保底重置
                     memberInfo.Arm20Surplus = 10;//十连大保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == true)
                 {
+                    records[i].Cost = 10 - memberInfo.Arm10Surplus;
                     memberInfo.Arm10Surplus = 10;//十连小保底重置
                     memberInfo.Arm20Surplus = 20;//十连大保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isAssignItem == false)
                 {
+                    records[i].Cost = 80 - memberInfo.Arm80Surplus;
+                    if (assignGoodsItem != null) memberInfo.ArmAssignValue++;//如果已经定轨，命定值+1
                     memberInfo.Arm10Surplus = 10;//十连小保底重置
                     memberInfo.Arm20Surplus = 20;//十连大保底重置
                     memberInfo.Arm80Surplus = 80;//八十发保底重置
-                    if (assignGoodsItem != null) memberInfo.ArmAssignValue++;//如果已经定轨，命定值+1
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isAssignItem == true)
                 {
+                    records[i].Cost = 80 - memberInfo.Arm80Surplus;
+                    if (assignGoodsItem != null) memberInfo.ArmAssignValue = 0;//命定值重置
                     memberInfo.Arm10Surplus = 10;//十连小保底重置
                     memberInfo.Arm20Surplus = 20;//十连大保底重置
                     memberInfo.Arm80Surplus = 80;//八十发保底重置
-                    if (assignGoodsItem != null) memberInfo.ArmAssignValue = 0;//命定值重置
                 }
             }
             return records;
@@ -158,9 +162,6 @@ namespace GenshinPray.Service.PrayService
             ysPrayResult.Surplus10 = memberInfo.Arm10Surplus;
             return ysPrayResult;
         }
-
-
-
 
     }
 }

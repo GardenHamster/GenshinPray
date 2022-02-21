@@ -73,20 +73,23 @@ namespace GenshinPray.Service.PrayService
                 }
 
                 bool isUpItem = IsUpItem(ySUpItem, records[i].GoodsItem);//判断是否为本期up的物品
-                records[i].OwnCount = memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Count();
+                records[i].IsNew = !memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Any();
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == false)
                 {
+                    records[i].Cost = 10 - memberInfo.Role10Surplus;
                     memberInfo.Role10Surplus = 10;//十连小保底重置
                     memberInfo.Role20Surplus = 10;//十连大保底重置为10
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.四星 && isUpItem == true)
                 {
+                    records[i].Cost = 10 - memberInfo.Role10Surplus;
                     memberInfo.Role10Surplus = 10;//十连小保底重置
                     memberInfo.Role20Surplus = 20;//十连大保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isUpItem == false)
                 {
+                    records[i].Cost = 90 - memberInfo.Role90Surplus;
                     memberInfo.Role10Surplus = 10;//十连小保底重置
                     memberInfo.Role20Surplus = 20;//十连大保底重置
                     memberInfo.Role90Surplus = 90;//九十发小保底重置
@@ -94,6 +97,7 @@ namespace GenshinPray.Service.PrayService
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星 && isUpItem == true)
                 {
+                    records[i].Cost = 90 - memberInfo.Role90Surplus;
                     memberInfo.Role10Surplus = 10;//十连小保底重置
                     memberInfo.Role20Surplus = 20;//十连大保底重置
                     memberInfo.Role90Surplus = 90;//九十发小保底重置

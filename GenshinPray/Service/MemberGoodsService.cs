@@ -21,21 +21,19 @@ namespace GenshinPray.Service
             this.memberGoodsDao = new MemberGoodsDao();
         }
 
-        public void AddMemberGoods(YSPrayResult ySPrayResult, YSPondType pondType, int authId, string memberCode)
+        public void AddMemberGoods(YSPrayResult ySPrayResult, List<MemberGoodsDTO> memberGoods, YSPondType pondType, int authId, string memberCode)
         {
             foreach (var result in ySPrayResult.PrayRecords)
             {
-                //if (result.GoodsItem.RareType != YSRareType.四星 && result.GoodsItem.RareType != YSRareType.五星) continue;
-                MemberGoodsPO memberGoods = new MemberGoodsPO();
-                memberGoods.AuthId = authId;
-                memberGoods.GoodsName = result.GoodsItem.GoodsName;
-                memberGoods.PondType = pondType;
-                memberGoods.GoodsType = result.GoodsItem.GoodsType;
-                memberGoods.GoodsSubType = result.GoodsItem.GoodsSubType;
-                memberGoods.RareType = result.GoodsItem.RareType;
-                memberGoods.MemberCode = memberCode;
-                memberGoods.CreateDate = DateTime.Now;
-                memberGoodsDao.Insert(memberGoods);
+                if (result.GoodsItem.RareType == YSRareType.三星 && memberGoods.Where(m => m.GoodsName == result.GoodsItem.GoodsName).Any()) continue;
+                MemberGoodsPO memberGood = new MemberGoodsPO();
+                memberGood.AuthId = authId;
+                memberGood.PondType = pondType;
+                memberGood.GoodsId = result.GoodsItem.GoodsID;
+                memberGood.Cost = result.Cost;
+                memberGood.MemberCode = memberCode;
+                memberGood.CreateDate = DateTime.Now;
+                memberGoodsDao.Insert(memberGood);
             }
         }
 

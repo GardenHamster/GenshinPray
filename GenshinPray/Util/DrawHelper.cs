@@ -38,7 +38,7 @@ namespace GenshinPray.Util
                 drawStar(bgGraphics, goodsItem, indexX, indexY);//画星星
                 drawLight(bgGraphics, goodsItem, indexX, indexY);//画光框
                 drawProspect(bgGraphics, goodsItem, indexX, indexY);//画框前景色(带星)
-                if (goodsRecord.OwnCount==0) drawNewIcon(bgGraphics, indexX, indexY);//画New图标
+                if (goodsRecord.IsNew) drawNewIcon(bgGraphics, indexX, indexY);//画New图标
                 drawCloseIcon(bgGraphics);//画关闭图标
                 indexX -= 148;
             }

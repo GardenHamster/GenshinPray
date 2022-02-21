@@ -13,12 +13,20 @@ namespace GenshinPray.Dao
     {
         public int CountByMember(int authId, string memberCode, YSRareType rareType)
         {
-            return Db.Queryable<MemberGoodsPO>().Where(o => o.AuthId == authId && o.MemberCode == memberCode && o.RareType == rareType).Count();
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append(" select count(mg.Id) count from member_goods mg");
+            sqlBuilder.Append(" inner join goods g on g.Id=mg.GoodsId");
+            sqlBuilder.Append(" where mg.AuthId=@AuthId and mg.MemberCode=@MemberCode and g.RareType=@RareType");
+            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, RareType = rareType }).Single();
         }
 
         public int CountByMember(int authId, string memberCode, YSPondType pondType, YSRareType rareType)
         {
-            return Db.Queryable<MemberGoodsPO>().Where(o => o.AuthId == authId && o.MemberCode == memberCode && o.PondType == pondType && o.RareType == rareType).Count();
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append(" select count(mg.Id) count from member_goods mg");
+            sqlBuilder.Append(" inner join goods g on g.Id=mg.GoodsId");
+            sqlBuilder.Append(" where mg.AuthId=@AuthId and mg.MemberCode=@MemberCode and g.RareType=@RareType and g.PondType=@PondType");
+            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, PondType = pondType, RareType = rareType }).Single();
         }
 
         public List<LuckRankingDTO> getLuckRanking(int authId, int top, YSRareType rareType, DateTime startDate, DateTime endDate)
@@ -27,9 +35,10 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" select temp.AuthId, temp.MemberCode, temp.RareType, temp.RareCount,");
             sqlBuilder.Append(" temp2.TotalPrayTimes, temp.rareCount/temp2.TotalPrayTimes as RareRate from member m");
             sqlBuilder.Append(" inner join (");
-            sqlBuilder.Append(" 	select AuthId,MemberCode,RareType,count(RareType) RareCount from member_goods");
-            sqlBuilder.Append(" 	where AuthId=@AuthId and RareType=@RareType and CreateDate>=@StartDate and CreateDate<@EndDate");
-            sqlBuilder.Append(" 	group by AuthId,MemberCode,RareType limit @Top");
+            sqlBuilder.Append(" 	select mg.AuthId,mg.MemberCode,g.RareType,count(g.RareType) RareCount from member_goods mg");
+            sqlBuilder.Append("     inner join goods g on g.Id=mg.GoodsId");
+            sqlBuilder.Append(" 	where mg.AuthId=@AuthId and g.RareType=@RareType and mg.CreateDate>=@StartDate and mg.CreateDate<@EndDate");
+            sqlBuilder.Append(" 	group by mg.AuthId,mg.MemberCode,g.RareType limit @Top");
             sqlBuilder.Append(" ) temp on temp.MemberCode=m.MemberCode");
             sqlBuilder.Append(" inner join (");
             sqlBuilder.Append(" 	select AuthId,MemberCode,sum(PrayCount) TotalPrayTimes from pray_record");

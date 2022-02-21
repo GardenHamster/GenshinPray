@@ -15,12 +15,20 @@ namespace GenshinPray.Models
         /// <summary>
         /// 拥有数量
         /// </summary>
-        public int OwnCount { get; set; }
+        public bool IsNew { get; set; }
+
+        /// <summary>
+        /// 在一次保底中消耗多少抽
+        /// </summary>
+        public int Cost { get; set; }
+
 
         public YSPrayRecord(YSGoodsItem goodsItem)
         {
             this.GoodsItem = goodsItem;
         }
+
+
 
     }
 }

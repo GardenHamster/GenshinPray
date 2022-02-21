@@ -72,14 +72,16 @@ namespace GenshinPray.Service.PrayService
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
 
-                records[i].OwnCount = memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Count();
+                records[i].IsNew = !memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Any();
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星)
                 {
+                    records[i].Cost = 10 - memberInfo.Perm10Surplus;
                     memberInfo.Perm10Surplus = 10;//十连保底重置
                 }
                 if (records[i].GoodsItem.RareType == YSRareType.五星)
                 {
+                    records[i].Cost = 90 - memberInfo.Perm90Surplus;
                     memberInfo.Perm10Surplus = 10;//十连保底重置
                     memberInfo.Perm90Surplus = 90;//九十发保底重置
                 }

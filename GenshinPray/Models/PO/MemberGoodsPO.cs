@@ -16,22 +16,17 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, Length = 32, ColumnDescription = "成员编号")]
         public string MemberCode { get; set; }
 
-        [SugarColumn(IsNullable = false, Length = 50, ColumnDescription = "物品名称")]
-        public string GoodsName { get; set; }
+        [SugarColumn(IsNullable = false, ColumnDescription = "物品ID")]
+        public int GoodsId { get; set; }
 
         [SugarColumn(IsNullable = false, ColumnDescription = "来源蛋池")]
         public YSPondType PondType { get; set; }
 
-        [SugarColumn(IsNullable = false, ColumnDescription = "物品类型")]
-        public YSGoodsType GoodsType { get; set; }
+        [SugarColumn(IsNullable = false, ColumnDescription = "累计消耗N抽")]
+        public int Cost { get; set; }
 
-        [SugarColumn(IsNullable = false, ColumnDescription = "物品子类型")]
-        public YSGoodsSubType GoodsSubType { get; set; }
-
-        [SugarColumn(IsNullable = false, ColumnDescription = "稀有类型")]
-        public YSRareType RareType { get; set; }
-
-        [SugarColumn(IsNullable = false, ColumnDescription = "添加日期")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "获得日期")]
         public DateTime CreateDate { get; set; }
+
     }
 }
