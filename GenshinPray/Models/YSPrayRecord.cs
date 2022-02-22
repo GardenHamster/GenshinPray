@@ -18,6 +18,11 @@ namespace GenshinPray.Models
         public bool IsNew { get; set; }
 
         /// <summary>
+        /// 已拥有数量
+        /// </summary>
+        public int OwnCountBefore { get; set; }
+
+        /// <summary>
         /// 在一次保底中消耗多少抽
         /// </summary>
         public int Cost { get; set; }

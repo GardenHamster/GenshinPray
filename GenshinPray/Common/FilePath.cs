@@ -172,6 +172,36 @@ namespace GenshinPray.Common
         }
 
         /// <summary>
+        /// 星尘图标路径
+        /// </summary>
+        /// <returns></returns>
+        public static string getYSStarDustIconPath(YSGoodsItem goodsItem)
+        {
+            if (goodsItem.RareType == YSRareType.四星)
+            {
+                return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星尘紫.png");
+            }
+            if (goodsItem.RareType == YSRareType.五星)
+            {
+                return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星尘金.png");
+            }
+            throw new Exception($"找不到与{Enum.GetName(typeof(YSGoodsItem), goodsItem.RareType)}对应的星尘素材");
+        }
+
+        /// <summary>
+        /// 星辉图标路径
+        /// </summary>
+        /// <returns></returns>
+        public static string getYSStarLightIconPath(int count)
+        {
+            if (count == 2) return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星辉2.png");
+            if (count == 5) return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星辉5.png");
+            if (count == 10) return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星辉10.png");
+            if (count == 25) return Path.Combine(SiteConfig.PrayMaterialSavePath, "图标", "星辉25.png");
+            throw new Exception($"找不到数量为{count}的星辉素材");
+        }
+
+        /// <summary>
         /// 角色大图路径
         /// </summary>
         /// <param name="goodsItem"></param>
