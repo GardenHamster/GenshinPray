@@ -361,7 +361,77 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 }
 ```
 
+## 查询成员祈愿记录
 
+- 获取成员前20条5星和4星物品记录,按照出货时间降序排序,以及所消耗抽数
+
+| 请求类型 | 请求地址                                |  说明                        |
+| ------ | --------------------------------------- | ---------------------------- |
+| Get    | /api/PrayInfo/GetMemberPrayRecords      | 查询成员祈愿记录              | 
+
+#### 参数
+| 键            | 说明                          | 必须  | 默认                  |
+| ------------- | ---------------------------- | ----- | --------------------- |
+| authorzation  | 授权码，放在Header中           | 是    |                       |
+| memberCode    | 成员编号                      | 是    |                       |
+
+#### 响应
+
+```json5
+{
+    "code": 0,
+    "message": "ok",
+    "data": {
+        "star5": {                                               //五星记录
+            "arm": [                                             //武器池记录
+                {
+                    "goodsName": "和璞鸢",
+                    "goodsType": "武器",
+                    "goodsSubType": "长柄武器",
+                    "rareType": "五星",
+                    "cost": 69,
+                    "createDate": "2022-02-23T15:19:10"
+                }
+            ],
+            "role": [                                            //角色池记录
+                {
+                    "goodsName": "莫娜",
+                    "goodsType": "角色",
+                    "goodsSubType": "水",
+                    "rareType": "五星",
+                    "cost": 78,
+                    "createDate": "2022-02-23T15:18:03"
+                }
+            ],
+            "perm": [],                                          //常驻池记录
+            "all": [                                             //武器+角色+常驻池记录,按照时间排序
+                {
+                    "goodsName": "和璞鸢",
+                    "goodsType": "武器",
+                    "goodsSubType": "长柄武器",
+                    "rareType": "五星",
+                    "cost": 69,
+                    "createDate": "2022-02-23T15:19:10"
+                },
+                {
+                    "goodsName": "莫娜",
+                    "goodsType": "角色",
+                    "goodsSubType": "水",
+                    "rareType": "五星",
+                    "cost": 78,
+                    "createDate": "2022-02-23T15:18:03"
+                }
+            ]
+        },
+        "star4": {                                               //同5星记录,这里不显示相关内容
+            "arm": [],
+            "role": [],
+            "perm": [],
+            "all": []
+        }
+    }
+}
+```
 
 ## 获取欧气排行
 
