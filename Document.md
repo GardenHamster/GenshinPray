@@ -99,8 +99,9 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 
 | 键            | 说明                          | 必须  | 默认                  |
 | ------------- | ---------------------------- | ----- | --------------------- |
-| authorzation  | 授权码，放在Header中          | 是    |                       |  
-| memberCode    | 成员编号                      | 是    |                       |    
+| authorzation  | 授权码，放在Header中          | 是     |                       | 
+| memberCode    | 成员编号                     | 是     |                       |
+| pondIndex     | 蛋池编号,角色池可选           | 否     | 0                     |
 | imgWidth      | 生成图片宽度,单位px           | 否     | 1920                  |
 | toBase64      | 是否返回base64字符串          | 否     | false                |
 
@@ -236,18 +237,18 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
     "code": 0,
     "message": "ok",
     "data": {
-        "arm": [											              //武器池
+        "arm": [                                     //武器池
             {
-                "pondIndex": 0,								      //蛋池编号,武器池只有一个蛋池
+                "pondIndex": 0,                      //蛋池编号,武器池只有一个蛋池
                 "pondInfo": {
-                    "star5UpList": [],				  		//5星列表,这里省略里面全部内容...
-                    "star4UpList": []						    //4星列表,这里省略里面全部内容...
+                    "star5UpList": [],               //5星列表,这里省略里面的内容...
+                    "star4UpList": []                //4星列表,这里省略里面的内容...
                 }
             }
         ],
         "role": [
             {
-                "pondIndex": 0,							       	//蛋池编号,用于角色池可以配置多个蛋池
+                "pondIndex": 0,                      //蛋池编号,用于角色池可以配置多个蛋池
                 "pondInfo": {
                     "star5UpList": [
                         {
@@ -280,7 +281,7 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
                 }
             },
             {
-                "pondIndex": 1,						        		//蛋池编号,用于角色池可以配置多个蛋池
+                "pondIndex": 1,                   //蛋池编号,用于角色池可以配置多个蛋池
                 "pondInfo": {
                     "star5UpList": [
                         {
@@ -290,32 +291,13 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
                             "rareType": "五星"
                         }
                     ],
-                    "star4UpList": [
-                        {
-                            "goodsName": "托马",
-                            "goodsType": "角色",
-                            "goodsSubType": "火",
-                            "rareType": "四星"
-                        },
-                        {
-                            "goodsName": "菲谢尔",
-                            "goodsType": "角色",
-                            "goodsSubType": "雷",
-                            "rareType": "四星"
-                        },
-                        {
-                            "goodsName": "迪奥娜",
-                            "goodsType": "角色",
-                            "goodsSubType": "冰",
-                            "rareType": "四星"
-                        }
-                    ]
+                    "star4UpList": []]            //4星列表,这里省略里面的内容...
                 }
             }
         ],
         "perm": [
             {
-                "pondIndex": 0,						          		//蛋池编号,常驻池只有一个蛋池
+                "pondIndex": 0,                   //蛋池编号,常驻池只有一个蛋池
                 "pondInfo": {
                     "star5UpList": [],
                     "star4UpList": []
