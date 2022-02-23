@@ -37,9 +37,9 @@ namespace GenshinPray.Util
                 if (goodsItem.RareType == YSRareType.五星) drawShading(bgGraphics, goodsItem, indexX, indexY);//画底纹
                 drawEquip(bgGraphics, goodsItem, indexX, indexY);//画装备或角色
                 drawProspect(bgGraphics, goodsItem, indexX, indexY);//画框前景色(带星)
+                drawLight(bgGraphics, goodsItem, indexX, indexY);//画光框
                 drawIcon(bgGraphics, prayRecord, indexX, indexY);//画装备图标或转换素材
                 drawStar(bgGraphics, prayRecord, indexX, indexY);//画星星
-                drawLight(bgGraphics, goodsItem, indexX, indexY);//画光框
                 drawNewIcon(bgGraphics, prayRecord, indexX, indexY);//画New图标
                 drawCloseIcon(bgGraphics);//画关闭图标
                 indexX -= 148;
@@ -77,7 +77,7 @@ namespace GenshinPray.Util
                 drawEquipIcon(bgGraphics, goodsItem);//画装备图标
                 drawEquipName(bgGraphics, goodsItem);//画装备名
                 drawEquipStar(bgGraphics, goodsItem);//画星星
-                drawToken(bgGraphics, goodsItem);//画代币
+                drawEquipToken(bgGraphics, goodsItem);//画代币
             }
             drawBubbles(bgGraphics);//画泡泡
             drawWaterMark(bgGraphics);//画水印
@@ -197,7 +197,7 @@ namespace GenshinPray.Util
             }
         }
 
-        private static void drawToken(Graphics bgGraphics, YSGoodsItem goodsItem)
+        private static void drawEquipToken(Graphics bgGraphics, YSGoodsItem goodsItem)
         {
             using Image imgToken = new Bitmap(FilePath.getYSTokenPath(goodsItem));
             bgGraphics.DrawImage(imgToken, 1394, 485, imgToken.Width, imgToken.Height);
@@ -271,7 +271,7 @@ namespace GenshinPray.Util
             if (goodsItem.GoodsType == YSGoodsType.武器)
             {
                 using Image imgIcon = new Bitmap(FilePath.getYSWhiteEquipIconPath(goodsItem));
-                bgGraphics.DrawImage(imgIcon, indexX + 30, indexY + 420, 100, 100);//画武器图标
+                bgGraphics.DrawImage(imgIcon, indexX + 30, indexY + 430, 100, 100);//画武器图标
             }
             if (goodsItem.GoodsType == YSGoodsType.角色 && prayRecord.OwnCountBefore == 0)
             {
@@ -281,14 +281,20 @@ namespace GenshinPray.Util
             if (goodsItem.GoodsType == YSGoodsType.角色 && prayRecord.OwnCountBefore > 0 && prayRecord.OwnCountBefore < 6)
             {
                 using Image imgStarLight = new Bitmap(FilePath.getYSStarLightIconPath(goodsItem.RareType == YSRareType.五星 ? 10 : 2));
-                bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 320, imgStarLight.Width, imgStarLight.Height);//画星辉
+                bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 323, imgStarLight.Width, imgStarLight.Height);//画星辉
                 using Image imgStarDust = new Bitmap(FilePath.getYSStarDustIconPath(goodsItem));
-                bgGraphics.DrawImage(imgStarDust, indexX + 25, indexY + 440, imgStarDust.Width, imgStarDust.Height);//画星尘
+                bgGraphics.DrawImage(imgStarDust, indexX + 25, indexY + 443, imgStarDust.Width, imgStarDust.Height);//画星尘
+                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using SolidBrush brushWatermark = new SolidBrush(Color.White);
+                bgGraphics.DrawString("转化", tranFont, brushWatermark, indexX + 48, indexY + 632);
             }
             if (goodsItem.GoodsType == YSGoodsType.角色 && prayRecord.OwnCountBefore >= 6)
             {
                 using Image imgStarLight = new Bitmap(FilePath.getYSStarLightIconPath(goodsItem.RareType == YSRareType.五星 ? 25 : 5));
-                bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 440, imgStarLight.Width, imgStarLight.Height);//画星辉
+                bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 443, imgStarLight.Width, imgStarLight.Height);//画星辉
+                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using SolidBrush brushWatermark = new SolidBrush(Color.White);
+                bgGraphics.DrawString("转化", tranFont, brushWatermark, indexX + 48, indexY + 632);
             }
         }
 
@@ -309,9 +315,9 @@ namespace GenshinPray.Util
             int starWidth = 21;
             int starHeight = 21;
 
-            if (prayRecord.IsNew == false) return;
-            YSGoodsItem goodsItem = prayRecord.GoodsItem;
+            if (prayRecord.IsNew == false && prayRecord.GoodsItem.GoodsType == YSGoodsType.角色) return;
 
+            YSGoodsItem goodsItem = prayRecord.GoodsItem;
             if (goodsItem.RareType == YSRareType.五星)
             {
                 starCount = 5;
@@ -325,11 +331,11 @@ namespace GenshinPray.Util
                 starCount = 3;
             }
 
-            int indexXAdd = (150 - (starCount * starWidth)) / 2;
+            int indexXAdd = (155 - (starCount * starWidth)) / 2;
             using Image imgStar = new Bitmap(FilePath.getYSStarPath());
             for (int i = 0; i < starCount; i++)
             {
-                bgGraphics.DrawImage(imgStar, indexX + indexXAdd, indexY + 530, starWidth, starHeight);
+                bgGraphics.DrawImage(imgStar, indexX + indexXAdd, indexY + 535, starWidth, starHeight);
                 indexXAdd += starWidth;
             }
         }
@@ -362,9 +368,9 @@ namespace GenshinPray.Util
 
         private static void drawUID(Graphics bgGraphics, string uid)
         {
-            using Font watermarkFont = new Font("汉仪文黑-85W", 15, FontStyle.Regular);
+            using Font uidFont = new Font("汉仪文黑-85W", 15, FontStyle.Regular);
             using SolidBrush brushWatermark = new SolidBrush(Color.White);
-            bgGraphics.DrawString($"UID：{uid}", watermarkFont, brushWatermark, 1650, 1040);
+            bgGraphics.DrawString($"UID：{uid}", uidFont, brushWatermark, 1650, 1040);
         }
 
 

@@ -214,7 +214,8 @@ namespace GenshinPray.Service.PrayService
 
         protected int GetOwnCountBefore(List<MemberGoodsDTO> memberGoods, YSPrayRecord[] records, YSPrayRecord checkRecord)
         {
-            int ownBefore = memberGoods.Where(m => m.GoodsName == checkRecord.GoodsItem.GoodsName).Count();
+            MemberGoodsDTO ownGood = memberGoods.Where(m => m.GoodsName == checkRecord.GoodsItem.GoodsName).FirstOrDefault();
+            int ownBefore = ownGood == null ? 0 : ownGood.Count;
             int ownInRecord = records.Where(m => m != null && m != checkRecord && m.GoodsItem.GoodsName == checkRecord.GoodsItem.GoodsName).Count();
             return ownBefore + ownInRecord;
         }
