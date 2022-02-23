@@ -236,25 +236,92 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
     "code": 0,
     "message": "ok",
     "data": {
-        "arm": {                                //武器池
-            "star5UpList": [                    //五星UP列表
-                {
-                    "goodsName": "飞雷之弦振",   //物品名称
-                    "goodsType": "武器",        //物品类型，武器/角色
-                    "goodsSubType": "弓",       //物品子类型
-                    "rareType": "五星"          //稀有类型
+        "arm": [											              //武器池
+            {
+                "pondIndex": 0,								      //蛋池编号,武器池只有一个蛋池
+                "pondInfo": {
+                    "star5UpList": [],				  		//5星列表,这里省略里面全部内容...
+                    "star4UpList": []						    //4星列表,这里省略里面全部内容...
                 }
-            ],
-            "star4UpList": []                   //四星UP列表
-        },
-        "role": {                               //角色池
-            "star5UpList": [],
-            "star4UpList": []
-        },
-        "perm": {                               //常驻池
-            "star5UpList": [],
-            "star4UpList": []
-        }
+            }
+        ],
+        "role": [
+            {
+                "pondIndex": 0,							       	//蛋池编号,用于角色池可以配置多个蛋池
+                "pondInfo": {
+                    "star5UpList": [
+                        {
+                            "goodsName": "八重神子",
+                            "goodsType": "角色",
+                            "goodsSubType": "雷",
+                            "rareType": "五星"
+                        }
+                    ],
+                    "star4UpList": [
+                        {
+                            "goodsName": "托马",
+                            "goodsType": "角色",
+                            "goodsSubType": "火",
+                            "rareType": "四星"
+                        },
+                        {
+                            "goodsName": "菲谢尔",
+                            "goodsType": "角色",
+                            "goodsSubType": "雷",
+                            "rareType": "四星"
+                        },
+                        {
+                            "goodsName": "迪奥娜",
+                            "goodsType": "角色",
+                            "goodsSubType": "冰",
+                            "rareType": "四星"
+                        }
+                    ]
+                }
+            },
+            {
+                "pondIndex": 1,						        		//蛋池编号,用于角色池可以配置多个蛋池
+                "pondInfo": {
+                    "star5UpList": [
+                        {
+                            "goodsName": "雷电将军",
+                            "goodsType": "角色",
+                            "goodsSubType": "雷",
+                            "rareType": "五星"
+                        }
+                    ],
+                    "star4UpList": [
+                        {
+                            "goodsName": "托马",
+                            "goodsType": "角色",
+                            "goodsSubType": "火",
+                            "rareType": "四星"
+                        },
+                        {
+                            "goodsName": "菲谢尔",
+                            "goodsType": "角色",
+                            "goodsSubType": "雷",
+                            "rareType": "四星"
+                        },
+                        {
+                            "goodsName": "迪奥娜",
+                            "goodsType": "角色",
+                            "goodsSubType": "冰",
+                            "rareType": "四星"
+                        }
+                    ]
+                }
+            }
+        ],
+        "perm": [
+            {
+                "pondIndex": 0,						          		//蛋池编号,常驻池只有一个蛋池
+                "pondInfo": {
+                    "star5UpList": [],
+                    "star4UpList": []
+                }
+            }
+        ]
     }
 }
 ```
