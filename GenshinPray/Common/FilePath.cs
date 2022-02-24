@@ -54,10 +54,19 @@ namespace GenshinPray.Common
         /// 角色小图路径
         /// </summary>
         /// <param name="goodsItem"></param>
+        /// <param name="isUseSkin"></param>
         /// <returns></returns>
-        public static string getYSSmallRoleImgPath(YSGoodsItem goodsItem)
+        public static string getYSSmallRoleImgPath(YSGoodsItem goodsItem, bool isUseSkin)
         {
-            return Path.Combine(SiteConfig.PrayMaterialSavePath, "角色小图", $"{goodsItem.GoodsName}.png");
+            string generalPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "角色小图", $"{goodsItem.GoodsName}.png");
+            if (isUseSkin == false) return generalPath;
+            string skinDirPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "服装小图", $"{goodsItem.GoodsName}");
+            if (Directory.Exists(skinDirPath) == false) return generalPath;
+            DirectoryInfo directoryInfo = new DirectoryInfo(skinDirPath);
+            FileInfo[] files = directoryInfo.GetFiles();
+            if (files == null || files.Length == 0) return generalPath;
+            int randomIndex = new Random().Next(files.Length);
+            return files[randomIndex].FullName;
         }
 
         /// <summary>
@@ -205,10 +214,19 @@ namespace GenshinPray.Common
         /// 角色大图路径
         /// </summary>
         /// <param name="goodsItem"></param>
+        /// <param name="isUseSkin"></param>
         /// <returns></returns>
-        public static string getYSBigRoleImgPath(YSGoodsItem goodsItem)
+        public static string getYSBigRoleImgPath(YSGoodsItem goodsItem,bool isUseSkin)
         {
-            return Path.Combine(SiteConfig.PrayMaterialSavePath, "角色大图", $"{goodsItem.GoodsName}.png");
+            string generalPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "角色大图", $"{goodsItem.GoodsName}.png");
+            if (isUseSkin == false) return generalPath;
+            string skinDirPath = Path.Combine(SiteConfig.PrayMaterialSavePath, "服装大图", $"{goodsItem.GoodsName}");
+            if (Directory.Exists(skinDirPath) == false) return generalPath;
+            DirectoryInfo directoryInfo = new DirectoryInfo(skinDirPath);
+            FileInfo[] files = directoryInfo.GetFiles();
+            if (files == null || files.Length == 0) return generalPath;
+            int randomIndex = new Random().Next(files.Length);
+            return files[randomIndex].FullName;
         }
 
         /// <summary>

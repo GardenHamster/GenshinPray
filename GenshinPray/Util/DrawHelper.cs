@@ -17,11 +17,12 @@ namespace GenshinPray.Util
         /// <summary>
         /// 根据祈愿记录生成结果图
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="ysPrayRecords"></param>
         /// <param name="memberInfo"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawTenPrayImg(YSPrayRecord[] ysPrayRecords, MemberPO memberInfo, int imgWidth)
+        public static FileInfo drawTenPrayImg(AuthorizePO authorize, YSPrayRecord[] ysPrayRecords, MemberPO memberInfo, int imgWidth)
         {
             int startIndexX = 230 + 151 * 9;
             int startIndexY = 228;
@@ -35,7 +36,7 @@ namespace GenshinPray.Util
                 YSGoodsItem goodsItem = prayRecord.GoodsItem;
                 drawFrame(bgGraphics, goodsItem, indexX, indexY);//画框
                 drawShading(bgGraphics, goodsItem, indexX, indexY);//画底纹
-                drawEquip(bgGraphics, goodsItem, indexX, indexY);//画装备或角色
+                drawRoleOrEquip(bgGraphics, authorize, goodsItem, indexX, indexY);//画装备或角色
                 drawLight(bgGraphics, goodsItem, indexX, indexY);//画光框
                 drawIcon(bgGraphics, prayRecord, indexX, indexY);//画装备图标
                 drawProspect(bgGraphics, goodsItem, indexX, indexY);//画框前景色(带星)
@@ -54,11 +55,12 @@ namespace GenshinPray.Util
         /// <summary>
         /// 根据祈愿记录生成结果图
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="ysPrayRecord"></param>
         /// <param name="memberInfo"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawOnePrayImg(YSPrayRecord ysPrayRecord, MemberPO memberInfo, int imgWidth)
+        public static FileInfo drawOnePrayImg(AuthorizePO authorize, YSPrayRecord ysPrayRecord, MemberPO memberInfo, int imgWidth)
         {
             string backImgUrl = FilePath.getYSPrayBGPath();
             using Bitmap bitmap = new Bitmap(backImgUrl);
@@ -66,7 +68,7 @@ namespace GenshinPray.Util
             YSGoodsItem goodsItem = ysPrayRecord.GoodsItem;
             if (goodsItem.GoodsType == YSGoodsType.角色)
             {
-                drawRole(bgGraphics, goodsItem);//画角色大图
+                drawRole(bgGraphics, authorize, goodsItem);//画角色大图
                 drawRoleIcon(bgGraphics, goodsItem);//画角色元素图标
                 drawRoleName(bgGraphics, goodsItem);//画角色名
                 drawRoleStar(bgGraphics, goodsItem);//画星星
@@ -88,9 +90,10 @@ namespace GenshinPray.Util
         }
 
         /*-------------------------------------------------------单抽---------------------------------------------------------------------*/
-        private static void drawRole(Graphics bgGraphics, YSGoodsItem goodsItem)
+        private static void drawRole(Graphics bgGraphics, AuthorizePO authorize, YSGoodsItem goodsItem)
         {
-            using Image imgRole = new Bitmap(FilePath.getYSBigRoleImgPath(goodsItem));
+            bool isUseSkin = authorize.SkinRate > 0 && RandomHelper.getRandomBetween(1, 100) <= authorize.SkinRate;
+            using Image imgRole = new Bitmap(FilePath.getYSBigRoleImgPath(goodsItem, isUseSkin));
             using Image imgResize = new Bitmap(imgRole, 2688, 1344);
             bgGraphics.DrawImage(imgResize, -339, -133, new Rectangle(0, 0, imgResize.Width, imgResize.Height), GraphicsUnit.Pixel);
         }
@@ -274,11 +277,12 @@ namespace GenshinPray.Util
             bgGraphics.DrawImage(imgProspect, indexX + 9, indexY + 10, imgProspect.Width, imgProspect.Height);
         }
 
-        private static void drawEquip(Graphics bgGraphics, YSGoodsItem goodsItem, int indexX, int indexY)
+        private static void drawRoleOrEquip(Graphics bgGraphics, AuthorizePO authorize, YSGoodsItem goodsItem, int indexX, int indexY)
         {
             if (goodsItem.GoodsType == YSGoodsType.角色)
             {
-                using Image imgRole = new Bitmap(FilePath.getYSSmallRoleImgPath(goodsItem));
+                bool isUseSkin = authorize.SkinRate > 0 && RandomHelper.getRandomBetween(1, 100) <= authorize.SkinRate;
+                using Image imgRole = new Bitmap(FilePath.getYSSmallRoleImgPath(goodsItem, isUseSkin));
                 using Image imgResize = new Bitmap(imgRole, imgRole.Width, imgRole.Height);
                 bgGraphics.DrawImage(imgResize, indexX - 1, indexY + 5, new Rectangle(-3, 0, imgResize.Width, imgResize.Height), GraphicsUnit.Pixel);
             }

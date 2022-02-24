@@ -195,14 +195,15 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 绘制祈愿结果图片,返回FileInfo对象
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="sortPrayRecords"></param>
         /// <param name="memberInfo"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
-        protected FileInfo DrawPrayImg(YSPrayRecord[] sortPrayRecords, MemberPO memberInfo, int imgWidth)
+        protected FileInfo DrawPrayImg(AuthorizePO authorize, YSPrayRecord[] sortPrayRecords, MemberPO memberInfo, int imgWidth)
         {
-            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(sortPrayRecords.First(), memberInfo, imgWidth);
-            return DrawHelper.drawTenPrayImg(sortPrayRecords, memberInfo, imgWidth);
+            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(authorize, sortPrayRecords.First(), memberInfo, imgWidth);
+            return DrawHelper.drawTenPrayImg(authorize, sortPrayRecords, memberInfo, imgWidth);
         }
 
         protected bool CheckIsNew(List<MemberGoodsDTO> memberGoods, YSPrayRecord[] records, YSPrayRecord checkRecord)

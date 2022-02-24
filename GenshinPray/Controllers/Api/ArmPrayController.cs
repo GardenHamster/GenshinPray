@@ -48,7 +48,7 @@ namespace GenshinPray.Controllers.Api
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ySUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
@@ -100,7 +100,7 @@ namespace GenshinPray.Controllers.Api
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ySUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
+                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ySUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
