@@ -72,7 +72,8 @@ namespace GenshinPray.Service.PrayService
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem);
                 }
 
-                records[i].IsNew = !memberGoods.Where(m => m.GoodsName == records[i].GoodsItem.GoodsName).Any();
+                records[i].IsNew = CheckIsNew(memberGoods, records, records[i]);//判断是否为New
+                records[i].OwnCountBefore = GetOwnCountBefore(memberGoods, records, records[i]);//统计已拥有数量
 
                 if (records[i].GoodsItem.RareType == YSRareType.四星)
                 {
@@ -107,7 +108,7 @@ namespace GenshinPray.Service.PrayService
             throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
-        public YSPrayResult GetPrayResult(MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
+        public YSPrayResult GetPrayResult(AuthorizePO authorize, MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int perm90SurplusBefore = memberInfo.Perm90Surplus;
@@ -120,7 +121,7 @@ namespace GenshinPray.Service.PrayService
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyFileInfo = DrawPrayImg(sortPrayRecords, imgWidth);
+            ysPrayResult.ParyFileInfo = DrawPrayImg(authorize, sortPrayRecords, memberInfo, imgWidth);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, perm90SurplusBefore, 90);

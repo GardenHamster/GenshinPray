@@ -1,5 +1,6 @@
 ﻿using GenshinPray.Dao;
 using GenshinPray.Models;
+using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
 using GenshinPray.Type;
 using GenshinPray.Util;
@@ -132,8 +133,8 @@ namespace GenshinPray.Service.PrayService
         /// <returns></returns>
         public YSPrayRecord[] SortGoods(YSPrayRecord[] YSPrayRecords)
         {
-            //先按物品种类排序（0->2），相同种类的物品之间按稀有度倒序排序（5->1）
-            return YSPrayRecords.OrderBy(c => c.GoodsItem.GoodsType).ThenByDescending(c => c.GoodsItem.RareType).ToArray();
+            //先按物品种类排序（0->2），相同种类的物品之间按稀有度倒序排序（5->1）,最后New排在前面
+            return YSPrayRecords.OrderBy(c => c.GoodsItem.GoodsType).ThenByDescending(c => c.GoodsItem.RareType).ThenBy(c => c.OwnCountBefore).ToArray();
         }
 
         /// <summary>
@@ -194,13 +195,30 @@ namespace GenshinPray.Service.PrayService
         /// <summary>
         /// 绘制祈愿结果图片,返回FileInfo对象
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="sortPrayRecords"></param>
+        /// <param name="memberInfo"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
-        protected FileInfo DrawPrayImg(YSPrayRecord[] sortPrayRecords, int imgWidth)
+        protected FileInfo DrawPrayImg(AuthorizePO authorize, YSPrayRecord[] sortPrayRecords, MemberPO memberInfo, int imgWidth)
         {
-            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(sortPrayRecords.First(), imgWidth);
-            return DrawHelper.drawTenPrayImg(sortPrayRecords, imgWidth);
+            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(authorize, sortPrayRecords.First(), memberInfo, imgWidth);
+            return DrawHelper.drawTenPrayImg(authorize, sortPrayRecords, memberInfo, imgWidth);
+        }
+
+        protected bool CheckIsNew(List<MemberGoodsDTO> memberGoods, YSPrayRecord[] records, YSPrayRecord checkRecord)
+        {
+            bool isOwnedBefore = memberGoods.Where(m => m.GoodsName == checkRecord.GoodsItem.GoodsName).Any();
+            bool isOwnedInRecord = records.Where(m => m != null && m != checkRecord && m.GoodsItem.GoodsName == checkRecord.GoodsItem.GoodsName).Any();
+            return isOwnedBefore == false && isOwnedInRecord == false;
+        }
+
+        protected int GetOwnCountBefore(List<MemberGoodsDTO> memberGoods, YSPrayRecord[] records, YSPrayRecord checkRecord)
+        {
+            MemberGoodsDTO ownGood = memberGoods.Where(m => m.GoodsName == checkRecord.GoodsItem.GoodsName).FirstOrDefault();
+            int ownBefore = ownGood == null ? 0 : ownGood.Count;
+            int ownInRecord = records.Where(m => m != null && m != checkRecord && m.GoodsItem.GoodsName == checkRecord.GoodsItem.GoodsName).Count();
+            return ownBefore + ownInRecord;
         }
 
     }
