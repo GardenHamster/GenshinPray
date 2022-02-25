@@ -34,13 +34,14 @@
 - [ ] 后台管理web界面
 
 ## 其他
-- 原本想将效果异得更逼真一点，但是因为不会解包也不会PS，很多小细节的素材都没有，所以爬了
+- 原本想将效果异得更逼真一点，但是因为不会解包也不会PS，很多小细节都没法处理，所以爬了，有生之年再继续优化
+- 素材会定期更新，但是要等到换池子以后才会更新，~~通常会在换池子后一两天才更新~~
 - 如果有更好的想法或者建议欢迎在issuse中提出来...
 
 ## 效果图
-![202202250155180561](https://user-images.githubusercontent.com/89188316/155640578-4cbd76f6-b17a-4063-be8f-f6e7fe76c3cb.jpg)
-
 ![202202250152519250](https://user-images.githubusercontent.com/89188316/155640554-4a4b8228-5727-438b-b94d-592a5c15852d.jpg)
+
+![202202250155180561](https://user-images.githubusercontent.com/89188316/155640578-4cbd76f6-b17a-4063-be8f-f6e7fe76c3cb.jpg)
 
 ![202202250132080800](https://user-images.githubusercontent.com/89188316/155640699-13f71dc3-6774-45a7-89fe-abb580f6afea.jpg)
 
@@ -52,9 +53,3 @@
 ![202202250131555284](https://user-images.githubusercontent.com/89188316/155640898-a05c4574-d107-4f11-9683-6349ebb4ca13.jpg)
 
 ![202202250131573224](https://user-images.githubusercontent.com/89188316/155640823-3184fd2f-de5a-43fe-bb3f-38905482e117.jpg)
-
-
-
-
-
-
