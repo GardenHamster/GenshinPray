@@ -15,6 +15,11 @@ namespace GenshinPray.Util
     public static class DrawHelper
     {
         /// <summary>
+        /// 全局字体
+        /// </summary>
+        private static readonly String FontName = "HYWenHei-85W";
+
+        /// <summary>
         /// 根据祈愿记录生成结果图
         /// </summary>
         /// <param name="authorize"></param>
@@ -107,7 +112,7 @@ namespace GenshinPray.Util
         private static void drawRoleName(Graphics bgGraphics, YSGoodsItem goodsItem)
         {
             using GraphicsPath path = new GraphicsPath();
-            Font nameFont = new Font("汉仪文黑-85W", 45, FontStyle.Bold);
+            Font nameFont = new Font(FontName, 45, FontStyle.Bold);
             StringFormat format = StringFormat.GenericTypographic;
             RectangleF rect = new RectangleF(194, 576, 600, 200);
             float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72; ;
@@ -153,7 +158,7 @@ namespace GenshinPray.Util
                 bgGraphics.DrawImage(imgStarDust, 837, 917, imgStarDust.Width, imgStarDust.Height);//画星尘
                 using Image imgStarLight = new Bitmap(FilePath.getYSStarLightIconPath(goodsItem.RareType == YSRareType.五星 ? 10 : 2));
                 bgGraphics.DrawImage(imgStarLight, 950, 917, imgStarLight.Width, imgStarLight.Height);//画星辉
-                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using Font tranFont = new Font(FontName, 19, FontStyle.Regular);
                 using SolidBrush brushWatermark = new SolidBrush(Color.White);
                 bgGraphics.DrawString("重复角色，已转化", tranFont, brushWatermark, 842, 870);
             }
@@ -161,7 +166,7 @@ namespace GenshinPray.Util
             {
                 using Image imgStarLight = new Bitmap(FilePath.getYSStarLightIconPath(goodsItem.RareType == YSRareType.五星 ? 25 : 5));
                 bgGraphics.DrawImage(imgStarLight, 900, 917, imgStarLight.Width, imgStarLight.Height);//画星辉
-                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using Font tranFont = new Font(FontName, 19, FontStyle.Regular);
                 using SolidBrush brushWatermark = new SolidBrush(Color.White);
                 bgGraphics.DrawString("重复角色，已转化", tranFont, brushWatermark, 842, 870);
             }
@@ -188,7 +193,7 @@ namespace GenshinPray.Util
         private static void drawEquipName(Graphics bgGraphics, YSGoodsItem goodsItem)
         {
             using GraphicsPath path = new GraphicsPath();
-            Font nameFont = new Font("汉仪文黑-85W", 45, FontStyle.Bold);
+            Font nameFont = new Font(FontName, 45, FontStyle.Bold);
             StringFormat format = StringFormat.GenericTypographic;
             RectangleF rect = new RectangleF(190, 555, 600, 200);
             float size = bgGraphics.DpiY * nameFont.SizeInPoints / 72;
@@ -318,7 +323,7 @@ namespace GenshinPray.Util
                 bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 323, imgStarLight.Width, imgStarLight.Height);//画星辉
                 using Image imgStarDust = new Bitmap(FilePath.getYSStarDustIconPath(goodsItem));
                 bgGraphics.DrawImage(imgStarDust, indexX + 25, indexY + 443, imgStarDust.Width, imgStarDust.Height);//画星尘
-                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using Font tranFont = new Font(FontName, 19, FontStyle.Regular);
                 using SolidBrush brushWatermark = new SolidBrush(Color.White);
                 bgGraphics.DrawString("转化", tranFont, brushWatermark, indexX + 48, indexY + 632);
             }
@@ -326,7 +331,7 @@ namespace GenshinPray.Util
             {
                 using Image imgStarLight = new Bitmap(FilePath.getYSStarLightIconPath(goodsItem.RareType == YSRareType.五星 ? 25 : 5));
                 bgGraphics.DrawImage(imgStarLight, indexX + 25, indexY + 443, imgStarLight.Width, imgStarLight.Height);//画星辉
-                using Font tranFont = new Font("汉仪文黑-85W", 19, FontStyle.Regular);
+                using Font tranFont = new Font(FontName, 19, FontStyle.Regular);
                 using SolidBrush brushWatermark = new SolidBrush(Color.White);
                 bgGraphics.DrawString("转化", tranFont, brushWatermark, indexX + 48, indexY + 632);
             }
@@ -397,14 +402,14 @@ namespace GenshinPray.Util
 
         private static void drawWaterMark(Graphics bgGraphics)
         {
-            using Font watermarkFont = new Font("汉仪文黑-85W", 10, FontStyle.Regular);
+            using Font watermarkFont = new Font(FontName, 10, FontStyle.Regular);
             using SolidBrush brushWatermark = new SolidBrush(Color.FromArgb(150, 178, 193));
             bgGraphics.DrawString("本图片由GardenHamster/GenshinPray模拟生成", watermarkFont, brushWatermark, 10, 1050);
         }
 
         private static void drawUID(Graphics bgGraphics, string uid)
         {
-            using Font uidFont = new Font("汉仪文黑-85W", 15, FontStyle.Regular);
+            using Font uidFont = new Font(FontName, 15, FontStyle.Regular);
             using SolidBrush brushWatermark = new SolidBrush(Color.White);
             bgGraphics.DrawString($"UID：{uid}", uidFont, brushWatermark, 1650, 1042);
         }
