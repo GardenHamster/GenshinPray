@@ -45,6 +45,11 @@ namespace GenshinPray.Common
         public static string PrayMaterialSavePath = "";
 
         /// <summary>
+        /// 祈愿结果图片http路径
+        /// </summary>
+        public static string PrayImgHttpUrl = "";
+
+        /// <summary>
         /// 排行统计缓存时间(分钟)
         /// </summary>
         public static int RankingCacheMinutes = 5;

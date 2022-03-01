@@ -1,4 +1,5 @@
-﻿using GenshinPray.Dao;
+﻿using GenshinPray.Common;
+using GenshinPray.Dao;
 using GenshinPray.Models;
 using GenshinPray.Models.DTO;
 using GenshinPray.Models.PO;
@@ -182,7 +183,8 @@ namespace GenshinPray.Service.PrayService
 
             prayResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
             prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
-            prayResult.ImgPath = $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}";
+            prayResult.ImgPath = Path.Combine(ySPrayResult.ParyFileInfo.Directory.Name, ySPrayResult.ParyFileInfo.Name);
+            prayResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", prayResult.ImgPath);
             prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;
             prayResult.Star5Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
             prayResult.Star4Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());

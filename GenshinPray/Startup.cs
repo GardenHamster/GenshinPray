@@ -118,6 +118,7 @@ namespace GenshinPray
             SiteConfig.ConnectionString = Configuration.GetSection("ConnectionString").Value;
             SiteConfig.PrayImgSavePath = Configuration.GetSection("PrayImgSavePath").Value;
             SiteConfig.PrayMaterialSavePath = Configuration.GetSection("PrayMaterialSavePath").Value;
+            SiteConfig.PrayImgHttpUrl = Configuration.GetSection("PrayImgHttpUrl").Value;
         }
 
     }
