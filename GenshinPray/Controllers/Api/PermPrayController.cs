@@ -22,12 +22,13 @@ namespace GenshinPray.Controllers.Api
         /// 单抽常祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="memberName"></param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public ApiResult PrayOne(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public ApiResult PrayOne(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -43,7 +44,7 @@ namespace GenshinPray.Controllers.Api
                 YSUpItem ysUpItem = DataCache.DefaultUpItem[YSPondType.常驻][pondIndex];
 
                 DbScoped.SugarScope.BeginTran();
-                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
+                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
@@ -71,12 +72,13 @@ namespace GenshinPray.Controllers.Api
         /// 十连常驻祈愿池
         /// </summary>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
+        /// <param name="memberName"></param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public ApiResult PrayTen(string memberCode, bool toBase64 = false, int imgWidth = 0)
+        public ApiResult PrayTen(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -92,7 +94,7 @@ namespace GenshinPray.Controllers.Api
                 YSUpItem ysUpItem = DataCache.DefaultUpItem[YSPondType.常驻][pondIndex];
 
                 DbScoped.SugarScope.BeginTran();
-                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode);
+                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
                 YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, memberGoods, prayCount, imgWidth);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录

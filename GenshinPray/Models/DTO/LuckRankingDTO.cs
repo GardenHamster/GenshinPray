@@ -12,6 +12,8 @@ namespace GenshinPray.Models.DTO
 
         public string MemberCode { get; set; }
 
+        public string MemberName { get; set; }
+
         public YSRareType RareType { get; set; }
 
         public int RareCount { get; set; }

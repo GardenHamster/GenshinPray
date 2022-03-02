@@ -187,10 +187,12 @@ namespace GenshinPray.Controllers.Api
         /// </summary>
         /// <param name="memberCode"></param>
         /// <param name="goodsName"></param>
+        /// <param name="memberName"></param>
         /// <returns></returns>
+        [HttpGet]
         [HttpPost]
         [AuthCode]
-        public ApiResult SetMemberAssign(string memberCode, string goodsName)
+        public ApiResult SetMemberAssign(string memberCode, string goodsName, string memberName = "")
         {
             try
             {
@@ -205,7 +207,7 @@ namespace GenshinPray.Controllers.Api
                 YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
                 if (ySUpItem == null) return ApiResult.PondNotConfigured;
                 if (ySUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Any() == false) return ApiResult.AssignNotFound;
-                MemberPO memberInfo = memberService.SetArmAssign(goodsInfo, authorizePO.Id, memberCode);
+                MemberPO memberInfo = memberService.SetArmAssign(goodsInfo, authorizePO.Id, memberCode, memberName);
                 return ApiResult.Success();
             }
             catch (BaseException ex)

@@ -32,7 +32,7 @@ namespace GenshinPray.Dao
         public List<LuckRankingDTO> getLuckRanking(int authId, int top, YSRareType rareType, DateTime startDate, DateTime endDate)
         {
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append(" select temp.AuthId, temp.MemberCode, temp.RareType, temp.RareCount,");
+            sqlBuilder.Append(" select temp.AuthId, temp.MemberCode, m.MemberName, temp.RareType, temp.RareCount,");
             sqlBuilder.Append(" temp2.TotalPrayTimes, temp.rareCount/temp2.TotalPrayTimes as RareRate from member m");
             sqlBuilder.Append(" inner join (");
             sqlBuilder.Append(" 	select mg.AuthId,mg.MemberCode,g.RareType,count(g.RareType) RareCount from member_goods mg");

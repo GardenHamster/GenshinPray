@@ -9,6 +9,8 @@ namespace GenshinPray.Models.VO
     {
         public string MemberCode { get; set; }
 
+        public string MemberName { get; set; }
+
         public int Count { get; set; }
 
         public int TotalPrayTimes { get; set; }

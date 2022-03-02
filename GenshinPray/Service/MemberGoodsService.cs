@@ -74,6 +74,7 @@ namespace GenshinPray.Service
             RareRankingVO rareRankingVO = new RareRankingVO();
             rareRankingVO.TotalPrayTimes = luckRankingDTO.TotalPrayTimes;
             rareRankingVO.MemberCode = luckRankingDTO.MemberCode;
+            rareRankingVO.MemberName = luckRankingDTO.MemberName;
             rareRankingVO.Count = luckRankingDTO.RareCount;
             rareRankingVO.Rate = Math.Floor(luckRankingDTO.RareRate * 100 * 1000) / 1000;
             return rareRankingVO;
