@@ -12,8 +12,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>D:\project\GenshinPray\GenshinPraybin\Release\net5.0\GenshinPray\GenshinPray.xml</DocumentationFile>
-    <OutputPath>bin\Release\net5.0\GenshinPray\</OutputPath>
+    <DocumentationFile>D:\project\GenshinPray\GenshinPraybin\Release\net6.0\GenshinPray\GenshinPray.xml</DocumentationFile>
+    <OutputPath>bin\Release\net6.0\GenshinPray\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
