@@ -2,7 +2,8 @@
 
 ## 简介
  - 一个打算给qq机器人接入的小api，可以在群内模拟原神抽卡，根据米哈游公布的概率进行简单模拟，生成十连或单抽结果图，返回图片链接和保底次数等信息
- - 部署方法和接口文档请参考 [Document.md](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)  
+ - 可以在下载jar包[GenshinGacha](https://github.com/GardenHamster/GenshinGacha)，在[mirai-console-loader](https://github.com/iTXTech/mirai-console-loader)中使用该项目
+ - 部署方法和接口文档请参考 [Document.md](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)
   
  ## 声明
  - 本项目为个人学习.net core、linux、docker、vue...时所开发出来的项目，并没有任何收益，不得将项目用于任何商业用途
@@ -35,7 +36,7 @@
 - [ ] 后台管理web界面
 
 ## 其他
-- 原本想将效果异得更逼真一点，但是因为不会解包也不会PS，很多小细节都没法处理，所以爬了，有生之年再继续优化
+- 原本想将效果异得更逼真一点，但是因为不会解包也不会PS，很多小细节都没法处理，所以爬了，~~有生之年再继续优化~~
 - 素材会定期更新，但是要等到换池子以后才会更新，~~通常会在换池子后一两天才更新~~
 - 服装类的贴图素材只能随缘更新了，因为以后出的服装我也不一定能全部找的到
 - 如果有更好的想法或者建议欢迎在issuse中提出来...
