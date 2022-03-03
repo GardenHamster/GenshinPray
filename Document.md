@@ -15,7 +15,8 @@
 {
   "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;",   //数据库链接字符串
   "PrayImgSavePath": "C:\\tool\\apache-tomcat-8.5.65\\webapps\\prayImg",              //祈愿结果图片保存目录
-  "PrayMaterialSavePath": "C:\\PrayMaterial"                                          //祈愿素材图片目录
+  "PrayMaterialSavePath": "C:\\PrayMaterial",                                         //祈愿素材图片目录
+  "PrayImgHttpUrl": "https://127.0.0.1/prayImg/{imgPath}"                             //祈愿接口中返回的图片地址,需要自行配置tomcat等图片下载服务
 }
 ```
 
@@ -27,9 +28,9 @@
 ```bash
 sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
 ```
-2、安装ASP.NET Core 5.0 运行时
+2、安装ASP.NET Core 6.0 运行时
 ```bash
-sudo yum install aspnetcore-runtime-5.0
+sudo yum install aspnetcore-runtime-6.0
 ```
 3、安装libgdiplus
 ```bash
@@ -44,8 +45,7 @@ sudo ln -s /usr/lib64/libgdiplus.so /usr/lib64/gdiplus.dll （64位系统）
 ```
 4、切换到GenshinPray.dll所在目录下，运行GenshinPray.dll，根据自己的需要修改端口和http或https
 ```bash
-dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080           (前台运行方式)
-nohup dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080     (后台运行方式)
+nohup dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 ```
 正常运行结果如下
 ```bash
@@ -101,6 +101,7 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 | ------------- | ---------------------------- | ----- | --------------------- |
 | authorzation  | 授权码，放在Header中          | 是     |                       | 
 | memberCode    | 成员编号                     | 是     |                       |
+| memberName    | 成员名称                     | 否     |                       |
 | pondIndex     | 蛋池编号,角色池可选           | 否     | 0                     |
 | imgWidth      | 生成图片宽度,单位px           | 否     | 1920                  |
 | toBase64      | 是否返回base64字符串          | 否     | false                |
@@ -169,13 +170,14 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 
 | 请求类型 | 请求地址                        |  说明                         |
 | ------ | -------------------------------- | ---------------------------- |
-| Post   | /api/PrayInfo/SetMemberAssign    | 武器定轨                      | 
+| Get    | /api/PrayInfo/SetMemberAssign    | 武器定轨                      | 
 
 #### 参数
 | 键            | 说明                          | 必须  | 默认                  |
 | ------------- | ---------------------------- | ----- | --------------------- |
 | authorzation  | 授权码，放在Header中          | 是    |                       |
-| memberCode    | 成员编号                      | 是    |                       |    
+| memberCode    | 成员编号                      | 是    |                       |
+| memberName    | 成员名称                      | 否    |                       |
 | goodsName     | 武器名称                      | 是    |                       |
 
 #### 响应
@@ -457,12 +459,14 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
         "star5Ranking": [                       //5星出货率排行
             {
                 "memberCode": "123",            //成员编号
+                "memberName": "花园仓鼠",        //成员名称
                 "count": 4,                     //累计获得5星物品数量
                 "totalPrayTimes": 240,          //总祈愿次数
                 "rate": 1.67                    //5星物品出货率(%)
             },
             {
                 "memberCode": "456",
+                "memberName": "花园仓鼠",
                 "count": 4,
                 "totalPrayTimes": 270,
                 "rate": 1.48
@@ -471,12 +475,14 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
         "star4Ranking": [                       //4星出货率排行
             {
                 "memberCode": "123",            //成员编号
+                "memberName": "花园仓鼠",        //成员名称
                 "count": 31,                    //累计获得4星物品数量
                 "totalPrayTimes": 240,          //总祈愿次数
                 "rate": 12.92                   //4星物品出货率(%)
             },
             {
                 "memberCode": "456",
+                "memberName": "花园仓鼠",
                 "count": 32,
                 "totalPrayTimes": 270,
                 "rate": 11.85
