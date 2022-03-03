@@ -66,7 +66,7 @@ info: Microsoft.Hosting.Lifetime[0]
 其他linux版本可以参考 [微软文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
 
 ### windows下部署
-- 下载并安装 [ASP.NET Core Runtime 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)，推荐下载页面中的[Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-5.0.14-windows-hosting-bundle-installer)
+- 下载并安装 [ASP.NET Core Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)，推荐下载页面中的[Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.2-windows-hosting-bundle-installer)
 - 启动powershell并将路径切换到GenshinPray.dll所在目录下，
 
 - 运行GenshinPray.dll，根据自己的需要修改端口和http或https
