@@ -52,6 +52,5 @@ namespace GenshinPray.Dao
             return Db.Queryable<GoodsPO>().Where(o => o.GoodsName == goodsName && o.IsDisable == false).First();
         }
 
-
     }
 }

@@ -12,10 +12,12 @@ namespace GenshinPray.Service
     public class GoodsService : BaseService
     {
         private GoodsDao goodsDao;
+        private PondGoodsDao pondGoodsDao;
 
         public GoodsService()
         {
             this.goodsDao = new GoodsDao();
+            this.pondGoodsDao = new PondGoodsDao();
         }
 
         /// <summary>
@@ -252,7 +254,41 @@ namespace GenshinPray.Service
             }
             return returnList;
         }
-        
+
+        /// <summary>
+        /// 清理蛋池
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="pondType"></param>
+        /// <param name="pondIndex"></param>
+        /// <returns></returns>
+        public int ClearPondGoods(int authId, YSPondType pondType, int pondIndex)
+        {
+            return pondGoodsDao.clearPondGoods(authId, pondType, pondIndex);
+        }
+
+        /// <summary>
+        /// 清理蛋池
+        /// </summary>
+        /// <param name="goods"></param>
+        /// <param name="authId"></param>
+        /// <param name="pondType"></param>
+        /// <param name="pondIndex"></param>
+        /// <returns></returns>
+        public void AddPondGoods(List<GoodsPO> goods, int authId, YSPondType pondType, int pondIndex)
+        {
+            foreach (var good in goods)
+            {
+                PondGoodsPO pondGoods = new PondGoodsPO();
+                pondGoods.AuthId = authId;
+                pondGoods.PondIndex = pondIndex;
+                pondGoods.GoodsId = good.Id;
+                pondGoods.PondType = pondType;
+                pondGoodsDao.Insert(pondGoods);
+            }
+        }
+
+
 
     }
 }

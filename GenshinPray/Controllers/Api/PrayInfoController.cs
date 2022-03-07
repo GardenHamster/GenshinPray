@@ -311,5 +311,105 @@ namespace GenshinPray.Controllers.Api
         }
 
 
+        /// <summary>
+        /// 设定角色池
+        /// </summary>
+        /// <param name="rolePond"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthCode]
+        public ApiResult SetRolePond([FromBody] RolePondDto rolePond)
+        {
+            try
+            {
+                if (rolePond.PondIndex < 0) throw new ParamException("参数错误");
+                if (rolePond.UpItems == null || rolePond.UpItems.Count == 0 || rolePond.UpItems.Count > 4) throw new ParamException("参数错误");
+
+                List<GoodsPO> goodsList = new List<GoodsPO>();
+                foreach (string goodsName in rolePond.UpItems)
+                {
+                    GoodsPO goodsInfo = goodsService.GetGoodsByName(goodsName);
+                    if (goodsInfo == null) return new ApiResult(ResultCode.GoodsNotFound, $"找不到名为{goodsName}的角色");
+                    goodsList.Add(goodsInfo);
+                }
+
+                List<GoodsPO> star5Goods = goodsList.Where(m => m.GoodsType == YSGoodsType.角色 && m.RareType == YSRareType.五星).ToList();
+                List<GoodsPO> star4Goods = goodsList.Where(m => m.GoodsType == YSGoodsType.角色 && m.RareType == YSRareType.四星).ToList();
+                if (star5Goods.Count < 1) throw new ParamException("必须指定一个五星角色");
+                if (star5Goods.Count > 1) throw new ParamException("只能指定一个五星角色");
+                if (star4Goods.Count < 3) throw new ParamException("必须指定三个四星角色");
+                if (star4Goods.Count > 3) throw new ParamException("只能指定三个四星角色");
+
+                var authorzation = HttpContext.Request.Headers["authorzation"];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+
+                goodsService.ClearPondGoods(authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
+                goodsService.AddPondGoods(star5Goods, authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
+                goodsService.AddPondGoods(star4Goods, authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
+
+                return ApiResult.Success();
+            }
+            catch (BaseException ex)
+            {
+                LogHelper.Info(ex);
+                return ApiResult.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+                return ApiResult.ServerError;
+            }
+        }
+
+        /// <summary>
+        /// 设定角色池
+        /// </summary>
+        /// <param name="armPond"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthCode]
+        public ApiResult SetArmPond([FromBody] ArmPondDto armPond)
+        {
+            try
+            {
+                if (armPond.UpItems == null || armPond.UpItems.Count == 0 || armPond.UpItems.Count > 7) throw new ParamException("参数错误");
+
+                List<GoodsPO> goodsList = new List<GoodsPO>();
+                foreach (string goodsName in armPond.UpItems)
+                {
+                    GoodsPO goodsInfo = goodsService.GetGoodsByName(goodsName);
+                    if (goodsInfo == null) return new ApiResult(ResultCode.GoodsNotFound, $"找不到名为{goodsName}的武器");
+                    goodsList.Add(goodsInfo);
+                }
+
+                List<GoodsPO> star5Goods = goodsList.Where(m => m.GoodsType == YSGoodsType.武器 && m.RareType == YSRareType.五星).ToList();
+                List<GoodsPO> star4Goods = goodsList.Where(m => m.GoodsType == YSGoodsType.武器 && m.RareType == YSRareType.四星).ToList();
+                if (star5Goods.Count < 2) throw new ParamException("必须指定两个五星武器");
+                if (star5Goods.Count > 2) throw new ParamException("只能指定两个五星武器");
+                if (star4Goods.Count < 5) throw new ParamException("必须指定五个四星武器");
+                if (star4Goods.Count > 5) throw new ParamException("只能指定五个四星武器");
+
+                var authorzation = HttpContext.Request.Headers["authorzation"];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+
+                goodsService.ClearPondGoods(authorizePO.Id, YSPondType.武器, 0);
+                goodsService.AddPondGoods(star5Goods, authorizePO.Id, YSPondType.武器, 0);
+                goodsService.AddPondGoods(star4Goods, authorizePO.Id, YSPondType.武器, 0);
+
+                return ApiResult.Success();
+            }
+            catch (BaseException ex)
+            {
+                LogHelper.Info(ex);
+                return ApiResult.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+                return ApiResult.ServerError;
+            }
+        }
+
+
     }
 }
