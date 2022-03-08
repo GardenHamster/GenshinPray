@@ -111,24 +111,25 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('112', '千岩长枪', '2', '10', '4', '0', '2022-01-07 00:54:43', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('113', '八重神子', '1', '4', '5', '0', '2022-02-17 01:18:09', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('114', '神乐之真意', '2', '11', '5', '0', '2022-02-17 01:19:21', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('115', '恶王丸', '2', '9', '4', '0', '2022-03-08 22:13:18', '0');
 
 
 
 -- ----------------------------
 -- Records of pond_goods
 -- ----------------------------
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (1, 0, 1, 113, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (2, 0, 1, 98, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (3, 0, 1, 33, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (4, 0, 1, 38, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (5, 0, 2, 114, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (6, 0, 2, 86, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (7, 0, 2, 99, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (8, 0, 2, 29, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (9, 0, 2, 24, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (10, 0, 2, 18, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (11, 0, 2, 16, 0);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (12, 0, 1, 90, 1);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (13, 0, 1, 98, 1);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (14, 0, 1, 33, 1);
-INSERT INTO `genshinpray`.`pond_goods`(`Id`, `AuthId`, `PondType`, `GoodsId`, `PondIndex`) VALUES (15, 0, 1, 38, 1);
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('1', '0', '1', '0', '90');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('2', '0', '1', '0', '37');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('3', '0', '1', '0', '91');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('4', '0', '1', '0', '41');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('5', '0', '2', '0', '92');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('6', '0', '2', '0', '94');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('7', '0', '2', '0', '115');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('8', '0', '2', '0', '101');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('9', '0', '2', '0', '28');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('10', '0', '2', '0', '22');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('11', '0', '2', '0', '19');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('12', '0', '1', '1', '93');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('13', '0', '1', '1', '37');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('14', '0', '1', '1', '91');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('15', '0', '1', '1', '41');
