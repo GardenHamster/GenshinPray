@@ -1,4 +1,10 @@
-﻿
+﻿-- ----------------------------
+-- 修改数据库字符集,使数据库支持插入表情emoji
+-- ----------------------------
+ALTER DATABASE genshinpray CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
+ALTER TABLE member CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE member CHANGE MemberName MemberName varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
