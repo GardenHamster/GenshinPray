@@ -23,11 +23,6 @@ namespace GenshinPray.Controllers.Api
             this.memberGoodsService = new MemberGoodsService();
         }
 
-        protected string GetAuthCode()
-        {
-            return HttpContext.Request.Headers["authorzation"];
-        }
-
         protected void CheckImgWidth(int imgWidth)
         {
             if (imgWidth < 0 || imgWidth > 1920) throw new ParamException("图片宽度只能设定在0~1920之间");

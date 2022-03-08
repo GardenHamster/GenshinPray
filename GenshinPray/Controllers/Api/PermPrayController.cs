@@ -32,7 +32,6 @@ namespace GenshinPray.Controllers.Api
         {
             try
             {
-                int pondIndex = 0;
                 int prayCount = 1;
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
@@ -41,7 +40,7 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
-                YSUpItem ysUpItem = DataCache.DefaultUpItem[YSPondType.常驻][pondIndex];
+                YSUpItem ysUpItem = DataCache.DefaultPermItem;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
@@ -82,7 +81,6 @@ namespace GenshinPray.Controllers.Api
         {
             try
             {
-                int pondIndex = 0;
                 int prayCount = 10;
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
@@ -91,7 +89,7 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
-                YSUpItem ysUpItem = DataCache.DefaultUpItem[YSPondType.常驻][pondIndex];
+                YSUpItem ysUpItem = DataCache.DefaultPermItem;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);

@@ -58,7 +58,6 @@ namespace GenshinPray.Service
         /// </summary>
         public void LoadYSPrayItem()
         {
-            DataCache.DefaultUpItem = new Dictionary<YSPondType, Dictionary<int, YSUpItem>>();
             DataCache.ArmStar3PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.三星));//三星常驻武器
             DataCache.ArmStar4PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.四星));//四星常驻武器
             DataCache.ArmStar5PermList = ChangeToYSGoodsItem(goodsDao.getPermGoods(YSGoodsType.武器, YSRareType.五星));//五星常驻武器
@@ -68,20 +67,32 @@ namespace GenshinPray.Service
             DataCache.Star4PermList = ConcatList(DataCache.RoleStar4PermList, DataCache.ArmStar4PermList);
 
             //加载默认常驻池
-            YSUpItem PermItem = new YSUpItem();
-            PermItem.Star5UpList = DataCache.Star5PermList;
-            PermItem.Star4UpList = DataCache.Star4PermList;
-            PermItem.Star5NonUpList = new List<YSGoodsItem>();
-            PermItem.Star4NonUpList = new List<YSGoodsItem>();
-            PermItem.Star5AllList = DataCache.Star5PermList;
-            PermItem.Star4AllList = DataCache.Star4PermList;
-            PermItem.Star3AllList = DataCache.ArmStar3PermList;
-            DataCache.DefaultUpItem[YSPondType.常驻] = new Dictionary<int, YSUpItem>();
-            DataCache.DefaultUpItem[YSPondType.常驻][0] = PermItem;
+            DataCache.DefaultPermItem = LoadPermItem();
 
             //加载默认角色池
-            DataCache.DefaultUpItem[YSPondType.角色] = new Dictionary<int, YSUpItem>();
-            List<YSGoodsItem> roleItemList = goodsDao.getByPondType(0, YSPondType.角色);
+            DataCache.DefaultRoleItem = LoadRoleItem(0);
+
+            //加载默认武器池
+            DataCache.DefaultArmItem = LoadArmItem(0);
+        }
+
+        public YSUpItem LoadPermItem()
+        {
+            YSUpItem upItem = new YSUpItem();
+            upItem.Star5UpList = DataCache.Star5PermList;
+            upItem.Star4UpList = DataCache.Star4PermList;
+            upItem.Star5NonUpList = new List<YSGoodsItem>();
+            upItem.Star4NonUpList = new List<YSGoodsItem>();
+            upItem.Star5AllList = DataCache.Star5PermList;
+            upItem.Star4AllList = DataCache.Star4PermList;
+            upItem.Star3AllList = DataCache.ArmStar3PermList;
+            return upItem;
+        }
+
+        public Dictionary<int, YSUpItem> LoadRoleItem(int authId)
+        {
+            Dictionary<int, YSUpItem> upItemDic = new Dictionary<int, YSUpItem>();
+            List<YSGoodsItem> roleItemList = goodsDao.getByPondType(authId, YSPondType.角色);
             List<int> roleIndexList = roleItemList.Select(m => m.PondIndex).Distinct().ToList();
             foreach (int pondIndex in roleIndexList)
             {
@@ -99,14 +110,17 @@ namespace GenshinPray.Service
                 roleUpItem.Star5AllList = roleStar5AllList;
                 roleUpItem.Star4AllList = roleStar4AllList;
                 roleUpItem.Star3AllList = DataCache.ArmStar3PermList;
-                DataCache.DefaultUpItem[YSPondType.角色][pondIndex] = roleUpItem;
+                upItemDic[pondIndex] = roleUpItem;
             }
+            return upItemDic;
+        }
 
-            //加载默认武器池
-            DataCache.DefaultUpItem[YSPondType.武器] = new Dictionary<int, YSUpItem>();
-            List<YSGoodsItem> armItemList = goodsDao.getByPondType(0, YSPondType.武器);
-            List<int> armIndexList = armItemList.Select(m => m.PondIndex).Distinct().ToList();
-            foreach (int pondIndex in armIndexList)
+        public Dictionary<int, YSUpItem> LoadArmItem(int authId)
+        {
+            Dictionary<int, YSUpItem> upItemDic = new Dictionary<int, YSUpItem>();
+            List<YSGoodsItem> armItemList = goodsDao.getByPondType(authId, YSPondType.武器);
+            List<int> roleIndexList = armItemList.Select(m => m.PondIndex).Distinct().ToList();
+            foreach (int pondIndex in roleIndexList)
             {
                 List<YSGoodsItem> armStar5UpList = armItemList.Where(m => m.RareType == YSRareType.五星 && m.PondIndex == pondIndex).ToList();
                 List<YSGoodsItem> armStar4UpList = armItemList.Where(m => m.RareType == YSRareType.四星 && m.PondIndex == pondIndex).ToList();
@@ -122,10 +136,11 @@ namespace GenshinPray.Service
                 armUpItem.Star5AllList = armStar5AllList;
                 armUpItem.Star4AllList = armStar4AllList;
                 armUpItem.Star3AllList = DataCache.ArmStar3PermList;
-                DataCache.DefaultUpItem[YSPondType.武器][pondIndex] = armUpItem;
+                upItemDic[pondIndex] = armUpItem;
             }
-
+            return upItemDic;
         }
+
 
         /// <summary>
         /// 返回非up列表
@@ -173,41 +188,6 @@ namespace GenshinPray.Service
                 goodsItemList.Add(goodsItem);
             }
             return goodsItemList;
-        }
-
-
-        /// <summary>
-        /// 读取自定义up信息,如果没有,使用默认up信息
-        /// </summary>
-        /// <param name="authId"></param>
-        /// <param name="pondType"></param>
-        /// <returns></returns>
-        public Dictionary<int, YSUpItem> GetUpItem(int authId, YSPondType pondType)
-        {
-            List<YSGoodsItem> upList = goodsDao.getByPondType(authId, pondType);
-            if (upList == null || upList.Count == 0) return DataCache.DefaultUpItem[pondType];
-            YSUpItem defaultUpItem = DataCache.DefaultUpItem[pondType][0];
-            Dictionary<int, YSUpItem> upItemDic = new Dictionary<int, YSUpItem>();
-            List<int> indexList = upList.Select(m => m.PondIndex).Distinct().ToList();
-            foreach (int pondIndex in indexList)
-            {
-                List<YSGoodsItem> Star5UpList = upList.Where(o => o.RareType == YSRareType.五星 && o.PondIndex == pondIndex).ToList();
-                List<YSGoodsItem> Star4UpList = upList.Where(o => o.RareType == YSRareType.四星 && o.PondIndex == pondIndex).ToList();
-                List<YSGoodsItem> Star5NonUpList = GetNonUpList(defaultUpItem.Star5AllList, Star5UpList);
-                List<YSGoodsItem> Star4NonUpList = GetNonUpList(defaultUpItem.Star4AllList, Star4UpList);
-                List<YSGoodsItem> Star5AllList = ConcatList(defaultUpItem.Star5AllList, Star5UpList);
-                List<YSGoodsItem> Star4AllList = ConcatList(defaultUpItem.Star4AllList, Star4UpList);
-                YSUpItem ySUpItem = new YSUpItem();
-                ySUpItem.Star5UpList = Star5UpList;
-                ySUpItem.Star4UpList = Star4UpList;
-                ySUpItem.Star5NonUpList = Star5NonUpList;
-                ySUpItem.Star4NonUpList = Star4NonUpList;
-                ySUpItem.Star5AllList = Star5AllList;
-                ySUpItem.Star4AllList = Star4AllList;
-                ySUpItem.Star3AllList = defaultUpItem.Star3AllList;
-                upItemDic[pondIndex] = ySUpItem;
-            }
-            return upItemDic;
         }
 
         /// <summary>

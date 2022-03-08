@@ -45,11 +45,11 @@ namespace GenshinPray.Controllers.Api
         {
             try
             {
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-                Dictionary<int, YSUpItem> armUpItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                Dictionary<int, YSUpItem> roleUpItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
-                Dictionary<int, YSUpItem> permUpItemDic = DataCache.DefaultUpItem[YSPondType.常驻];
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
+                Dictionary<int, YSUpItem> armUpItemDic = DataCache.DefaultArmItem.Merge<int, YSUpItem>(goodsService.LoadArmItem(authorizePO.Id));
+                Dictionary<int, YSUpItem> roleUpItemDic = DataCache.DefaultRoleItem.Merge<int, YSUpItem>(goodsService.LoadRoleItem(authorizePO.Id));
+                Dictionary<int, YSUpItem> permUpItemDic = new Dictionary<int, YSUpItem>() { { 0, DataCache.DefaultPermItem } };
+
                 return ApiResult.Success(new
                 {
                     arm = armUpItemDic.Select(m => new
@@ -104,8 +104,7 @@ namespace GenshinPray.Controllers.Api
             try
             {
                 checkNullParam(memberCode);
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 MemberPO memberInfo = memberService.GetByCode(authorizePO.Id, memberCode);
                 if (memberInfo == null) return ApiResult.Success();
                 MemberGoodsCountDTO memberGoodsCount = memberGoodsService.GetMemberGoodsCount(authorizePO.Id, memberCode);
@@ -165,8 +164,7 @@ namespace GenshinPray.Controllers.Api
             {
                 int top = 20;
                 int days = 15;
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 LuckRankingVO luckRankingVO = memberGoodsService.getLuckRanking(authorizePO.Id, days, top);
                 return ApiResult.Success(luckRankingVO);
             }
@@ -200,13 +198,14 @@ namespace GenshinPray.Controllers.Api
                 checkNullParam(memberCode, goodsName);
                 GoodsPO goodsInfo = goodsService.GetGoodsByName(goodsName);
                 if (goodsInfo == null) return ApiResult.GoodsNotFound;
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
 
-                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.武器);
-                YSUpItem ySUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
-                if (ySUpItem == null) return ApiResult.PondNotConfigured;
-                if (ySUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Any() == false) return ApiResult.AssignNotFound;
+                Dictionary<int, YSUpItem> upItemDic = goodsService.LoadArmItem(authorizePO.Id);
+                YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ysUpItem == null) ysUpItem = DataCache.DefaultArmItem.ContainsKey(pondIndex) ? DataCache.DefaultArmItem[pondIndex] : null;
+                if (ysUpItem == null) return ApiResult.PondNotConfigured;
+
+                if (ysUpItem.Star5UpList.Where(o => o.GoodsID == goodsInfo.Id).Any() == false) return ApiResult.AssignNotFound;
                 MemberPO memberInfo = memberService.SetArmAssign(goodsInfo, authorizePO.Id, memberCode, memberName);
                 return ApiResult.Success();
             }
@@ -234,8 +233,7 @@ namespace GenshinPray.Controllers.Api
             try
             {
                 checkNullParam(memberCode);
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 MemberPO memberInfo = memberService.GetByCode(authorizePO.Id, memberCode);
                 if (memberInfo == null || memberInfo.ArmAssignId == 0) return ApiResult.Success("未找到定轨信息");
                 GoodsPO goodsInfo = goodsService.GetGoodsById(memberInfo.ArmAssignId);
@@ -268,8 +266,7 @@ namespace GenshinPray.Controllers.Api
             try
             {
                 checkNullParam(memberCode);
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 MemberPO memberInfo = memberService.GetByCode(authorizePO.Id, memberCode);
                 if (memberInfo == null) return ApiResult.Success();
                 List<PrayRecordDTO> allStar5List = memberGoodsService.getPrayRecords(authorizePO.Id, memberCode, YSRareType.五星, 20);
@@ -340,9 +337,7 @@ namespace GenshinPray.Controllers.Api
                 if (star4Goods.Count < 3) throw new ParamException("必须指定三个四星角色");
                 if (star4Goods.Count > 3) throw new ParamException("只能指定三个四星角色");
 
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 goodsService.ClearPondGoods(authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
                 goodsService.AddPondGoods(star5Goods, authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
                 goodsService.AddPondGoods(star4Goods, authorizePO.Id, YSPondType.角色, rolePond.PondIndex);
@@ -389,9 +384,7 @@ namespace GenshinPray.Controllers.Api
                 if (star4Goods.Count < 5) throw new ParamException("必须指定五个四星武器");
                 if (star4Goods.Count > 5) throw new ParamException("只能指定五个四星武器");
 
-                var authorzation = HttpContext.Request.Headers["authorzation"];
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 goodsService.ClearPondGoods(authorizePO.Id, YSPondType.武器, 0);
                 goodsService.AddPondGoods(star5Goods, authorizePO.Id, YSPondType.武器, 0);
                 goodsService.AddPondGoods(star4Goods, authorizePO.Id, YSPondType.武器, 0);

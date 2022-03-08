@@ -1,4 +1,5 @@
 ﻿using GenshinPray.Attribute;
+using GenshinPray.Common;
 using GenshinPray.Exceptions;
 using GenshinPray.Models;
 using GenshinPray.Models.DTO;
@@ -40,8 +41,10 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
-                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+
+                Dictionary<int, YSUpItem> upItemDic = goodsService.LoadRoleItem(authorizePO.Id);
                 YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ysUpItem == null) ysUpItem = DataCache.DefaultRoleItem.ContainsKey(pondIndex) ? DataCache.DefaultRoleItem[pondIndex] : null;
                 if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();
@@ -92,8 +95,10 @@ namespace GenshinPray.Controllers.Api
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
                 int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
                 if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
-                Dictionary<int, YSUpItem> upItemDic = goodsService.GetUpItem(authorizePO.Id, YSPondType.角色);
+
+                Dictionary<int, YSUpItem> upItemDic = goodsService.LoadRoleItem(authorizePO.Id);
                 YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
+                if (ysUpItem == null) ysUpItem = DataCache.DefaultRoleItem.ContainsKey(pondIndex) ? DataCache.DefaultRoleItem[pondIndex] : null;
                 if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
                 DbScoped.SugarScope.BeginTran();

@@ -9,6 +9,11 @@ namespace GenshinPray.Controllers
 {
     public class BaseController : ControllerBase
     {
+        protected string GetAuthCode()
+        {
+            return HttpContext.Request.Headers["authorzation"];
+        }
+
         protected void checkNullParam(params string[] paramArr)
         {
             if (paramArr == null) return;

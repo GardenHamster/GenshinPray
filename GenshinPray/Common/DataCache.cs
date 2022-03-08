@@ -46,9 +46,19 @@ namespace GenshinPray.Common
         public static List<YSGoodsItem> Star5PermList = new List<YSGoodsItem>();
 
         /// <summary>
-        /// 默认UP
+        /// 默认常驻池
         /// </summary>
-        public static Dictionary<YSPondType, Dictionary<int, YSUpItem>> DefaultUpItem = new Dictionary<YSPondType, Dictionary<int, YSUpItem>>();
+        public static YSUpItem DefaultPermItem = new YSUpItem();
+
+        /// <summary>
+        /// 默认武器池
+        /// </summary>
+        public static Dictionary<int, YSUpItem> DefaultArmItem = new Dictionary<int, YSUpItem>();
+
+        /// <summary>
+        /// 默认角色池
+        /// </summary>
+        public static Dictionary<int, YSUpItem> DefaultRoleItem = new Dictionary<int, YSUpItem>();
 
         /// <summary>
         /// 排行缓存
