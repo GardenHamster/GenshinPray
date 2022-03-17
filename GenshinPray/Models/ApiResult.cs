@@ -142,7 +142,16 @@ namespace GenshinPray.Models
             }
         }
 
-
+        /// <summary>
+        /// 权限不足
+        /// </summary>
+        public static ApiResult PermissionDenied
+        {
+            get
+            {
+                return new ApiResult(ResultCode.PermissionDenied, "权限不足");
+            }
+        }
 
 
 

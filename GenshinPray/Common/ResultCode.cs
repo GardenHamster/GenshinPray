@@ -47,5 +47,12 @@ namespace GenshinPray.Common
         /// </summary>
         public static readonly int PondNotConfigured = 606;
 
+        /// <summary>
+        /// 权限不足
+        /// </summary>
+        public static readonly int PermissionDenied = 607;
+
+        
+
     }
 }

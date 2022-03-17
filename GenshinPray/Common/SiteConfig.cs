@@ -10,6 +10,11 @@ namespace GenshinPray.Common
     public static class SiteConfig
     {
         /// <summary>
+        /// 公用授权码
+        /// </summary>
+        public static string PublicAuthCode = "theresa3rd";
+
+        /// <summary>
         /// JWT密钥
         /// </summary>
         public static string JWTSecurityKey = "3014c672-066b-f45d-9bd4-aadf9111d308";

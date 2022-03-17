@@ -16,5 +16,10 @@ namespace GenshinPray.Dao
             return Db.Deleteable<PondGoodsPO>().Where(o => o.AuthId == authId && o.PondType == pondType && o.PondIndex == pondIndex).ExecuteCommand();
         }
 
+        public int clearPondGoods(int authId, YSPondType pondType)
+        {
+            return Db.Deleteable<PondGoodsPO>().Where(o => o.AuthId == authId && o.PondType == pondType).ExecuteCommand();
+        }
+
     }
 }
