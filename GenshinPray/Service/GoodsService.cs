@@ -13,11 +13,13 @@ namespace GenshinPray.Service
     {
         private GoodsDao goodsDao;
         private PondGoodsDao pondGoodsDao;
+        private AuthorizeDAO authorizeDao;
 
         public GoodsService()
         {
             this.goodsDao = new GoodsDao();
             this.pondGoodsDao = new PondGoodsDao();
+            this.authorizeDao = new AuthorizeDAO();
         }
 
         /// <summary>
@@ -93,8 +95,8 @@ namespace GenshinPray.Service
         {
             Dictionary<int, YSUpItem> upItemDic = new Dictionary<int, YSUpItem>();
             List<YSGoodsItem> roleItemList = goodsDao.getByPondType(authId, YSPondType.角色);
-            List<int> roleIndexList = roleItemList.Select(m => m.PondIndex).Distinct().ToList();
-            foreach (int pondIndex in roleIndexList)
+            List<int> pondIndexList = roleItemList.Select(m => m.PondIndex).Distinct().ToList();
+            foreach (int pondIndex in pondIndexList)
             {
                 List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星 && m.PondIndex == pondIndex).ToList();
                 List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星 && m.PondIndex == pondIndex).ToList();
@@ -119,8 +121,8 @@ namespace GenshinPray.Service
         {
             Dictionary<int, YSUpItem> upItemDic = new Dictionary<int, YSUpItem>();
             List<YSGoodsItem> armItemList = goodsDao.getByPondType(authId, YSPondType.武器);
-            List<int> roleIndexList = armItemList.Select(m => m.PondIndex).Distinct().ToList();
-            foreach (int pondIndex in roleIndexList)
+            List<int> pondIndexList = armItemList.Select(m => m.PondIndex).Distinct().ToList();
+            foreach (int pondIndex in pondIndexList)
             {
                 List<YSGoodsItem> armStar5UpList = armItemList.Where(m => m.RareType == YSRareType.五星 && m.PondIndex == pondIndex).ToList();
                 List<YSGoodsItem> armStar4UpList = armItemList.Where(m => m.RareType == YSRareType.四星 && m.PondIndex == pondIndex).ToList();
@@ -240,6 +242,17 @@ namespace GenshinPray.Service
         /// </summary>
         /// <param name="authId"></param>
         /// <param name="pondType"></param>
+        /// <returns></returns>
+        public int ClearPondGoods(int authId, YSPondType pondType)
+        {
+            return pondGoodsDao.clearPondGoods(authId, pondType);
+        }
+
+        /// <summary>
+        /// 清理蛋池
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="pondType"></param>
         /// <param name="pondIndex"></param>
         /// <returns></returns>
         public int ClearPondGoods(int authId, YSPondType pondType, int pondIndex)
@@ -266,6 +279,19 @@ namespace GenshinPray.Service
                 pondGoods.PondType = pondType;
                 pondGoodsDao.Insert(pondGoods);
             }
+        }
+
+        /// <summary>
+        /// 修改皮肤概率
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="rare"></param>
+        /// <returns></returns>
+        public int UpdateSkinRate(int authId, int rare)
+        {
+            AuthorizePO authorize = authorizeDao.GetById(authId);
+            authorize.SkinRate = rare;
+            return authorizeDao.Update(authorize);
         }
 
 
