@@ -13,11 +13,13 @@ namespace GenshinPray.Service
     {
         private GoodsDao goodsDao;
         private PondGoodsDao pondGoodsDao;
+        private AuthorizeDAO authorizeDao;
 
         public GoodsService()
         {
             this.goodsDao = new GoodsDao();
             this.pondGoodsDao = new PondGoodsDao();
+            this.authorizeDao = new AuthorizeDAO();
         }
 
         /// <summary>
@@ -277,6 +279,19 @@ namespace GenshinPray.Service
                 pondGoods.PondType = pondType;
                 pondGoodsDao.Insert(pondGoods);
             }
+        }
+
+        /// <summary>
+        /// 修改皮肤概率
+        /// </summary>
+        /// <param name="authId"></param>
+        /// <param name="rare"></param>
+        /// <returns></returns>
+        public int UpdateSkinRate(int authId, int rare)
+        {
+            AuthorizePO authorize = authorizeDao.GetById(authId);
+            authorize.SkinRate = rare;
+            return authorizeDao.Update(authorize);
         }
 
 

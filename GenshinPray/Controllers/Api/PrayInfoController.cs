@@ -320,7 +320,7 @@ namespace GenshinPray.Controllers.Api
             try
             {
                 if (GetAuthCode().Trim() == SiteConfig.PublicAuthCode) return ApiResult.PermissionDenied;
-                if (rolePond.PondIndex < 0) throw new ParamException("参数错误");
+                if (rolePond.PondIndex < 0 || rolePond.PondIndex > 10) throw new ParamException("参数错误");
                 if (rolePond.UpItems == null || rolePond.UpItems.Count == 0 || rolePond.UpItems.Count > 4) throw new ParamException("参数错误");
 
                 List<GoodsPO> goodsList = new List<GoodsPO>();
@@ -446,6 +446,35 @@ namespace GenshinPray.Controllers.Api
                 if (GetAuthCode().Trim() == SiteConfig.PublicAuthCode) return ApiResult.PermissionDenied;
                 AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
                 goodsService.ClearPondGoods(authorizePO.Id, YSPondType.武器);
+                return ApiResult.Success();
+            }
+            catch (BaseException ex)
+            {
+                LogHelper.Info(ex);
+                return ApiResult.Error(ex);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+                return ApiResult.ServerError;
+            }
+        }
+
+        /// <summary>
+        /// 修改一个授权码服装出现的概率
+        /// </summary>
+        /// <param name="rare">0~100</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthCode]
+        public ApiResult SetSkinRate(int rare)
+        {
+            try
+            {
+                if (GetAuthCode().Trim() == SiteConfig.PublicAuthCode) return ApiResult.PermissionDenied;
+                if (rare < 0 || rare > 100) throw new ParamException("参数错误");
+                AuthorizePO authorizePO = authorizeService.GetAuthorize(GetAuthCode());
+                goodsService.UpdateSkinRate(authorizePO.Id, rare);
                 return ApiResult.Success();
             }
             catch (BaseException ex)
