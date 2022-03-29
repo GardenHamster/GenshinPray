@@ -64,7 +64,7 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('54', '神里绫华', '1', '6', '5', '0', '2021-08-25 23:00:59', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('55', '枫原万叶', '1', '3', '5', '0', '2021-08-25 23:00:59', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('56', '达达利亚', '1', '2', '5', '0', '2021-08-25 23:00:59', '0');
-INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('57', '温迪', '1', '3', '5', '0', '2021-08-25 23:00:59', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('57', '温迪', '1', '3', '5', '0', '2021-08-25 23:00:59', '1');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('58', '胡桃', '1', '1', '5', '0', '2021-08-25 23:00:59', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('59', '可莉', '1', '1', '5', '0', '2021-08-25 23:00:59', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('60', '优菈', '1', '6', '5', '0', '2021-08-25 23:00:59', '0');
@@ -112,23 +112,25 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('113', '八重神子', '1', '4', '5', '0', '2022-02-17 01:18:09', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('114', '神乐之真意', '2', '11', '5', '0', '2022-02-17 01:19:21', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('115', '恶王丸', '2', '9', '4', '0', '2022-03-08 22:13:18', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('116', '神里绫人', '1', '2', '5', '0', '2022-03-30 00:34:20', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('117', '波乱月白经津', '2', '8', '5', '0', '2022-03-30 00:34:20', '0');
 
 
 
 -- ----------------------------
 -- Records of pond_goods
 -- ----------------------------
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('1', '0', '1', '0', '90');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('2', '0', '1', '0', '37');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('3', '0', '1', '0', '91');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('4', '0', '1', '0', '41');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('5', '0', '2', '0', '92');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('6', '0', '2', '0', '94');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('7', '0', '2', '0', '115');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('8', '0', '2', '0', '101');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('9', '0', '2', '0', '28');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('10', '0', '2', '0', '22');
-INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('11', '0', '2', '0', '19');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('1', '0', '1', '0', '116');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('2', '0', '1', '0', '32');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('3', '0', '1', '0', '45');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('4', '0', '1', '0', '110');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('5', '0', '2', '0', '117');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('6', '0', '2', '0', '88');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('7', '0', '2', '0', '30');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('8', '0', '2', '0', '25');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('9', '0', '2', '0', '23');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('10', '0', '2', '0', '20');
+INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('11', '0', '2', '0', '14');
 INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('12', '0', '1', '1', '93');
 INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('13', '0', '1', '1', '37');
 INSERT INTO `genshinpray`.`pond_goods` (`Id`, `AuthId`, `PondType`, `PondIndex`, `GoodsId`) VALUES ('14', '0', '1', '1', '91');
