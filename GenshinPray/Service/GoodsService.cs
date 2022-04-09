@@ -76,6 +76,12 @@ namespace GenshinPray.Service
 
             //加载默认武器池
             DataCache.DefaultArmItem = LoadArmItem(0);
+
+            //加载全角色池
+            DataCache.FullRoleItem = LoadFullRoleItem();
+
+            //加载全武器池
+            DataCache.FullArmItem = LoadFullArmItem();
         }
 
         public YSUpItem LoadPermItem()
@@ -143,6 +149,45 @@ namespace GenshinPray.Service
             return upItemDic;
         }
 
+        public YSUpItem LoadFullRoleItem()
+        {
+            List<YSGoodsItem> roleItemList = goodsDao.getByGoodsType(YSGoodsType.角色);
+            List<YSGoodsItem> roleStar5UpList = roleItemList.Where(m => m.RareType == YSRareType.五星).ToList();
+            List<YSGoodsItem> roleStar4UpList = roleItemList.Where(m => m.RareType == YSRareType.四星).ToList();
+            List<YSGoodsItem> roleStar5NonUpList = new List<YSGoodsItem>();
+            List<YSGoodsItem> roleStar4NonUpList = new List<YSGoodsItem>();
+            List<YSGoodsItem> roleStar5AllList = roleStar5UpList;
+            List<YSGoodsItem> roleStar4AllList = ConcatList(DataCache.ArmStar4PermList, roleStar4UpList);
+            YSUpItem roleUpItem = new YSUpItem();
+            roleUpItem.Star5UpList = roleStar5UpList;
+            roleUpItem.Star4UpList = roleStar4UpList;
+            roleUpItem.Star5NonUpList = roleStar5NonUpList;
+            roleUpItem.Star4NonUpList = roleStar4NonUpList;
+            roleUpItem.Star5AllList = roleStar5AllList;
+            roleUpItem.Star4AllList = roleStar4AllList;
+            roleUpItem.Star3AllList = DataCache.ArmStar3PermList;
+            return roleUpItem;
+        }
+
+        public YSUpItem LoadFullArmItem()
+        {
+            List<YSGoodsItem> armItemList = goodsDao.getByGoodsType(YSGoodsType.武器);
+            List<YSGoodsItem> armStar5UpList = armItemList.Where(m => m.RareType == YSRareType.五星).ToList();
+            List<YSGoodsItem> armStar4UpList = armItemList.Where(m => m.RareType == YSRareType.四星).ToList();
+            List<YSGoodsItem> armStar5NonUpList = new List<YSGoodsItem>();
+            List<YSGoodsItem> armStar4NonUpList = new List<YSGoodsItem>();
+            List<YSGoodsItem> armStar5AllList = armStar5UpList;
+            List<YSGoodsItem> armStar4AllList = armStar4UpList;
+            YSUpItem armUpItem = new YSUpItem();
+            armUpItem.Star5UpList = armStar5UpList;
+            armUpItem.Star4UpList = armStar4UpList;
+            armUpItem.Star5NonUpList = armStar5NonUpList;
+            armUpItem.Star4NonUpList = armStar4NonUpList;
+            armUpItem.Star5AllList = armStar5AllList;
+            armUpItem.Star4AllList = armStar4AllList;
+            armUpItem.Star3AllList = DataCache.ArmStar3PermList;
+            return armUpItem;
+        }
 
         /// <summary>
         /// 返回非up列表

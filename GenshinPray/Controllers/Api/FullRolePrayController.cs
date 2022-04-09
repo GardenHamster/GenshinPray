@@ -16,7 +16,7 @@ namespace GenshinPray.Controllers.Api
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class RolePrayController : BasePrayController<RolePrayService>
+    public class FullRolePrayController : BasePrayController<FullRolePrayService>
     {
         /// <summary>
         /// 单抽角色祈愿池

@@ -51,6 +51,18 @@ namespace GenshinPray.Models.PO
         [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "常驻池剩余多少发十连保底")]
         public int Perm10Surplus { get; set; }
 
+        [SugarColumn(IsNullable = false, DefaultValue = "90", ColumnDescription = "全角色池剩余多少发五星保底")]
+        public int FullRole90Surplus { get; set; }
+
+        [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "全角色池剩余多少发十连保底")]
+        public int FullRole10Surplus { get; set; }
+
+        [SugarColumn(IsNullable = false, DefaultValue = "80", ColumnDescription = "全武器池剩余多少发五星保底")]
+        public int FullArm80Surplus { get; set; }
+
+        [SugarColumn(IsNullable = false, DefaultValue = "10", ColumnDescription = "全武器池剩余多少发十连保底")]
+        public int FullArm10Surplus { get; set; }
+
         [SugarColumn(IsNullable = false, DefaultValue = "0", ColumnDescription = "角色池祈愿次数")]
         public int RolePrayTimes { get; set; }
 

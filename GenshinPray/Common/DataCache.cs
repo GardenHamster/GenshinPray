@@ -61,6 +61,16 @@ namespace GenshinPray.Common
         public static Dictionary<int, YSUpItem> DefaultRoleItem = new Dictionary<int, YSUpItem>();
 
         /// <summary>
+        /// 全武器池
+        /// </summary>
+        public static YSUpItem FullArmItem = new YSUpItem();
+
+        /// <summary>
+        /// 全角色池
+        /// </summary>
+        public static YSUpItem FullRoleItem = new YSUpItem();
+
+        /// <summary>
         /// 排行缓存
         /// </summary>
         private static Dictionary<int, LuckRankingVO> RankingCache = new Dictionary<int, LuckRankingVO>();
