@@ -40,6 +40,16 @@ namespace GenshinPray.Models
         public int Perm90Surplus { get; set; }
 
         /// <summary>
+        /// 全角色池剩余多少抽五星小保底
+        /// </summary>
+        public int FullRole90Surplus { get; set; }
+
+        /// <summary>
+        /// 全武器池剩余多少抽五星保底
+        /// </summary>
+        public int FullArm80Surplus { get; set; }
+
+        /// <summary>
         /// 当前祈愿池剩余多少抽十连保底
         /// </summary>
         public int Surplus10 { get; set; }

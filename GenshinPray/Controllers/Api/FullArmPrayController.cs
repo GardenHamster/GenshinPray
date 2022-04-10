@@ -79,7 +79,7 @@ namespace GenshinPray.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [AuthCode]
-        public ApiResult FullPrayTen(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
+        public ApiResult PrayTen(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
         {
             try
             {

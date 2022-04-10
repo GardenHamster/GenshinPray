@@ -179,6 +179,8 @@ namespace GenshinPray.Service.PrayService
             prayResult.Arm80Surplus = ySPrayResult.MemberInfo.Arm80Surplus;
             prayResult.ArmAssignValue = ySPrayResult.MemberInfo.ArmAssignValue;
             prayResult.Perm90Surplus = ySPrayResult.MemberInfo.Perm90Surplus;
+            prayResult.FullRole90Surplus = ySPrayResult.MemberInfo.FullRole90Surplus;
+            prayResult.FullArm80Surplus = ySPrayResult.MemberInfo.FullArm80Surplus;
             prayResult.Surplus10 = ySPrayResult.Surplus10;
 
             prayResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;

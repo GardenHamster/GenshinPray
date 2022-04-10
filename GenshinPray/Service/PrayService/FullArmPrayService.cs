@@ -95,10 +95,10 @@ namespace GenshinPray.Service.PrayService
 
         protected YSPrayRecord GetActualItem(YSProbability ysProbability, YSUpItem ysUpItem)
         {
-            if (ysProbability.ProbabilityType == YSProbabilityType.五星物品) GetRandomInList(ysUpItem.Star5AllList);
-            if (ysProbability.ProbabilityType == YSProbabilityType.四星物品) GetRandomInList(ysUpItem.Star4AllList);
+            if (ysProbability.ProbabilityType == YSProbabilityType.五星物品) return GetRandomInList(ysUpItem.Star5AllList);
+            if (ysProbability.ProbabilityType == YSProbabilityType.四星物品) return GetRandomInList(ysUpItem.Star4AllList);
             if (ysProbability.ProbabilityType == YSProbabilityType.三星物品) return GetRandomInList(ysUpItem.Star3AllList);
-            throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
+            throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}类型对应的物品");
         }
 
         public YSPrayResult GetPrayResult(AuthorizePO authorize, MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
