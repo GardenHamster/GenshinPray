@@ -404,7 +404,7 @@ namespace GenshinPray.Util
         {
             using Font watermarkFont = new Font(FontName, 10, FontStyle.Regular);
             using SolidBrush brushWatermark = new SolidBrush(Color.FromArgb(150, 178, 193));
-            bgGraphics.DrawString("本图片由GardenHamster/GenshinPray模拟生成", watermarkFont, brushWatermark, 10, 1050);
+            bgGraphics.DrawString("本图片由GardenHamster/GenshinPray简单模拟生成，并不代表游戏内的实际效果", watermarkFont, brushWatermark, 10, 1050);
         }
 
         private static void drawUID(Graphics bgGraphics, string uid)
