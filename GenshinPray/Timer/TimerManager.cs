@@ -28,7 +28,7 @@ namespace GenshinPray.Timer
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("ClearTrigger", "DailyGroup")
                 .StartNow()
-                .WithCronSchedule("0 0 2 * * ?")
+                .WithCronSchedule("0 0 4 * * ?")
                 .Build();
             scheduler.ScheduleJob(job, trigger).Wait();
         }

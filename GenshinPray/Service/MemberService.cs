@@ -54,6 +54,10 @@ namespace GenshinPray.Service
                 memberInfo.Arm10Surplus = 10;
                 memberInfo.Perm90Surplus = 90;
                 memberInfo.Perm10Surplus = 10;
+                memberInfo.FullRole90Surplus = 90;
+                memberInfo.FullRole10Surplus = 10;
+                memberInfo.FullArm80Surplus = 80;
+                memberInfo.FullArm10Surplus = 90;
                 return memberDao.Insert(memberInfo);
             }
             if (string.IsNullOrEmpty(memberName) == false && memberInfo.MemberName != memberName)
@@ -61,6 +65,15 @@ namespace GenshinPray.Service
                 memberInfo.MemberName = memberName;
                 memberDao.Update(memberInfo);
             }
+            if (memberInfo.FullRole90Surplus + memberInfo.FullRole10Surplus + memberInfo.FullArm80Surplus + memberInfo.FullArm10Surplus == 0)
+            {
+                memberInfo.FullRole90Surplus = 90;
+                memberInfo.FullRole10Surplus = 10;
+                memberInfo.FullArm80Surplus = 80;
+                memberInfo.FullArm10Surplus = 90;
+                memberDao.Update(memberInfo);
+            }
+
             return memberInfo;
         }
 

@@ -179,12 +179,14 @@ namespace GenshinPray.Service.PrayService
             prayResult.Arm80Surplus = ySPrayResult.MemberInfo.Arm80Surplus;
             prayResult.ArmAssignValue = ySPrayResult.MemberInfo.ArmAssignValue;
             prayResult.Perm90Surplus = ySPrayResult.MemberInfo.Perm90Surplus;
+            prayResult.FullRole90Surplus = ySPrayResult.MemberInfo.FullRole90Surplus;
+            prayResult.FullArm80Surplus = ySPrayResult.MemberInfo.FullArm80Surplus;
             prayResult.Surplus10 = ySPrayResult.Surplus10;
 
             prayResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
             prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
-            prayResult.ImgPath = Path.Combine(ySPrayResult.ParyFileInfo.Directory.Name, ySPrayResult.ParyFileInfo.Name);
-            prayResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", $"{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}");
+            prayResult.ImgPath = Path.Combine(ySPrayResult.ParyFileInfo.Directory.Parent.Name, ySPrayResult.ParyFileInfo.Directory.Name, ySPrayResult.ParyFileInfo.Name);
+            prayResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", $"{ySPrayResult.ParyFileInfo.Directory.Parent.Name}/{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}");
             prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;
             prayResult.Star5Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
             prayResult.Star4Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());

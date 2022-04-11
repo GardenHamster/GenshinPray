@@ -83,7 +83,7 @@ namespace GenshinPray.Models
         {
             get
             {
-                return new ApiResult((int)HttpStatusCode.InternalServerError, "接口异常");
+                return new ApiResult((int)HttpStatusCode.InternalServerError, "接口异常，如果问题一直重复出现请联系作者");
             }
         }
 
@@ -94,7 +94,7 @@ namespace GenshinPray.Models
         {
             get
             {
-                return new ApiResult(ResultCode.ApiMaximum, "今日api调用上限");
+                return new ApiResult(ResultCode.ApiMaximum, "今日api调用上限，请参考贴子获取独立授权码");
             }
         }
 
@@ -149,7 +149,7 @@ namespace GenshinPray.Models
         {
             get
             {
-                return new ApiResult(ResultCode.PermissionDenied, "权限不足");
+                return new ApiResult(ResultCode.PermissionDenied, "权限不足，请参考贴子获取独立授权码");
             }
         }
 

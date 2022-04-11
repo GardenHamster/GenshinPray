@@ -7,6 +7,6 @@ namespace GenshinPray.Type
 {
     public enum YSPondType
     {
-        其他 = 0, 角色 = 1, 武器 = 2, 常驻 = 3
+        其他 = 0, 角色 = 1, 武器 = 2, 常驻 = 3, 全角色 = 4, 全武器 = 5
     }
 }
