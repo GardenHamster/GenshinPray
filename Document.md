@@ -88,12 +88,16 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 ## 祈愿接口
 | 请求类型 | 请求地址                     |  说明                        |
 | ------ | ---------------------------- | ---------------------------- |
-| Get    | /api/RolePray/PrayOne        | 角色池单抽                    |    
+| Get    | /api/RolePray/PrayOne        | 角色池单抽                    |
 | Get    | /api/RolePray/PrayTen        | 角色池十连                    |
 | Get    | /api/ArmPray/PrayOne         | 武器池单抽                    |
 | Get    | /api/ArmPray/PrayTen         | 武器池十连                    |
 | Get    | /api/PermPray/PrayOne        | 常驻单抽                      |
 | Get    | /api/PermPray/PrayTen        | 常驻十连                      |
+| Get    | /api/FullRolePray/PrayOne    | 全角色池单抽                   |
+| Get    | /api/FullRolePray/PrayTen    | 全角色池十连                   |
+| Get    | /api/FullArmPray/PrayOne     | 全武器池单抽                   |
+| Get    | /api/FullArmPray/PrayTen     | 全武器池十连                   |
 
 #### 参数
 
@@ -119,12 +123,14 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
         "arm80Surplus": 62,               //武器池剩余多少抽保底
         "armAssignValue": 2,              //武器池当前命定值
         "perm90Surplus": 89,              //常驻池剩余多少抽保底
+        "fullRole90Surplus": 90,          //全角色池剩余多少抽保底
+        "fullArm80Surplus": 64,           //全武器池剩余多少抽保底
         "surplus10": 3,                   //当前蛋池剩余多少抽十连保底
         "star5Cost": 0,                   //本次获取五星物品累计消耗多少抽，如果本次未抽出五星时，值为0
         "apiDailyCallSurplus": 299,       //本日Api剩余可调用次数
-        "imgHttpUrl": null,               //如果配置云盘时,返回图片在云盘中的http地址
+        "imgHttpUrl": "https://127.0.0.1/prayImg/GenshinPray20220411/11/202204111151335928.jpg",  //图片在tomcat中的http地址
         "imgSize": 97162,                 //图片大小(byte)
-        "imgPath": "20210913/202109130127013500.jpg",   //相对于图片生成目录的地址
+        "imgPath": "GenshinPray20220411\\11\\202204111151335928.jpg",   //相对于图片生成目录的地址
         "imgBase64": null,                //图片的base64字符串
         "star3Goods": [                   //本次祈愿获取的3星物品列表
             {
