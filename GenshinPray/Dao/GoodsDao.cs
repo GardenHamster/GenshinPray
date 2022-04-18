@@ -15,7 +15,7 @@ namespace GenshinPray.Dao
         public List<YSGoodsItem> getByGoodsType(YSGoodsType goodsType)
         {
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append(" select g.GoodsName,g.RareType,g.GoodsType,g.GoodsSubType from goods g");
+            sqlBuilder.Append(" select g.Id as GoodsID,g.GoodsName,g.RareType,g.GoodsType,g.GoodsSubType from goods g");
             sqlBuilder.Append(" where g.GoodsType=@goodsType and g.isDisable=0");
             return Db.Ado.SqlQuery<YSGoodsItem>(sqlBuilder.ToString(), new { goodsType = goodsType});
         }
