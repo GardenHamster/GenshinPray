@@ -167,33 +167,41 @@ namespace GenshinPray.Service.PrayService
         /// <param name="authorizePO"></param>
         /// <param name="prayTimesToday"></param>
         /// <param name="toBase64"></param>
+        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public ApiPrayResult CreatePrayResult(YSUpItem ySUpItem, YSPrayResult ySPrayResult, AuthorizePO authorizePO, int prayTimesToday, bool toBase64)
+        public ApiPrayResult CreatePrayResult(YSUpItem ySUpItem, YSPrayResult ySPrayResult, AuthorizePO authorizePO, int prayTimesToday, bool toBase64, int imgWidth)
         {
-            ApiPrayResult prayResult = new ApiPrayResult();
-            prayResult.Star5Cost = ySPrayResult.Star5Cost;
-            prayResult.PrayCount = ySPrayResult.PrayRecords.Count();
+            ApiPrayResult apiResult = new ApiPrayResult();
+            apiResult.Star5Cost = ySPrayResult.Star5Cost;
+            apiResult.PrayCount = ySPrayResult.PrayRecords.Count();
+            apiResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
+            apiResult.Role180Surplus = ySPrayResult.MemberInfo.Role180Surplus;
+            apiResult.Role90Surplus = ySPrayResult.MemberInfo.Role90Surplus;
+            apiResult.Arm80Surplus = ySPrayResult.MemberInfo.Arm80Surplus;
+            apiResult.ArmAssignValue = ySPrayResult.MemberInfo.ArmAssignValue;
+            apiResult.Perm90Surplus = ySPrayResult.MemberInfo.Perm90Surplus;
+            apiResult.FullRole90Surplus = ySPrayResult.MemberInfo.FullRole90Surplus;
+            apiResult.FullArm80Surplus = ySPrayResult.MemberInfo.FullArm80Surplus;
+            apiResult.Star5Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
+            apiResult.Star4Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
+            apiResult.Star3Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());
+            apiResult.Star5Up = ChangeToGoodsVO(ySUpItem.Star5UpList);
+            apiResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
+            apiResult.Surplus10 = ySPrayResult.Surplus10;
 
-            prayResult.Role180Surplus = ySPrayResult.MemberInfo.Role180Surplus;
-            prayResult.Role90Surplus = ySPrayResult.MemberInfo.Role90Surplus;
-            prayResult.Arm80Surplus = ySPrayResult.MemberInfo.Arm80Surplus;
-            prayResult.ArmAssignValue = ySPrayResult.MemberInfo.ArmAssignValue;
-            prayResult.Perm90Surplus = ySPrayResult.MemberInfo.Perm90Surplus;
-            prayResult.FullRole90Surplus = ySPrayResult.MemberInfo.FullRole90Surplus;
-            prayResult.FullArm80Surplus = ySPrayResult.MemberInfo.FullArm80Surplus;
-            prayResult.Surplus10 = ySPrayResult.Surplus10;
+            if (toBase64)
+            {
+                apiResult.ImgBase64 = ImageHelper.ToBase64(ySPrayResult.ParyImage);
+            }
+            else
+            {
+                FileInfo prayFileInfo = ImageHelper.saveImageToJpg(ySPrayResult.ParyImage, FilePath.getPrayImgSavePath(), imgWidth);
+                apiResult.ImgPath = Path.Combine(prayFileInfo.Directory.Parent.Name, prayFileInfo.Directory.Name, prayFileInfo.Name);
+                apiResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", $"{prayFileInfo.Directory.Parent.Name}/{prayFileInfo.Directory.Name}/{prayFileInfo.Name}");
+                apiResult.ImgSize = prayFileInfo.Length;
+            }
 
-            prayResult.ApiDailyCallSurplus = authorizePO.DailyCall - prayTimesToday > 0 ? authorizePO.DailyCall - prayTimesToday : 0;
-            prayResult.ImgBase64 = toBase64 ? ImageHelper.ToBase64(new Bitmap(ySPrayResult.ParyFileInfo.FullName)) : null;
-            prayResult.ImgPath = Path.Combine(ySPrayResult.ParyFileInfo.Directory.Parent.Name, ySPrayResult.ParyFileInfo.Directory.Name, ySPrayResult.ParyFileInfo.Name);
-            prayResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", $"{ySPrayResult.ParyFileInfo.Directory.Parent.Name}/{ySPrayResult.ParyFileInfo.Directory.Name}/{ySPrayResult.ParyFileInfo.Name}");
-            prayResult.ImgSize = ySPrayResult.ParyFileInfo.Length;
-            prayResult.Star5Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.五星).ToArray());
-            prayResult.Star4Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.四星).ToArray());
-            prayResult.Star3Goods = ChangeToGoodsVO(ySPrayResult.PrayRecords.Where(m => m.GoodsItem.RareType == YSRareType.三星).ToArray());
-            prayResult.Star5Up = ChangeToGoodsVO(ySUpItem.Star5UpList);
-            prayResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
-            return prayResult;
+            return apiResult;
         }
 
         /// <summary>
@@ -202,12 +210,11 @@ namespace GenshinPray.Service.PrayService
         /// <param name="authorize"></param>
         /// <param name="sortPrayRecords"></param>
         /// <param name="memberInfo"></param>
-        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        protected FileInfo DrawPrayImg(AuthorizePO authorize, YSPrayRecord[] sortPrayRecords, MemberPO memberInfo, int imgWidth)
+        protected Bitmap DrawPrayImg(AuthorizePO authorize, YSPrayRecord[] sortPrayRecords, MemberPO memberInfo)
         {
-            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(authorize, sortPrayRecords.First(), memberInfo, imgWidth);
-            return DrawHelper.drawTenPrayImg(authorize, sortPrayRecords, memberInfo, imgWidth);
+            if (sortPrayRecords.Count() == 1) return DrawHelper.drawOnePrayImg(authorize, sortPrayRecords.First(), memberInfo);
+            return DrawHelper.drawTenPrayImg(authorize, sortPrayRecords, memberInfo);
         }
 
         protected bool CheckIsNew(List<MemberGoodsDTO> memberGoods, YSPrayRecord[] records, YSPrayRecord checkRecord)

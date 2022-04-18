@@ -1,13 +1,14 @@
 ﻿using GenshinPray.Models.PO;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class YSPrayResult
+    public class YSPrayResult : IDisposable
     {
         public MemberPO MemberInfo { get; set; }
 
@@ -19,7 +20,17 @@ namespace GenshinPray.Models
 
         public int Surplus10 { get; set; }
 
-        public FileInfo ParyFileInfo { get; set; }
+        public Bitmap ParyImage { get; set; }
 
+        public void Dispose()
+        {
+            try
+            {
+                if (ParyImage != null) ParyImage.Dispose();
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

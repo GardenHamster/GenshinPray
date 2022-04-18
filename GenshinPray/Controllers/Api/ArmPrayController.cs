@@ -52,12 +52,12 @@ namespace GenshinPray.Controllers.Api
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
+                using YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
@@ -107,12 +107,12 @@ namespace GenshinPray.Controllers.Api
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
                 YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
                 List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount, imgWidth);
+                using YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
                 prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)

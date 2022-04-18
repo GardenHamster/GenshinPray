@@ -129,7 +129,7 @@ namespace GenshinPray.Service.PrayService
             throw new GoodsNotFoundException($"未能随机获取与{Enum.GetName(typeof(YSProbability), ysProbability.ProbabilityType)}对应物品");
         }
 
-        public YSPrayResult GetPrayResult(AuthorizePO authorize, MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount, int imgWidth)
+        public YSPrayResult GetPrayResult(AuthorizePO authorize, MemberPO memberInfo, YSUpItem ysUpItem, List<MemberGoodsDTO> memberGoods, int prayCount)
         {
             YSPrayResult ysPrayResult = new YSPrayResult();
             int role90SurplusBefore = memberInfo.Role90Surplus;
@@ -142,7 +142,7 @@ namespace GenshinPray.Service.PrayService
             memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyFileInfo = DrawPrayImg(authorize, sortPrayRecords, memberInfo, imgWidth);
+            ysPrayResult.ParyImage = DrawPrayImg(authorize, sortPrayRecords, memberInfo);
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, role90SurplusBefore, 90);

@@ -25,15 +25,14 @@ namespace GenshinPray.Util
         /// <param name="authorize"></param>
         /// <param name="ysPrayRecords"></param>
         /// <param name="memberInfo"></param>
-        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawTenPrayImg(AuthorizePO authorize, YSPrayRecord[] ysPrayRecords, MemberPO memberInfo, int imgWidth)
+        public static Bitmap drawTenPrayImg(AuthorizePO authorize, YSPrayRecord[] ysPrayRecords, MemberPO memberInfo)
         {
             int startIndexX = 230 + 151 * 9;
             int startIndexY = 228;
             int indexX = startIndexX;
             int indexY = startIndexY;
-            using Bitmap bitmap = new Bitmap(FilePath.getYSPrayBGPath());
+            Bitmap bitmap = new Bitmap(FilePath.getYSPrayBGPath());
             using Graphics bgGraphics = Graphics.FromImage(bitmap);
             for (int i = ysPrayRecords.Length - 1; i >= 0; i--)
             {
@@ -54,7 +53,7 @@ namespace GenshinPray.Util
             drawBubbles(bgGraphics);//画泡泡
             drawWaterMark(bgGraphics);//画水印
             drawUID(bgGraphics, memberInfo.MemberCode);//画UID
-            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
+            return bitmap;
         }
 
         /// <summary>
@@ -63,12 +62,11 @@ namespace GenshinPray.Util
         /// <param name="authorize"></param>
         /// <param name="ysPrayRecord"></param>
         /// <param name="memberInfo"></param>
-        /// <param name="imgWidth"></param>
         /// <returns></returns>
-        public static FileInfo drawOnePrayImg(AuthorizePO authorize, YSPrayRecord ysPrayRecord, MemberPO memberInfo, int imgWidth)
+        public static Bitmap drawOnePrayImg(AuthorizePO authorize, YSPrayRecord ysPrayRecord, MemberPO memberInfo)
         {
             string backImgUrl = FilePath.getYSPrayBGPath();
-            using Bitmap bitmap = new Bitmap(backImgUrl);
+            Bitmap bitmap = new Bitmap(backImgUrl);
             using Graphics bgGraphics = Graphics.FromImage(bitmap);
             YSGoodsItem goodsItem = ysPrayRecord.GoodsItem;
             if (goodsItem.GoodsType == YSGoodsType.角色)
@@ -91,7 +89,7 @@ namespace GenshinPray.Util
             drawBubbles(bgGraphics);//画泡泡
             drawWaterMark(bgGraphics);//画水印
             drawUID(bgGraphics, memberInfo.MemberCode);//画UID
-            return ImageHelper.saveImageToJpg(bitmap, FilePath.getPrayImgSavePath(), imgWidth);
+            return bitmap;
         }
 
         /*-------------------------------------------------------单抽---------------------------------------------------------------------*/
