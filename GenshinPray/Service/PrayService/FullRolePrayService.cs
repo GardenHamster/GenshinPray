@@ -105,7 +105,6 @@ namespace GenshinPray.Service.PrayService
             YSPrayRecord[] prayRecords = GetPrayRecord(memberInfo, ysUpItem, memberGoods, prayCount);
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
-            memberInfo.RolePrayTimes += prayCount;
             memberInfo.TotalPrayTimes += prayCount;
             memberDao.Update(memberInfo);//更新保底信息
 

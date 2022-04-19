@@ -61,6 +61,7 @@ namespace GenshinPray.Service
             List<LuckRankingDTO> star4RankingList = memberGoodsDao.getLuckRanking(authId, top, YSRareType.四星, startDate, endDate);
             LuckRankingVO luckRankingVO = new LuckRankingVO();
             luckRankingVO.Top = top;
+            luckRankingVO.CountDay= days;
             luckRankingVO.StartDate = startDate;
             luckRankingVO.EndDate = endDate;
             luckRankingVO.Star5Ranking = star5RankingList.Select(m => toRareRanking(m)).ToList();

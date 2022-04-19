@@ -21,14 +21,15 @@ namespace GenshinPray.Controllers.Api
         /// <summary>
         /// 单抽常祈愿池
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
         /// <param name="memberName"></param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
-        [AuthCode]
-        public ApiResult PrayOne(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
+        [Authorize(prayTimesLimit: true)]
+        public ApiResult PrayOne([FromForm] AuthorizeDTO authorize, string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -36,11 +37,8 @@ namespace GenshinPray.Controllers.Api
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
 
-                var authorzation = GetAuthCode();
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-                int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
-                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 YSUpItem ysUpItem = DataCache.DefaultPermItem;
+                AuthorizePO authorizePO = authorize.AuthorizePO;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
@@ -50,7 +48,7 @@ namespace GenshinPray.Controllers.Api
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.常驻, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64, imgWidth);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, authorize.PrayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)
@@ -70,14 +68,15 @@ namespace GenshinPray.Controllers.Api
         /// <summary>
         /// 十连常驻祈愿池
         /// </summary>
+        /// <param name="authorize"></param>
         /// <param name="memberCode">成员编号(可以传入QQ号)</param>
         /// <param name="memberName"></param>
         /// <param name="toBase64"></param>
         /// <param name="imgWidth"></param>
         /// <returns></returns>
         [HttpGet]
-        [AuthCode]
-        public ApiResult PrayTen(string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
+        [Authorize(prayTimesLimit: true)]
+        public ApiResult PrayTen([FromForm] AuthorizeDTO authorize, string memberCode, string memberName = "", bool toBase64 = false, int imgWidth = 0)
         {
             try
             {
@@ -85,11 +84,8 @@ namespace GenshinPray.Controllers.Api
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
 
-                var authorzation = GetAuthCode();
-                AuthorizePO authorizePO = authorizeService.GetAuthorize(authorzation);
-                int prayTimesToday = prayRecordService.GetPrayTimesToday(authorizePO.Id);
-                if (prayTimesToday >= authorizePO.DailyCall) return ApiResult.ApiMaximum;
                 YSUpItem ysUpItem = DataCache.DefaultPermItem;
+                AuthorizePO authorizePO = authorize.AuthorizePO;
 
                 DbScoped.SugarScope.BeginTran();
                 MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
@@ -99,7 +95,7 @@ namespace GenshinPray.Controllers.Api
                 memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.常驻, authorizePO.Id, memberCode);//添加成员出货记录
                 DbScoped.SugarScope.CommitTran();
 
-                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, prayTimesToday, toBase64, imgWidth);
+                ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, authorize.PrayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);
             }
             catch (BaseException ex)

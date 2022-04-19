@@ -2,7 +2,7 @@
 
 namespace GenshinPray.Models.DTO
 {
-    public class ArmPondDto
+    public class ArmPondDTO
     {
         public List<string> UpItems { get; set; }
     }

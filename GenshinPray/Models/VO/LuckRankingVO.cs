@@ -18,5 +18,7 @@ namespace GenshinPray.Models.VO
         public DateTime CacheDate { get; set; }
 
         public int Top { get; set; }
+
+        public int CountDay { get; set; }
     }
 }
