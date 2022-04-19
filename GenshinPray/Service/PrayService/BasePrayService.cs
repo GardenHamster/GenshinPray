@@ -189,7 +189,7 @@ namespace GenshinPray.Service.PrayService
             apiResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
             apiResult.Surplus10 = ySPrayResult.Surplus10;
 
-            Bitmap prayImage = DrawPrayImg(ySPrayResult.Authorize, ySPrayResult.SortPrayRecords, ySPrayResult.MemberInfo);
+            using Bitmap prayImage = DrawPrayImg(ySPrayResult.Authorize, ySPrayResult.SortPrayRecords, ySPrayResult.MemberInfo);
 
             if (toBase64)
             {
