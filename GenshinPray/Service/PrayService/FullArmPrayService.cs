@@ -110,10 +110,9 @@ namespace GenshinPray.Service.PrayService
             YSPrayRecord[] sortPrayRecords = SortGoods(prayRecords);
 
             memberInfo.TotalPrayTimes += prayCount;
-            memberDao.Update(memberInfo);//更新保底信息
 
             ysPrayResult.MemberInfo = memberInfo;
-            ysPrayResult.ParyImage = DrawPrayImg(authorize, sortPrayRecords, memberInfo);
+            ysPrayResult.Authorize = authorize;
             ysPrayResult.PrayRecords = prayRecords;
             ysPrayResult.SortPrayRecords = sortPrayRecords;
             ysPrayResult.Star5Cost = GetStar5Cost(prayRecords, arm80SurplusBefore, 80);

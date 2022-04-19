@@ -17,7 +17,7 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" select count(mg.Id) count from member_goods mg");
             sqlBuilder.Append(" inner join goods g on g.Id=mg.GoodsId");
             sqlBuilder.Append(" where mg.AuthId=@AuthId and mg.MemberCode=@MemberCode and g.RareType=@RareType");
-            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, RareType = rareType }).Single();
+            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, RareType = rareType }).First();
         }
 
         public int CountByMember(int authId, string memberCode, YSPondType pondType, YSRareType rareType)
@@ -26,7 +26,7 @@ namespace GenshinPray.Dao
             sqlBuilder.Append(" select count(mg.Id) count from member_goods mg");
             sqlBuilder.Append(" inner join goods g on g.Id=mg.GoodsId");
             sqlBuilder.Append(" where mg.AuthId=@AuthId and mg.MemberCode=@MemberCode and g.RareType=@RareType and mg.PondType=@PondType");
-            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, PondType = pondType, RareType = rareType }).Single();
+            return Db.Ado.SqlQuery<int>(sqlBuilder.ToString(), new { AuthId = authId, MemberCode = memberCode, PondType = pondType, RareType = rareType }).First();
         }
 
         public List<LuckRankingDTO> getLuckRanking(int authId, int top, YSRareType rareType, DateTime startDate, DateTime endDate)

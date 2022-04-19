@@ -39,20 +39,25 @@ namespace GenshinPray.Controllers.Api
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
 
+                YSPrayResult ySPrayResult = null;
                 AuthorizePO authorizePO = authorize.AuthorizePO;
                 Dictionary<int, YSUpItem> upItemDic = goodsService.LoadArmItem(authorizePO.Id);
                 YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
                 if (ysUpItem == null) ysUpItem = DataCache.DefaultArmItem.ContainsKey(pondIndex) ? DataCache.DefaultArmItem[pondIndex] : null;
                 if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
-                DbScoped.SugarScope.BeginTran();
-                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
-                YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
-                List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                using YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
-                prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
-                memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
-                DbScoped.SugarScope.CommitTran();
+                lock (PrayLock)
+                {
+                    DbScoped.SugarScope.BeginTran();
+                    MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
+                    YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
+                    List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
+                    ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
+                    memberService.UpdateMember(memberInfo);//更新保底信息
+                    prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                    memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
+                    DbScoped.SugarScope.CommitTran();
+                }
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, authorize.PrayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);
@@ -91,20 +96,25 @@ namespace GenshinPray.Controllers.Api
                 checkNullParam(memberCode);
                 CheckImgWidth(imgWidth);
 
+                YSPrayResult ySPrayResult = null;
                 AuthorizePO authorizePO = authorize.AuthorizePO;
                 Dictionary<int, YSUpItem> upItemDic = goodsService.LoadArmItem(authorizePO.Id);
                 YSUpItem ysUpItem = upItemDic.ContainsKey(pondIndex) ? upItemDic[pondIndex] : null;
                 if (ysUpItem == null) ysUpItem = DataCache.DefaultArmItem.ContainsKey(pondIndex) ? DataCache.DefaultArmItem[pondIndex] : null;
                 if (ysUpItem == null) return ApiResult.PondNotConfigured;
 
-                DbScoped.SugarScope.BeginTran();
-                MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
-                YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
-                List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
-                using YSPrayResult ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
-                prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
-                memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
-                DbScoped.SugarScope.CommitTran();
+                lock (PrayLock)
+                {
+                    DbScoped.SugarScope.BeginTran();
+                    MemberPO memberInfo = memberService.GetOrInsert(authorizePO.Id, memberCode, memberName);
+                    YSGoodsItem assignGoodsItem = memberInfo.ArmAssignId == 0 || ysUpItem.Star5UpList.Where(o => o.GoodsID == memberInfo.ArmAssignId).Any() == false ? null : goodsService.GetGoodsItemById(memberInfo.ArmAssignId);
+                    List<MemberGoodsDTO> memberGoods = goodsService.GetMemberGoods(authorizePO.Id, memberCode);
+                    ySPrayResult = basePrayService.GetPrayResult(authorizePO, memberInfo, ysUpItem, assignGoodsItem, memberGoods, prayCount);
+                    memberService.UpdateMember(memberInfo);//更新保底信息
+                    prayRecordService.AddPrayRecord(authorizePO.Id, memberCode, prayCount);//添加调用记录
+                    memberGoodsService.AddMemberGoods(ySPrayResult, memberGoods, YSPondType.武器, authorizePO.Id, memberCode);//添加成员出货记录
+                    DbScoped.SugarScope.CommitTran();
+                }
 
                 ApiPrayResult prayResult = basePrayService.CreatePrayResult(ysUpItem, ySPrayResult, authorizePO, authorize.PrayTimesToday, toBase64, imgWidth);
                 return ApiResult.Success(prayResult);

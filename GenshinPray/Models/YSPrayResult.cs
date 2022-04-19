@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace GenshinPray.Models
 {
-    public class YSPrayResult : IDisposable
+    public class YSPrayResult
     {
+        public AuthorizePO Authorize { get; set; }
+
         public MemberPO MemberInfo { get; set; }
 
         public YSPrayRecord[] PrayRecords { get; set; }
@@ -19,18 +21,5 @@ namespace GenshinPray.Models
         public int Star5Cost { get; set; }
 
         public int Surplus10 { get; set; }
-
-        public Bitmap ParyImage { get; set; }
-
-        public void Dispose()
-        {
-            try
-            {
-                if (ParyImage != null) ParyImage.Dispose();
-            }
-            catch (Exception)
-            {
-            }
-        }
     }
 }

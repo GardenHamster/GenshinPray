@@ -189,13 +189,15 @@ namespace GenshinPray.Service.PrayService
             apiResult.Star4Up = ChangeToGoodsVO(ySUpItem.Star4UpList);
             apiResult.Surplus10 = ySPrayResult.Surplus10;
 
+            Bitmap prayImage = DrawPrayImg(ySPrayResult.Authorize, ySPrayResult.SortPrayRecords, ySPrayResult.MemberInfo);
+
             if (toBase64)
             {
-                apiResult.ImgBase64 = ImageHelper.ToBase64(ySPrayResult.ParyImage);
+                apiResult.ImgBase64 = ImageHelper.ToBase64(prayImage);
             }
             else
             {
-                FileInfo prayFileInfo = ImageHelper.saveImageToJpg(ySPrayResult.ParyImage, FilePath.getPrayImgSavePath(), imgWidth);
+                FileInfo prayFileInfo = ImageHelper.saveImageToJpg(prayImage, FilePath.getPrayImgSavePath(), imgWidth);
                 apiResult.ImgPath = Path.Combine(prayFileInfo.Directory.Parent.Name, prayFileInfo.Directory.Name, prayFileInfo.Name);
                 apiResult.ImgHttpUrl = SiteConfig.PrayImgHttpUrl.Replace("{imgPath}", $"{prayFileInfo.Directory.Parent.Name}/{prayFileInfo.Directory.Name}/{prayFileInfo.Name}");
                 apiResult.ImgSize = prayFileInfo.Length;

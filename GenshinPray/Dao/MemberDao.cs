@@ -10,7 +10,7 @@ namespace GenshinPray.Dao
     {
         public MemberPO getMember(int authId, string memberCode)
         {
-            return Db.Queryable<MemberPO>().Where(o => o.AuthId == authId && o.MemberCode == memberCode).Single();
+            return Db.Queryable<MemberPO>().Where(o => o.AuthId == authId && o.MemberCode == memberCode).First();
         }
 
     }

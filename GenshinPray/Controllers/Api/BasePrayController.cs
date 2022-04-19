@@ -12,6 +12,7 @@ namespace GenshinPray.Controllers.Api
         protected GoodsService goodsService;
         protected PrayRecordService prayRecordService;
         protected MemberGoodsService memberGoodsService;
+        protected static readonly object PrayLock = new object();
 
         public BasePrayController()
         {

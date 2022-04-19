@@ -14,7 +14,7 @@ namespace GenshinPray.Service
 
         public MemberService()
         {
-            this.memberDao =new MemberDao();
+            this.memberDao = new MemberDao();
         }
 
         /// <summary>
@@ -73,8 +73,17 @@ namespace GenshinPray.Service
                 memberInfo.FullArm10Surplus = 90;
                 memberDao.Update(memberInfo);
             }
-
             return memberInfo;
+        }
+
+        /// <summary>
+        /// 更新成员信息
+        /// </summary>
+        /// <param name="memberInfo"></param>
+        /// <returns></returns>
+        public int UpdateMember(MemberPO memberInfo)
+        {
+            return memberDao.Update(memberInfo);
         }
 
         /// <summary>
