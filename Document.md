@@ -73,6 +73,12 @@ info: Microsoft.Hosting.Lifetime[0]
 ```bash
 dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 ```
+- 可以在桌面创建一个powershell.ps1脚本方便一键启动，注意将路径和端口改成自己的
+```bash
+$host.ui.RawUI.WindowTitle="GenshinPray"
+cd C:\GenshinPray
+dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
+```
 
 ## 枚举
 - 数据表中如字段名为 *Type 等字段值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
