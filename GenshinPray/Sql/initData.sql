@@ -1,4 +1,4 @@
-﻿-- ----------------------------
+-- ----------------------------
 -- 修改数据库字符集,使数据库支持插入表情emoji
 -- ----------------------------
 ALTER DATABASE genshinpray CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
@@ -114,8 +114,10 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('115', '恶王丸', '2', '9', '4', '0', '2022-03-08 22:13:18', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('116', '神里绫人', '1', '2', '5', '0', '2022-03-30 00:34:20', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('117', '波乱月白经津', '2', '8', '5', '0', '2022-03-30 00:34:20', '0');
-
-
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('118', '夜兰', '1', '2', '5', '0', '2022-05-16 01:59:39', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('119', '若水', '2', '12', '5', '0', '2022-05-16 01:59:39', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('120', '久岐忍', '1', '4', '4', '0', '2022-05-16 02:07:50', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('121', '落霞', '2', '12', '4', '0', '2022-05-16 02:07:50', '0');
 
 -- ----------------------------
 -- Records of pond_goods

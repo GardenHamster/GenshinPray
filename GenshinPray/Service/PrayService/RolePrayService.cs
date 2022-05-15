@@ -66,8 +66,8 @@ namespace GenshinPray.Service.PrayService
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor10List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
-                //角色池从第74抽开始,每抽出5星概率提高6%(基础概率),直到第90抽时概率上升到100%
-                if (memberInfo.Role90Surplus < 16 && RandomHelper.getRandomBetween(1, 100) < (16 - memberInfo.Role90Surplus + 1) * 0.06 * 100)//低保
+                //角色池从第73抽开始,每抽出5星概率提高6%(基础概率),直到第90抽时概率上升到100%，74开始提好像2w抽概率会在1.53%偏低了点
+                if (memberInfo.Role90Surplus < 17 && RandomHelper.getRandomBetween(1, 100) < (17 - memberInfo.Role90Surplus + 1) * 0.056 * 100)//低保
                 {
                     records[i] = GetActualItem(GetRandomInList(Floor90List), ySUpItem, memberInfo.Role180Surplus, memberInfo.Role20Surplus);
                 }
