@@ -2,7 +2,7 @@
 
 ## 数据库
 - 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据 [initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
-- 表和字段说明请参考数据表中的 [注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
+- 导入完成后在 `authorize` 表中添加自己的授权码，表和字段说明请参考数据表中的 [注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
 - 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
 
 ## 字体
@@ -19,8 +19,7 @@
   "PrayImgHttpUrl": "https://127.0.0.1/prayImg/{imgPath}"                             //祈愿接口中返回的图片地址,需要自行配置tomcat等图片下载服务
 }
 ```
-
-然后将 [PrayMaterial](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/PrayMaterial) 中的素材复制到PrayMaterialSavePath配置的路径下
+- 然后将 [PrayMaterial](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/PrayMaterial) 中的素材复制到PrayMaterialSavePath配置的路径下
 
 
 ### centos7下部署
@@ -79,6 +78,9 @@ $host.ui.RawUI.WindowTitle="GenshinPray"
 cd C:\GenshinPray
 dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 ```
+
+### 搭建图片下载服务
+- 使用 tomcat 或 nginx 等工具搭建下载服务，然后修改 `PrayImgHttpUrl` 和 `PrayImgHttpUrl` 的值确保图片能够被其他客户端访问
 
 ## 枚举
 - 数据表中如字段名为 *Type 等字段值请参考[GenshinPray/Type](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Type)
