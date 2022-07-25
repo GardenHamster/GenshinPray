@@ -2,8 +2,8 @@
 
 ## 简介
  - 一个打算给qq机器人接入的小api，可以在群内模拟原神抽卡，根据米哈游公布的概率进行简单模拟，生成十连或单抽结果图，返回图片链接和保底次数等信息
- - 可以下载 [jar包](https://github.com/GardenHamster/GenshinGacha)，并放入到在[mirai-console-loader](https://github.com/iTXTech/mirai-console-loader)中运行该项目，食用方法请参考Mirai社区中的 [贴子](https://mirai.mamoe.net/topic/1036/genshingacha-%E6%A8%A1%E6%8B%9F%E5%8E%9F%E7%A5%9E%E6%8A%BD%E5%8D%A1%E6%8F%92%E4%BB%B6)
- - 部署方法和接口文档请参考 [Document.md](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)
+ - 可以下载 [jar包](https://github.com/GardenHamster/GenshinGacha)，并放入到在 [mirai-console-loader](https://github.com/iTXTech/mirai-console-loader) 中运行该项目， [食用方法请参考Mirai社区中的贴子](https://mirai.mamoe.net/topic/1036/genshingacha-%E6%A8%A1%E6%8B%9F%E5%8E%9F%E7%A5%9E%E6%8A%BD%E5%8D%A1%E6%8F%92%E4%BB%B6)
+ - [部署方法和接口文档点击这里](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)
   
  ## 声明
  - 本项目为个人学习.net core、linux、docker、vue...时所开发出来的项目，并没有任何收益，不得将项目用于任何商业用途
@@ -32,6 +32,7 @@
 - [x] 运行时自动建库建表
 - [x] 加入服装素材，根据概率使用服装素材替换原素材 
 - [x] 重复获取角色时，展示相应的转化素材和转化效果
+- [ ] 合成自定义单抽/十连结果图
 - [ ] docker支持
 - [ ] 后台管理web界面
 
