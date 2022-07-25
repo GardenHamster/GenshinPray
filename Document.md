@@ -13,7 +13,7 @@
 - 修改根目录下的配置文件appsettings.Production.json
 ```json5
 {
-  "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;",   //数据库链接字符串
+  "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;CharSet=utf8mb4;SslMode=None;",   //数据库链接字符串
   "PrayImgSavePath": "C:\\tool\\apache-tomcat-8.5.65\\webapps\\prayImg",              //祈愿结果图片保存目录
   "PrayMaterialSavePath": "C:\\PrayMaterial",                                         //祈愿素材图片目录
   "PrayImgHttpUrl": "https://127.0.0.1/prayImg/{imgPath}"                             //祈愿接口中返回的图片地址,需要自行配置tomcat等图片下载服务
