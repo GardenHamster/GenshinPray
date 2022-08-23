@@ -287,7 +287,7 @@ namespace GenshinPray.Util
                 bool isUseSkin = authorize.SkinRate > 0 && RandomHelper.getRandomBetween(1, 100) <= authorize.SkinRate;
                 using Image imgRole = new Bitmap(FilePath.getYSSmallRoleImgPath(goodsItem, isUseSkin));
                 using Image imgResize = new Bitmap(imgRole, imgRole.Width, imgRole.Height);
-                bgGraphics.DrawImage(imgResize, indexX - 1, indexY + 5, new Rectangle(-3, 0, imgResize.Width, imgResize.Height), GraphicsUnit.Pixel);
+                bgGraphics.DrawImage(imgResize, indexX - 1, indexY + 4, new Rectangle(-3, 0, imgResize.Width, imgResize.Height), GraphicsUnit.Pixel);
             }
             if (goodsItem.GoodsType == YSGoodsType.武器)
             {
@@ -340,7 +340,7 @@ namespace GenshinPray.Util
         {
             int shiftXIndex = 0;
             int shiftYIndex = -5;
-            if (goodsItem.RareType == YSRareType.五星) shiftXIndex = -105;
+            if (goodsItem.RareType == YSRareType.五星) shiftXIndex = -103;
             if (goodsItem.RareType == YSRareType.四星) shiftXIndex = -98;
             if (goodsItem.RareType == YSRareType.三星) shiftXIndex = 2;
             using Image imgLight = new Bitmap(FilePath.getYSLightPath(goodsItem));
@@ -382,7 +382,7 @@ namespace GenshinPray.Util
         {
             if (goodsItem.RareType != YSRareType.五星) return;
             using Image imgShading = new Bitmap(FilePath.getYSShadingPath());
-            bgGraphics.DrawImage(imgShading, indexX, indexY + 45, imgShading.Width, imgShading.Height);
+            bgGraphics.DrawImage(imgShading, indexX + 3, indexY + 45, imgShading.Width, imgShading.Height);
         }
 
         private static void drawCloseIcon(Graphics bgGraphics)
