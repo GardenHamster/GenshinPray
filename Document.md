@@ -1,16 +1,16 @@
 # API 文档
 
 ## 数据库
-- 数据库为mysql，使用code first自动建库建表，初次运行后请手动导入初始数据 [initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
+- 数据库为mysql，项目启动后会自动建库建表，初次运行请手动导入初始数据 [initData.sql](https://github.com/GardenHamster/GenshinPray/blob/main/GenshinPray/Sql/initData.sql)
 - 导入完成后在 `authorize` 表中添加自己的授权码，表和字段说明请参考数据表中的 [注释](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Models/PO)
-- 注：项目启动时会将默认蛋池信息加载到内存，目前后台界面正在开发中，修改默认蛋池后请手动重启服务
+- 注：项目启动时会将默认蛋池(authId=0)加载到内存，修改默认蛋池后请手动重启服务
 
 ## 字体
 - 安装[Fonts目录](https://github.com/GardenHamster/GenshinPray/tree/main/GenshinPray/Fonts)下的字体，否则可能会出现中文乱码的问题
 
 ## 部署
-- 从 [releases](https://github.com/GardenHamster/GenshinPray/releases) 处下载最新版本
-- 修改根目录下的配置文件appsettings.Production.json
+- 从 [releases](https://github.com/GardenHamster/GenshinPray/releases) 处下载最新版本，然后解压到某处
+- 修改目录下的配置文件`appsettings.Production.json`
 ```json5
 {
   "ConnectionString": "Data Source=127.0.0.1;port=3306;Initial Catalog=genshinpray;uid=root;pwd=123456;CharSet=utf8mb4;SslMode=None;",   //数据库链接字符串
@@ -62,11 +62,10 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: /srv/GenshinPray
 ```
-其他linux版本可以参考 [微软文档](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-centos)
 
 ### windows下部署
 - 下载并安装 [ASP.NET Core Runtime 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)，推荐下载页面中的[Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.2-windows-hosting-bundle-installer)
-- 启动powershell并将路径切换到GenshinPray.dll所在目录下，
+- 启动powershell并将路径切换到GenshinPray.dll所在目录下(没有这个dll说明你下载错文件了，要在Release里面下载)
 
 - 运行GenshinPray.dll，根据自己的需要修改端口和http或https
 ```bash
@@ -90,8 +89,7 @@ dotnet GenshinPray.dll --launch-profile Production --urls http://0.0.0.0:8080
 
 ## 授权码
 - 大部分接口都需要在调用时在Http Header中传入授权码`authorzation`
-- 一般一个群号对应着一个授权码，授权码可在`authorize`数据表中添加
-- 可以为每个授权码配置自己的自定义蛋池，以及每日api调用次数
+- 可以为每个授权码配置自己的自定义蛋池，以及每日api调用次数`DailyCall`，以及皮肤出现的概率`SkinRate`
 
 ## 祈愿接口
 | 请求类型 | 请求地址                     |  说明                        |
