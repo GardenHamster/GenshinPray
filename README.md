@@ -38,6 +38,7 @@
 ## 其他
 - 原本想将效果异得更逼真一点，但是PS技术太渣，很多小细节都没法处理，所以爬了，~~有生之年再继续优化~~
 - 感谢作者Razmoth的解包项目[GenshinStudio](https://github.com/Razmoth/GenshinStudio)，现在可以定期更新素材了...
+- 部分测试服中的素材来源于内鬼网[genshin.honeyhunterworld.com](https://genshin.honeyhunterworld.com/fam_chars/?lang=EN)，这部分素材将会在官服预更新出来以后替换掉
 - 如果有bug或者建议欢迎在issuse中提出来...
 
 ## 效果图
