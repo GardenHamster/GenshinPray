@@ -5,12 +5,12 @@
  - 可以下载 [jar包](https://github.com/GardenHamster/GenshinGacha)，并放入到在 [mirai-console-loader](https://github.com/iTXTech/mirai-console-loader) 中运行该项目， [食用方法请参考Mirai社区中的贴子](https://mirai.mamoe.net/topic/1036/genshingacha-%E6%A8%A1%E6%8B%9F%E5%8E%9F%E7%A5%9E%E6%8A%BD%E5%8D%A1%E6%8F%92%E4%BB%B6)
  - [部署方法和接口文档点击这里](https://github.com/GardenHamster/GenshinPray/blob/main/Document.md)
   
+  ## 特点
+- 基于.net core 6.0 编写，可以在 Windows 和 Linux 操作系统上运行。
+  
  ## 声明
  - 本项目为个人学习.net core、linux、docker、vue...时所开发出来的项目，并没有任何收益，不得将项目用于任何商业用途
   
-## 特点
-- 基于.net core 6.0 编写，可以在 Windows 和 Linux 操作系统上运行。
-
 ## 功能
 - 记录群员祈愿次数和出货信息，完整模拟群员从零到恰保底的全过程，统计群内成员的出货率，统计群员的欧气排行
 - 允许自定义卡池，可在后台界面配置注册并申请授权码和配置卡池。没有配置卡池时，默认使用admin配置的卡池(authId=0)
@@ -33,12 +33,12 @@
 - [x] 加入服装素材，根据概率使用服装素材替换原素材 
 - [x] 重复获取角色时，展示相应的转化素材和转化效果
 - [ ] 合成自定义单抽/十连结果图
-- [ ] docker支持
+- [ ] docker部署
 
 ## 其他
 - 原本想将效果异得更逼真一点，但是PS技术太渣，很多小细节都没法处理，所以爬了，~~有生之年再继续优化~~
 - 感谢作者Razmoth的解包项目[GenshinStudio](https://github.com/Razmoth/GenshinStudio)，现在可以定期更新素材了...
-- 部分测试服中的素材来源于内鬼网[genshin.honeyhunterworld.com](https://genshin.honeyhunterworld.com/fam_chars/?lang=EN)，这部分素材将会在官服预更新出来以后替换掉
+- 部分测试服中的素材来源于内鬼网 [genshin.honeyhunterworld.com](https://genshin.honeyhunterworld.com/fam_chars/?lang=EN)，这部分素材将会在官服预更新出来以后再替换掉
 - 如果有bug或者建议欢迎在issuse中提出来...
 
 ## 效果图
