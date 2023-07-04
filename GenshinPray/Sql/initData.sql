@@ -129,7 +129,7 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('130', '提纳里', '1', '5', '5', '1', '2022-08-22 22:02:41', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('131', '柯莱', '1', '5', '4', '1', '2022-08-22 22:02:41', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('132', '多莉', '1', '4', '4', '1', '2022-08-22 22:02:41', '0');
-INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('133', '猎人之径', '2', '12', '5', '1', '2022-08-22 22:02:41', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('133', '猎人之径', '2', '12', '5', '0', '2022-08-22 22:02:41', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('134', '妮露', '1', '2', '5', '0', '2022-09-02 02:26:34', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('135', '赛诺', '1', '4', '5', '0', '2022-09-02 02:26:34', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('136', '坎蒂丝', '1', '2', '4', '1', '2022-09-02 02:26:34', '0');
@@ -158,6 +158,7 @@ INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('159', '碧落之珑', '2', '11', '5', '0', '2023-04-11 18:35:19', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('160', '绮良良', '1', '5', '4', '1', '2023-05-23 10:17:08', '0');
 INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('161', '鹮穿之喙', '2', '12', '4', '0', '2023-05-23 10:18:44', '0');
+INSERT INTO `genshinpray`.`goods` (`Id`, `GoodsName`, `GoodsType`, `GoodsSubType`, `RareType`, `IsPerm`, `CreateDate`, `IsDisable`) VALUES ('162', '凯亚', '1', '6', '4', '1', '2023-07-05 00:14:25', '0');
 
 
 
